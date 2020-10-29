@@ -213,7 +213,7 @@ g.addEventListener('mousemove', evt => {
         // The cursor point, translated into svg coordinates
         let cursorPoint =  pt.matrixTransform(g.getScreenCTM().inverse());
         console.log("cursorPoint", cursorPoint);
-        let coords = "(" + cursorPoint.x.toFixed(2) + ", " + cursorPoint.y.toFixed(2) + ")";
+        let coords = "(" + cursorPoint.x.toFixed(1) + ", " + cursorPoint.y.toFixed(1) + ")";
 
         document.getElementById("coords").innerText = coords;
 });
