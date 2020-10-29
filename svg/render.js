@@ -58,17 +58,6 @@ function angle(x1, y1, x2, y2) {
         return Math.PI;
 
     assert (false, `Invalid arch radius: ${x1}, ${y1}, ${x2}, ${y2}`)
-
-
-    // TODO what id division by 0? toDegrees(Math.atan(Infinity)) === 90, cool.
-    let slope = dy / dx;
-    let alpha = Math.atan(slope);
-
-
-    if (dx < 0)
-        alpha -= Math.PI;
-
-    return alpha;
 }
 
 
@@ -126,15 +115,10 @@ function onload() {
 
             console.log("alpha", toDegrees(alpha0), toDegrees(alpha1));
 
-  //          [alpha0, alpha1] = [Math.min(alpha0, alpha1), Math.max(alpha0, alpha1)];
-            let step = (alpha1 - alpha0) / 20;
+            let step = (alpha1 - alpha0) / 3;
 
-  //          console.log("after: alpha", toDegrees(alpha0), toDegrees(alpha1), step);
+            let x0 = xC; let y0 = yC;
 
-      //      let alpha1 = alpha0 + toRadians(15);
-
-            let x0 = xC;
-            let y0 = yC;
             for (let alpha = alpha0; alpha <= alpha1; alpha += step) {
                 let x = xC + r * Math.cos(alpha);
                 let y = yC + r * Math.sin(alpha);

@@ -24,7 +24,7 @@
 
 .arc {
     stroke: gray;
-    stroke-width: .2;
+    stroke-width: .05;
     fill-opacity: 0;
     stroke-opacity: .5;
 }
