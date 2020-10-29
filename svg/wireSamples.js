@@ -70,3 +70,8 @@ let wire0 = new Wire([
 // export function hello() {
 //     return "Hello";
 // }
+
+// Strictly speaking, that's not a wire, but we aren't checking now
+let quarter = new Wire([
+    ["Arc", 10, 0, 0, 10]
+]);

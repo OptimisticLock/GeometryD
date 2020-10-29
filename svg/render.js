@@ -6,7 +6,7 @@
 
 
 // A little serialization test. TODO: make this into a unit test
-let wire = Wire.deserialize(reordered.serialize())
+let wire = Wire.deserialize(quarter.serialize())
 
 function addElement(name, attributes) {
     let g = document.getElementById("g");
