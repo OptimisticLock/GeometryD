@@ -1,9 +1,12 @@
 
+console.log("------------------- render.js");
 
 // import { hello } from './wireSamples.js';
 // console.log("render.js", hello());
 // TODO <script type="module" src="..."></script>
 
+// Works for NW, SE, SW.
+// Broken for NE
 
 // A little serialization test. TODO: make this into a unit test
 let wire = Wire.deserialize(reordered.serialize())
@@ -18,6 +21,27 @@ function addElement(name, attributes) {
         elem.setAttribute(attribute, attributes[attribute]);
 
     g.append(elem);
+}
+
+// x1=xC, y1=yC, x2=x, y2=y
+// dx = x - xC
+// dy = y - yC
+
+// if x < xC then dx < 0
+
+function angle(x1, y1, x2, y2) {
+    let dx = x2 - x1;
+    let dy = y2 - y1;
+
+    // TODO what id division by 0? toDegrees(Math.atan(Infinity)) === 90, cool.
+    let slope = dy / dx;
+    let alpha = Math.atan(slope);
+
+
+    if (dx < 0) 
+        alpha -= Math.PI;
+
+    return alpha;
 }
 
 
@@ -54,6 +78,7 @@ function onload() {
             })
 
             let [xC, yC] = arcCenter(x1, y1, x2, y2);
+            console.log("center", xC, yC);
 
             // TODO: optimize trigonometric functions.
 
@@ -67,15 +92,23 @@ function onload() {
             let chordLength = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
  //           let alpha0 = Math.asin(chordLength / (2 * r));
 
-            let alpha0 = 0;
-            let alpha1 = toRadians(350);
-            let step = toRadians(2);
+
+            let alpha0 = angle(xC, yC, x1, y1);
+            let alpha1 = angle(xC, yC, x2, y2);
+            console.log("before: alpha", toDegrees(alpha0), toDegrees(alpha1));
+
+            [alpha0, alpha1] = [Math.min(alpha0, alpha1), Math.max(alpha0, alpha1)];
+            let step = (alpha1 - alpha0) / 20;
+
+            console.log("after: alpha", toDegrees(alpha0), toDegrees(alpha1), step);
+
+      //      let alpha1 = alpha0 + toRadians(15);
 
             let x0 = xC;
             let y0 = yC;
             for (let alpha = alpha0; alpha <= alpha1; alpha += step) {
-                let x = xC + r * Math.cos(alpha) * Math.sign(x2 - x1);
-                let y = yC + r * Math.sin(alpha) * Math.sign(y2 - y1);
+                let x = xC + r * Math.cos(alpha);
+                let y = yC + r * Math.sin(alpha);
 
                 // Add daisy-shaped rays for debugging
                 addElement("line", {
@@ -91,16 +124,14 @@ function onload() {
                     x2: x, y2: y
                 });
 
-                console.log("Chord: ", {
-                    class: "chord",
-                    x1: x0, y1: y0,
-                    x2: x, y2: y
-                })
+                // console.log("Chord: ", {
+                //     class: "chord",
+                //     x1: x0, y1: y0,
+                //     x2: x, y2: y
+                // })
 
                 x0 = x; y0 = y;
             }
-
-            //         let alpha = -Math.PI / 4; // 45 degrees
 
         } else {
 

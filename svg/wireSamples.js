@@ -71,7 +71,23 @@ let wire0 = new Wire([
 //     return "Hello";
 // }
 
-// Strictly speaking, that's not a wire, but we aren't checking now
-let quarter = new Wire([
-    ["Arc", 10, 0, 0, 10]
-]);
+// TODO Strictly speaking, these are not wires, but we aren't checking yet
+let arcs = {
+    SW: new Wire([
+        ["Arc", 10, 0, 0, 10]
+    ]),
+
+    NE: new Wire([
+        ["Arc", 0, 10, 10, 0]
+    ]),
+
+    SE: new Wire([
+        ["Arc", 0, 0, 10, 10]
+    ]),
+
+    NW: new Wire([
+        ["Arc", 10, 10, 0, 0]
+    ])
+}
+
+
