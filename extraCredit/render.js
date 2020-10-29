@@ -54,7 +54,7 @@ function onload() {
         if (type === "Arc") {
             line.setAttribute('x2', x1 - .5);
             line.setAttribute('y2', y1 - .5);
-            line.setAttribute("stroke", "red");
+            line.setAttribute("stroke", "yellow");
         } else {
             line.setAttribute('x2', x2);
             line.setAttribute('y2', y2);
@@ -68,6 +68,8 @@ function onload() {
         let x0, y0;
 
         if (type === "Arc") {
+
+            // TODO bad temp DRY violation
 
             let arc = document.createElementNS('http://www.w3.org/2000/svg','path');
 
@@ -92,6 +94,34 @@ function onload() {
             arc2.setAttribute("stroke-width", .1);
             arc2.setAttribute("fill-opacity", 0);
             g.append(arc2);
+
+            let alpha = -Math.PI / 4; // 45 degrees
+            let x = x1 + r * Math.cos(alpha);
+            let y = y1 + r * Math.sin(alpha);
+
+            let lineA = document.createElementNS('http://www.w3.org/2000/svg','line');
+            let lineB = document.createElementNS('http://www.w3.org/2000/svg','line');
+
+            lineA.setAttribute("stroke", "red");
+            lineA.setAttribute("stroke-width", .1);
+            lineA.setAttribute('x1', x1);
+            lineA.setAttribute('y1', y1);
+            lineA.setAttribute('x2', x);
+            lineA.setAttribute('y2', y);
+            lineA.setAttribute("stroke-opacity", .1);
+            g.append(lineA);
+
+
+            lineB.setAttribute("stroke", "black");
+            lineB.setAttribute("stroke-width", .1);
+            lineB.setAttribute('x1', x);
+            lineB.setAttribute('y1', y);
+            lineB.setAttribute('x2', x2);
+            lineB.setAttribute('y2', y2);
+            lineB.setAttribute("stroke-opacity", .1);
+
+//            g.append(lineB);
+
         }
     }
 }
