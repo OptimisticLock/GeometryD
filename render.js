@@ -11,6 +11,23 @@ let wire = new Wire([
     ["Arc", 9, 10, 10, 9]
 ]);
 
-let svg = document.getElementById("svg");
+function onload() {
+    let g = document.getElementById("g");
+
+// TODO check namespace url
+    let newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+
+    newLine.setAttribute('id','line2');
+    newLine.setAttribute('x1','0');
+    newLine.setAttribute('y1','0');
+    newLine.setAttribute('x2','10');
+    newLine.setAttribute('y2','3');
+    newLine.setAttribute("stroke", "black")
+    g.append(newLine);
+
+}
+
+onload();
+
 
 
