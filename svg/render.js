@@ -23,6 +23,18 @@ function addElement(name, attributes) {
     g.append(elem);
 }
 
+
+function assert(condition, message) {
+    if (!condition) {
+        console.error(message);
+
+        if (alert)
+            alert(message);
+
+        throw new Error(message);
+    }
+}
+
 // x1=xC, y1=yC, x2=x, y2=y
 // dx = x - xC
 // dy = y - yC
@@ -33,12 +45,27 @@ function angle(x1, y1, x2, y2) {
     let dx = x2 - x1;
     let dy = y2 - y1;
 
+    if (x1 === x2 && y1 > y2)
+        return - Math.PI / 2;
+
+    if (x1 === x2 && y1 < y2)
+        return Math.PI / 2;
+
+    if (y1 === y2 && x1 < x2)
+        return 0;
+
+    if (y1 === y2 && x1 > x2)
+        return Math.PI;
+
+    assert (false, `Invalid arch radius: ${x1}, ${y1}, ${x2}, ${y2}`)
+
+
     // TODO what id division by 0? toDegrees(Math.atan(Infinity)) === 90, cool.
     let slope = dy / dx;
     let alpha = Math.atan(slope);
 
 
-    if (dx < 0) 
+    if (dx < 0)
         alpha -= Math.PI;
 
     return alpha;
@@ -94,13 +121,15 @@ function onload() {
 
 
             let alpha0 = angle(xC, yC, x1, y1);
-            let alpha1 = angle(xC, yC, x2, y2);
-            console.log("before: alpha", toDegrees(alpha0), toDegrees(alpha1));
+//            let alpha1 = angle(xC, yC, x2, y2);
+            let alpha1 = alpha0 + Math.PI / 2;
 
-            [alpha0, alpha1] = [Math.min(alpha0, alpha1), Math.max(alpha0, alpha1)];
+            console.log("alpha", toDegrees(alpha0), toDegrees(alpha1));
+
+  //          [alpha0, alpha1] = [Math.min(alpha0, alpha1), Math.max(alpha0, alpha1)];
             let step = (alpha1 - alpha0) / 20;
 
-            console.log("after: alpha", toDegrees(alpha0), toDegrees(alpha1), step);
+  //          console.log("after: alpha", toDegrees(alpha0), toDegrees(alpha1), step);
 
       //      let alpha1 = alpha0 + toRadians(15);
 
