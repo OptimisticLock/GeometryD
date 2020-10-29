@@ -20,11 +20,19 @@ function onload() {
     for (const [type, x1, y1, x2, y2] of wire.edges) {
 
         // TODO check namespace url
-        let line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
         line.setAttribute('x1',x1);
         line.setAttribute('y1',y1);
-        line.setAttribute('x2',x2);
-        line.setAttribute('y2',y2);
+
+        if (type === "Arc") {
+            line.setAttribute('x2', x1 - .5);
+            line.setAttribute('y2', y1 - .5);
+        } else {
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y2);
+        }
+
         line.setAttribute("stroke", type === "Arc" ? "grey" : "black");
         line.setAttribute("stroke-width", ".05");
         g.append(line);
@@ -46,7 +54,7 @@ function onload() {
 
 
             let arc2 = document.createElementNS('http://www.w3.org/2000/svg','path');
-            let params2 = `M ${x1} ${y1}  A ${r} ${r}   0 0 0   ${x2} ${y2}`;
+            let params2 = `M ${x2} ${y2}  A ${r} ${r}   0 0 1   ${x1} ${y1}`;
             console.log("params", params2);
             arc2.setAttribute('d', params2);
             arc2.setAttribute("stroke", "red");
