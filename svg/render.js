@@ -6,7 +6,7 @@
 
 
 // A little serialization test. TODO: make this into a unit test
-let wire = Wire.deserialize(quarter.serialize())
+let wire = Wire.deserialize(reordered.serialize())
 
 function addElement(name, attributes) {
     let g = document.getElementById("g");
@@ -18,6 +18,15 @@ function addElement(name, attributes) {
         elem.setAttribute(attribute, attributes[attribute]);
 
     g.append(elem);
+}
+
+
+function arcCenter(x1, y1, x2, y2) {
+
+    if (Math.sign(x2 - x1) === Math.sign(y2 - y1))
+        return [x1, y2];
+    else
+        return [x2, y1];
 }
 
 function onload() {
@@ -44,8 +53,7 @@ function onload() {
                 d: `M ${x1} ${y1}  A ${r} ${r}   0 0 1  ${x2} ${y2}`
             })
 
-            let xC = x1;
-            let yC = y2;
+            let [xC, yC] = arcCenter(x1, y1, x2, y2);
 
             // TODO: optimize trigonometric functions.
 
