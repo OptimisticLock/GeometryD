@@ -52,58 +52,56 @@ let wire0 = new Wire([
 // A little serialization test. TODO: make this into a unit test
 let wire = Wire.deserialize(partial.serialize())
 
+function addElement(name, attributes) {
+    let g = document.getElementById("g");
+
+    // TODO check namespace url
+    let elem = document.createElementNS('http://www.w3.org/2000/svg', name);
+
+    for (const attribute in attributes)
+        elem.setAttribute(attribute, attributes[attribute]);
+
+    g.append(elem);
+}
 
 function onload() {
-    let g = document.getElementById("g");
 
     for (const [type, x1, y1, x2, y2] of wire.edges) {
 
-        // TODO check namespace url
-        let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-
-        line.setAttribute('x1',x1);
-        line.setAttribute('y1',y1);
-
         if (type === "Arc") {
-            line.setAttribute('x2', x1 - .5);
-            line.setAttribute('y2', y1 - .5);
-            line.setAttribute("stroke", "black");
-        } else {
-            line.setAttribute('x2', x2);
-            line.setAttribute('y2', y2);
-            line.setAttribute("stroke", "black");
-        }
-
-
-        line.setAttribute("stroke-width", ".05");
-        g.append(line);
-
-        if (type === "Arc") {
-
-            // TODO all of this will need refactoring
-            let arc = document.createElementNS('http://www.w3.org/2000/svg','path');
+            addElement("line", {
+                x1,
+                y1,
+                x2: x1 - .5,
+                y2: y1 - .5,
+                stroke: "lightgray",
+                "stroke-width": .2,
+            })
 
             // TODO assert ry === rx. Circle, not ellipse.
             const r = Math.abs(x2 - x1);
 
-            // let isClockwise = x2 - x1
             let params = `M ${x1} ${y1}  A ${r} ${r}   0 0 1   ${x2} ${y2}`;
             console.log("params", params);
-            arc.setAttribute('d', params);
-            arc.setAttribute("stroke", "green");
-            arc.setAttribute("stroke-width", .1);
-            arc.setAttribute("fill-opacity", 0);
-            g.append(arc);
 
+            addElement("path", {
+                d: params,
+                stroke: "green",
+                "stroke-width": .1,
+                "fill-opacity": 0,
+            })
 
-            let arc2 = document.createElementNS('http://www.w3.org/2000/svg','path');
+            //arc2
             let params2 = `M ${x2} ${y2}  A ${r} ${r}   0 0 1   ${x1} ${y1}`;
             console.log("params", params2);
-            arc2.setAttribute('d', params2);
-            arc2.setAttribute("stroke", "blue");
-            arc2.setAttribute("stroke-width", .1);
-            arc2.setAttribute("fill-opacity", 0);
-            g.append(arc2);
+
+            addElement("path", {
+                d: params2,
+                stroke: "blue",
+                "stroke-width": .1,
+                "fill-opacity": 0,
+            });
+
 
             let xC = x1;
             let yC = y2;
@@ -115,42 +113,55 @@ function onload() {
             let yMidpoint = (y1 + y2) / 2;
 
 
-            let  chordLength = Math.sqrt((x2 - x1)**2 + (y2 - y1)**2);
+            let chordLength = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
             let alpha0 = Math.asin(chordLength / (2 * r));
 
-            for (let alpha = alpha0; alpha <=  alpha0 + Math.PI / 6; alpha += Math.PI / 16) {
+            for (let alpha = alpha0; alpha <= alpha0 + Math.PI / 6; alpha += Math.PI / 16) {
                 let x = xC + r * Math.cos(alpha);
                 let y = yC + r * Math.sin(alpha);
 
-                let lineA = document.createElementNS('http://www.w3.org/2000/svg','line');
-                let lineB = document.createElementNS('http://www.w3.org/2000/svg','line');
+                // lineA
+                addElement("line", {
+                    stroke: "red",
+                    "stroke-width": .5,
+                    x1: xC,
+                    y1: yC,
+                    x2: x,
+                    y2: y,
+                    "stroke-opacity": .1,
+                });
 
-                lineA.setAttribute("stroke", "red");
-                lineA.setAttribute("stroke-width", .5);
-                lineA.setAttribute('x1', xC);
-                lineA.setAttribute('y1', yC);
-                lineA.setAttribute('x2', x);
-                lineA.setAttribute('y2', y);
-                lineA.setAttribute("stroke-opacity", .1);
-                g.append(lineA);
+                // lineB
+                addElement("line", {
+
+                });
+
                 x0 = x;
                 y0 = y;
 
 
-                lineB.setAttribute("stroke", "black");
-                lineB.setAttribute("stroke-width", .1);
-                lineB.setAttribute('x1', x);
-                lineB.setAttribute('y1', y);
-                lineB.setAttribute('x2', x2);
-                lineB.setAttribute('y2', y2);
-                lineB.setAttribute("stroke-opacity", .1);
+                // lineB.setAttribute("stroke", "black");
+                // lineB.setAttribute("stroke-width", .1);
+                // lineB.setAttribute('x1', x);
+                // lineB.setAttribute('y1', y);
+                // lineB.setAttribute('x2', x2);
+                // lineB.setAttribute('y2', y2);
+                // lineB.setAttribute("stroke-opacity", .1);
 
             }
 
-   //         let alpha = -Math.PI / 4; // 45 degrees
+            //         let alpha = -Math.PI / 4; // 45 degrees
 
 //            g.append(lineB);
 
+
+        } else {
+            addElement("line", {
+                x1, y1, x2, y2,
+                stroke: "blue",
+                "stroke-width": .05
+
+            })
         }
     }
 }
