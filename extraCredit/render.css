@@ -1,7 +1,12 @@
 
 #coords {
     font-size: 1.5em;
+    position: relative;
+    width: 200px;
+    height: 100px;
     float: right;
+    bottom: 2em;
+    right: 0px;
 }
 
 
@@ -11,6 +16,7 @@
 }
 
 .ray {
+    stroke: red;
     stroke-width: .1;
     stroke-opacity: .5;
 }
@@ -26,7 +32,7 @@ path {
     fill-opacity: 0;
 }
 
-.nick {
+.marker {
     stroke: lightgray;
     stroke-width: .1;
 }
