@@ -25,12 +25,12 @@ function onload() {
         line.setAttribute('y1',y1);
         line.setAttribute('x2',x2);
         line.setAttribute('y2',y2);
-        line.setAttribute("stroke", type === "Arc" ? "red" : "black");
-        line.setAttribute("stroke-width", ".1");
+        line.setAttribute("stroke", type === "Arc" ? "grey" : "black");
+        line.setAttribute("stroke-width", ".05");
         g.append(line);
 
         if (type === "Arc") {
-            
+
             let arc = document.createElementNS('http://www.w3.org/2000/svg','path');
 
             // TODO assert ry === rx. Circle, not ellipse.
@@ -40,9 +40,19 @@ function onload() {
             console.log("params", params);
             arc.setAttribute('d', params);
             arc.setAttribute("stroke", "green");
-            g.setAttribute("stroke-width", .1);
-            g.setAttribute("fill-opacity", 0);
+            arc.setAttribute("stroke-width", .1);
+            arc.setAttribute("fill-opacity", 0);
             g.append(arc);
+
+
+            let arc2 = document.createElementNS('http://www.w3.org/2000/svg','path');
+            let params2 = `M ${x1} ${y1}  A ${r} ${r}   0 0 0   ${x2} ${y2}`;
+            console.log("params", params2);
+            arc2.setAttribute('d', params2);
+            arc2.setAttribute("stroke", "red");
+            arc2.setAttribute("stroke-width", .1);
+            arc2.setAttribute("fill-opacity", 0);
+            g.append(arc2);
         }
     }
 }
