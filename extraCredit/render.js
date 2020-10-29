@@ -36,6 +36,9 @@ let partial = new Wire([
     // ["Line", 0, 0, 1, 1],
 ]);
 
+// TODO is fillet what I think it is?
+// TODO const
+// TODO Typescript?
 
 let wire0 = new Wire([
     ["Line", 0, 1, 0, 9],
@@ -50,7 +53,7 @@ let wire0 = new Wire([
 ]);
 
 // A little serialization test. TODO: make this into a unit test
-let wire = Wire.deserialize(partial.serialize())
+let wire = Wire.deserialize(roundest.serialize())
 
 function addElement(name, attributes) {
     let g = document.getElementById("g");
@@ -106,6 +109,8 @@ function onload() {
             let xC = x1;
             let yC = y2;
 
+            // TODO: optimize sin etc.
+
             let x0 = xC + r * Math.cos(0);
             let y0 = yC + r * Math.sin(0);
 
@@ -117,8 +122,8 @@ function onload() {
             let alpha0 = Math.asin(chordLength / (2 * r));
 
             for (let alpha = alpha0; alpha <= alpha0 + Math.PI / 6; alpha += Math.PI / 16) {
-                let x = xC + r * Math.cos(alpha);
-                let y = yC + r * Math.sin(alpha);
+                let x = xC + r * Math.cos(alpha) * Math.sign(x2 - x1);
+                let y = yC - r * Math.sin(alpha) * Math.sign(y2 - y1);
 
                 // lineA
                 addElement("line", {
@@ -132,9 +137,7 @@ function onload() {
                 });
 
                 // lineB
-                addElement("line", {
-
-                });
+  //              addElement("line", {});
 
                 x0 = x;
                 y0 = y;
