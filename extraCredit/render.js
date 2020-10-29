@@ -24,6 +24,18 @@ let roundest = new Wire([
     // ["Line", 0, 0, 1, 1],
 ]);
 
+let partial = new Wire([
+    // ["Line", 0, 4, 0, 6],
+    // ["Arc", 0, 4, 4, 0],
+    // ["Line", 4, 0, 6, 0],
+    ["Arc", 0, 6, 4, 10],
+    // ["Line", 4, 10, 6, 10],
+    // ["Arc", 6, 0, 10, 4],
+    // ["Line", 10, 4, 10, 6],
+    // ["Arc", 6, 10, 10, 6],
+    // ["Line", 0, 0, 1, 1],
+]);
+
 
 let wire0 = new Wire([
     ["Line", 0, 1, 0, 9],
@@ -38,7 +50,8 @@ let wire0 = new Wire([
 ]);
 
 // A little serialization test. TODO: make this into a unit test
-let wire = Wire.deserialize(roundest.serialize())
+let wire = Wire.deserialize(partial.serialize())
+
 
 function onload() {
     let g = document.getElementById("g");
@@ -73,7 +86,7 @@ function onload() {
             // TODO assert ry === rx. Circle, not ellipse.
             const r = Math.abs(x2 - x1);
 
-            let isClockwise = x2 - x1 // TODO
+            // let isClockwise = x2 - x1
             let params = `M ${x1} ${y1}  A ${r} ${r}   0 0 1   ${x2} ${y2}`;
             console.log("params", params);
             arc.setAttribute('d', params);
@@ -145,4 +158,7 @@ function onload() {
 onload();
 
 
+function toGrad(rad) {
+    return rad * 360 / (2 * Math.PI);
+}
 
