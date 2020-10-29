@@ -36,25 +36,21 @@ function onload() {
             // TODO assert ry === rx. Circle, not ellipse.
             const r = Math.abs(x2 - x1);
             //    let arc = Math.sign((x2 - x1) || (y2 - y1));
-            let params = `M ${x1} ${y1}  A ${r} ${r}   0 0 1  ${x2} ${y2}`;
-            console.log("params", params);
+
 
             // Add the actual arc
             addElement("path", {
-                d: params,
+                class: "arc",
+                d: `M ${x1} ${y1}  A ${r} ${r}   0 0 1  ${x2} ${y2}`
             })
-
-            //arc2
-            let params2 = `M ${x2} ${y2}  A ${r} ${r}   0 0 1   ${x1} ${y1}`;
-            console.log("params", params2);
 
             let xC = x1;
             let yC = y2;
 
             // TODO: optimize trigonometric functions.
 
-            let x0 = xC + r * Math.cos(0);
-            let y0 = yC + r * Math.sin(0);
+            // let x0 = xC + r * Math.cos(0);
+            // let y0 = yC + r * Math.sin(0);
 
             let xMidpoint = (x1 + x2) / 2;
             let yMidpoint = (y1 + y2) / 2;
@@ -64,9 +60,12 @@ function onload() {
  //           let alpha0 = Math.asin(chordLength / (2 * r));
 
             let alpha0 = 0;
-            let alpha1 = toRadians(5);
+            let alpha1 = toRadians(350);
+            let step = toRadians(2);
 
-            for (let alpha = alpha0; alpha <= alpha1; alpha += 2 * Math.PI / 100) {
+            let x0 = xC;
+            let y0 = yC;
+            for (let alpha = alpha0; alpha <= alpha1; alpha += step) {
                 let x = xC + r * Math.cos(alpha) * Math.sign(x2 - x1);
                 let y = yC + r * Math.sin(alpha) * Math.sign(y2 - y1);
 
@@ -77,23 +76,23 @@ function onload() {
                     x2: x, y2: y,
                 });
 
-                x0 = x;
-                y0 = y;
+                // Add the actual chords
+                addElement("line", {
+                    class: "chord",
+                    x1: x0, y1: y0,
+                    x2: x, y2: y
+                });
 
-                // lineB.setAttribute("stroke", "black");
-                // lineB.setAttribute("stroke-width", .1);
-                // lineB.setAttribute('x1', x);
-                // lineB.setAttribute('y1', y);
-                // lineB.setAttribute('x2', x2);
-                // lineB.setAttribute('y2', y2);
-                // lineB.setAttribute("stroke-opacity", .1);
+                console.log("Chord: ", {
+                    class: "chord",
+                    x1: x0, y1: y0,
+                    x2: x, y2: y
+                })
 
+                x0 = x; y0 = y;
             }
 
             //         let alpha = -Math.PI / 4; // 45 degrees
-
-//            g.append(lineB);
-
 
         } else {
 
