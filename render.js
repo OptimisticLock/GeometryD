@@ -17,17 +17,6 @@ let wire = Wire.deserialize(wire0.serialize())
 function onload() {
     let g = document.getElementById("g");
 
-    let arc = document.createElementNS('http://www.w3.org/2000/svg','path');
-    // <path d="M 5 6   A 6 6    0 0 1   1 1"
-    //       stroke="green"
-    //       stroke-width=".1" fill-opacity="0"/>
-
-    arc.setAttribute('d', "M 5 6   A 6 6    0 0 1   1 1");
-    arc.setAttribute("stroke", "green");
-    g.setAttribute("stroke-width", .1);
-    g.setAttribute("fill-opacity", 0);
-    g.append(arc);
-
     for (const [type, x1, y1, x2, y2] of wire.edges) {
 
         // TODO check namespace url
@@ -39,6 +28,22 @@ function onload() {
         line.setAttribute("stroke", type === "Arc" ? "red" : "black");
         line.setAttribute("stroke-width", ".1");
         g.append(line);
+
+        if (type === "Arc") {
+            
+            let arc = document.createElementNS('http://www.w3.org/2000/svg','path');
+
+            // TODO assert ry === rx. Circle, not ellipse.
+            const r = Math.abs(x2 - x1);
+
+            let params = `M ${x1} ${y1}  A ${r} ${r}   0 0 1   ${x2} ${y2}`;
+            console.log("params", params);
+            arc.setAttribute('d', params);
+            arc.setAttribute("stroke", "green");
+            g.setAttribute("stroke-width", .1);
+            g.setAttribute("fill-opacity", 0);
+            g.append(arc);
+        }
     }
 }
 
