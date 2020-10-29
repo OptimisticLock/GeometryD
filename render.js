@@ -1,6 +1,6 @@
 console.log("render.js");
 
-let wire = new Wire([
+let wire0 = new Wire([
     ["Line", 0, 1, 0, 9],
     ["Arc", 0, 1, 1, 0],
     ["Line", 1, 0, 9, 0],
@@ -10,6 +10,9 @@ let wire = new Wire([
     ["Line", 10, 1, 10, 9],
     ["Arc", 9, 10, 10, 9]
 ]);
+
+// A little serialization test. TODO: make this into a unit test
+let wire = Wire.deserialize(wire0.serialize())
 
 function onload() {
     let g = document.getElementById("g");

@@ -18,6 +18,17 @@ class Wire {
     constructor(edges) {
         this.edges = edges;
     }
+
+    serialize() {
+        return JSON.stringify(this.edges);
+    }
+
+    static deserialize(str) {
+        // TODO: handle errors
+        let edges = JSON.parse(str);
+        let wire = new Wire(edges);
+        return wire;
+    }
 }
 
 
