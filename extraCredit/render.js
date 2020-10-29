@@ -89,44 +89,35 @@ function onload() {
     for (const [type, x1, y1, x2, y2] of wire.edges) {
 
         if (type === "Arc") {
+
+            // Add a short line to help debugging
             addElement("line", {
                 x1,
                 y1,
                 x2: x1 - .5,
                 y2: y1 - .5,
-                stroke: "lightgray",
-                "stroke-width": .2,
+                class: "nick"
             })
 
             // TODO assert ry === rx. Circle, not ellipse.
             const r = Math.abs(x2 - x1);
-        //    let arc = Math.sign((x2 - x1) || (y2 - y1));
+            //    let arc = Math.sign((x2 - x1) || (y2 - y1));
             let params = `M ${x1} ${y1}  A ${r} ${r}   0 0 1  ${x2} ${y2}`;
             console.log("params", params);
 
+            // Add the actual arc
             addElement("path", {
                 d: params,
-                stroke: "green",
-                "stroke-width": .1,
-                "fill-opacity": 0,
             })
 
             //arc2
             let params2 = `M ${x2} ${y2}  A ${r} ${r}   0 0 1   ${x1} ${y1}`;
             console.log("params", params2);
 
-            // addElement("path", {
-            //     d: params2,
-            //     stroke: "blue",
-            //     "stroke-width": .1,
-            //     "fill-opacity": 0,
-            // });
-
-
             let xC = x1;
             let yC = y2;
 
-            // TODO: optimize sin etc.
+            // TODO: optimize trigonometric functions.
 
             let x0 = xC + r * Math.cos(0);
             let y0 = yC + r * Math.sin(0);
@@ -142,23 +133,18 @@ function onload() {
                 let x = xC + r * Math.cos(alpha) * Math.sign(x2 - x1);
                 let y = yC - r * Math.sin(alpha) * Math.sign(y2 - y1);
 
-                // lineA
+                // Add daisy-shaped rays for debugging
                 addElement("line", {
                     stroke: "red",
-                    "stroke-width": .5,
                     x1: xC,
                     y1: yC,
                     x2: x,
                     y2: y,
-                    "stroke-opacity": .1,
+                    class: "ray",
                 });
-
-                // lineB
-                //              addElement("line", {});
 
                 x0 = x;
                 y0 = y;
-
 
                 // lineB.setAttribute("stroke", "black");
                 // lineB.setAttribute("stroke-width", .1);
@@ -176,10 +162,11 @@ function onload() {
 
 
         } else {
+
+            // The actual line from the wire
             addElement("line", {
                 x1, y1, x2, y2,
-                stroke: "blue",
-                "stroke-width": .05
+                class: "line",
 
             })
         }
@@ -193,27 +180,20 @@ function toGrad(rad) {
     return rad * 360 / (2 * Math.PI);
 }
 
+
 let svg = document.getElementById("svg");
-let pt = svg.createSVGPoint();  // Created once for document
+let point = svg.createSVGPoint();  // Created once for document
 
 g.addEventListener('mousemove', evt => {
-    console.log("evt", evt);
-// //    let element = evt.target;
-//     let element = g;
-//     console.log(element);
-//     var dim = element.getBoundingClientRect();
-//     var x = evt.clientX - dim.left;
-//     var y = evt.clientY - dim.top;
-//     console.log ("x: " + x + " y: " + y);
-//
+//    console.log("evt", evt);
+    let element = evt.target;
 
-        pt.x = evt.clientX;
-        pt.y = evt.clientY;
+    point.x = evt.clientX;
+    point.y = evt.clientY;
 
-        // The cursor point, translated into svg coordinates
-        let cursorPoint =  pt.matrixTransform(g.getScreenCTM().inverse());
-        console.log("cursorPoint", cursorPoint);
-        let coords = "(" + cursorPoint.x.toFixed(1) + ", " + cursorPoint.y.toFixed(1) + ")";
+    // The cursor point, translated into svg coordinates
+    let cursorPoint = point.matrixTransform(g.getScreenCTM().inverse());
+    let coords = "(" + cursorPoint.x.toFixed(1) + ", " + cursorPoint.y.toFixed(1) + ")";
 
-        document.getElementById("coords").innerText = coords;
+    document.getElementById("coords").innerText = coords;
 });
