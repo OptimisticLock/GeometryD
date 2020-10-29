@@ -54,7 +54,7 @@ function onload() {
         if (type === "Arc") {
             line.setAttribute('x2', x1 - .5);
             line.setAttribute('y2', y1 - .5);
-            line.setAttribute("stroke", "yellow");
+            line.setAttribute("stroke", "black");
         } else {
             line.setAttribute('x2', x2);
             line.setAttribute('y2', y2);
@@ -67,14 +67,13 @@ function onload() {
 
         if (type === "Arc") {
 
-            // TODO bad temp DRY violation
-
+            // TODO all of this will need refactoring
             let arc = document.createElementNS('http://www.w3.org/2000/svg','path');
 
             // TODO assert ry === rx. Circle, not ellipse.
             const r = Math.abs(x2 - x1);
 
-            let isClockwise = x2 - x1
+            let isClockwise = x2 - x1 // TODO
             let params = `M ${x1} ${y1}  A ${r} ${r}   0 0 1   ${x2} ${y2}`;
             console.log("params", params);
             arc.setAttribute('d', params);
@@ -99,7 +98,14 @@ function onload() {
             let x0 = xC + r * Math.cos(0);
             let y0 = yC + r * Math.sin(0);
 
-            for (let alpha = 0; alpha <= 2 * Math.PI; alpha += Math.PI / 16) {
+            let xMidpoint = (x1 + x2) / 2;
+            let yMidpoint = (y1 + y2) / 2;
+
+
+            let  chordLength = Math.sqrt((x2 - x1)**2 + (y2 - y1)**2);
+            let alpha0 = Math.asin(chordLength / (2 * r));
+
+            for (let alpha = alpha0; alpha <=  alpha0 + Math.PI / 6; alpha += Math.PI / 16) {
                 let x = xC + r * Math.cos(alpha);
                 let y = yC + r * Math.sin(alpha);
 
@@ -108,8 +114,8 @@ function onload() {
 
                 lineA.setAttribute("stroke", "red");
                 lineA.setAttribute("stroke-width", .5);
-                lineA.setAttribute('x1', x0);
-                lineA.setAttribute('y1', y0);
+                lineA.setAttribute('x1', xC);
+                lineA.setAttribute('y1', yC);
                 lineA.setAttribute('x2', x);
                 lineA.setAttribute('y2', y);
                 lineA.setAttribute("stroke-opacity", .1);
