@@ -14,17 +14,18 @@ let wire = new Wire([
 function onload() {
     let g = document.getElementById("g");
 
-// TODO check namespace url
-    let newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+    for ([type, x1, y1, x2, y2] of wire.edges) {
 
-    newLine.setAttribute('id','line2');
-    newLine.setAttribute('x1','0');
-    newLine.setAttribute('y1','0');
-    newLine.setAttribute('x2','10');
-    newLine.setAttribute('y2','3');
-    newLine.setAttribute("stroke", "black")
-    g.append(newLine);
-
+        // TODO check namespace url
+        let newLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+        newLine.setAttribute('x1',x1);
+        newLine.setAttribute('y1',y1);
+        newLine.setAttribute('x2',x2);
+        newLine.setAttribute('y2',y2);
+        newLine.setAttribute("stroke", type === "Arc" ? "red" : "black");
+        newLine.setAttribute("stroke-width", ".5");
+        g.append(newLine);
+    }
 }
 
 onload();
