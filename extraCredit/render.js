@@ -95,17 +95,20 @@ function onload() {
             arc2.setAttribute("fill-opacity", 0);
             g.append(arc2);
 
+            let xC = x1;
+            let yC = y2;
+
             for (let alpha = 0; alpha <= 2 * Math.PI; alpha += Math.PI / 10) {
-                let x = x1 + r * Math.cos(alpha);
-                let y = y1 + r * Math.sin(alpha);
+                let x = xC + r * Math.cos(alpha);
+                let y = yC + r * Math.sin(alpha);
 
                 let lineA = document.createElementNS('http://www.w3.org/2000/svg','line');
                 let lineB = document.createElementNS('http://www.w3.org/2000/svg','line');
 
                 lineA.setAttribute("stroke", "red");
                 lineA.setAttribute("stroke-width", .1);
-                lineA.setAttribute('x1', x1);
-                lineA.setAttribute('y1', y1);
+                lineA.setAttribute('x1', xC);
+                lineA.setAttribute('y1', yC);
                 lineA.setAttribute('x2', x);
                 lineA.setAttribute('y2', y);
                 lineA.setAttribute("stroke-opacity", .1);
