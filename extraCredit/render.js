@@ -19,8 +19,23 @@ let roundest = new Wire([
     ["Arc", 0, 6, 4, 10],
     ["Line", 4, 10, 6, 10],
     ["Arc", 6, 0, 10, 4],
-    ["Line", 10, 4, 10, 6],
+    ["Line", 10, 4, 10, 6],  //
     ["Arc", 6, 10, 10, 6],
+    // ["Line", 0, 0, 1, 1],
+]);
+
+// TODO ask about input 
+let reordered = new Wire([
+    ["Line", 0, 6, 0, 4],
+    ["Arc", 0, 4, 4, 0],
+    ["Line", 4, 0, 6, 0],
+    ["Arc", 6, 0, 10, 4],
+    ["Line", 10, 4, 10, 6],
+    ["Arc", 10, 6, 6, 10],
+    ["Line", 6, 10, 4, 10],
+    ["Arc", 4, 10, 0, 6],
+
+
     // ["Line", 0, 0, 1, 1],
 ]);
 
@@ -53,7 +68,7 @@ let wire0 = new Wire([
 ]);
 
 // A little serialization test. TODO: make this into a unit test
-let wire = Wire.deserialize(roundest.serialize())
+let wire = Wire.deserialize(reordered.serialize())
 
 function addElement(name, attributes) {
     let g = document.getElementById("g");
@@ -83,8 +98,8 @@ function onload() {
 
             // TODO assert ry === rx. Circle, not ellipse.
             const r = Math.abs(x2 - x1);
-
-            let params = `M ${x1} ${y1}  A ${r} ${r}   0 0 1   ${x2} ${y2}`;
+        //    let arc = Math.sign((x2 - x1) || (y2 - y1));
+            let params = `M ${x1} ${y1}  A ${r} ${r}   0 0 1  ${x2} ${y2}`;
             console.log("params", params);
 
             addElement("path", {
@@ -98,12 +113,12 @@ function onload() {
             let params2 = `M ${x2} ${y2}  A ${r} ${r}   0 0 1   ${x1} ${y1}`;
             console.log("params", params2);
 
-            addElement("path", {
-                d: params2,
-                stroke: "blue",
-                "stroke-width": .1,
-                "fill-opacity": 0,
-            });
+            // addElement("path", {
+            //     d: params2,
+            //     stroke: "blue",
+            //     "stroke-width": .1,
+            //     "fill-opacity": 0,
+            // });
 
 
             let xC = x1;
@@ -137,7 +152,7 @@ function onload() {
                 });
 
                 // lineB
-  //              addElement("line", {});
+                //              addElement("line", {});
 
                 x0 = x;
                 y0 = y;
