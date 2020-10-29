@@ -24,7 +24,9 @@ let roundest = new Wire([
     // ["Line", 0, 0, 1, 1],
 ]);
 
-// TODO ask about input 
+// TODO ask about input
+// TODO: that assumes input is ordered clockwise.
+
 let reordered = new Wire([
     ["Line", 0, 6, 0, 4],
     ["Arc", 0, 4, 4, 0],
@@ -191,3 +193,13 @@ function toGrad(rad) {
     return rad * 360 / (2 * Math.PI);
 }
 
+
+g.addEventListener('mousemove', evt => {
+    console.log("evt", evt);
+    let element = evt.target;
+    console.log(element);
+    var dim = element.getBoundingClientRect();
+    var x = evt.clientX - dim.left;
+    var y = evt.clientY - dim.top;
+    console.log ("x: " + x + " y: " + y);
+});
