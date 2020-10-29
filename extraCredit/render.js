@@ -65,8 +65,6 @@ function onload() {
         line.setAttribute("stroke-width", ".05");
         g.append(line);
 
-        let x0, y0;
-
         if (type === "Arc") {
 
             // TODO bad temp DRY violation
@@ -98,7 +96,10 @@ function onload() {
             let xC = x1;
             let yC = y2;
 
-            for (let alpha = 0; alpha <= 2 * Math.PI; alpha += Math.PI / 10) {
+            let x0 = xC + r * Math.cos(0);
+            let y0 = yC + r * Math.sin(0);
+
+            for (let alpha = 0; alpha <= 2 * Math.PI; alpha += Math.PI / 16) {
                 let x = xC + r * Math.cos(alpha);
                 let y = yC + r * Math.sin(alpha);
 
@@ -106,13 +107,15 @@ function onload() {
                 let lineB = document.createElementNS('http://www.w3.org/2000/svg','line');
 
                 lineA.setAttribute("stroke", "red");
-                lineA.setAttribute("stroke-width", .1);
-                lineA.setAttribute('x1', xC);
-                lineA.setAttribute('y1', yC);
+                lineA.setAttribute("stroke-width", .5);
+                lineA.setAttribute('x1', x0);
+                lineA.setAttribute('y1', y0);
                 lineA.setAttribute('x2', x);
                 lineA.setAttribute('y2', y);
                 lineA.setAttribute("stroke-opacity", .1);
                 g.append(lineA);
+                x0 = x;
+                y0 = y;
 
 
                 lineB.setAttribute("stroke", "black");
