@@ -193,13 +193,27 @@ function toGrad(rad) {
     return rad * 360 / (2 * Math.PI);
 }
 
+let svg = document.getElementById("svg");
+let pt = svg.createSVGPoint();  // Created once for document
 
 g.addEventListener('mousemove', evt => {
     console.log("evt", evt);
-    let element = evt.target;
-    console.log(element);
-    var dim = element.getBoundingClientRect();
-    var x = evt.clientX - dim.left;
-    var y = evt.clientY - dim.top;
-    console.log ("x: " + x + " y: " + y);
+// //    let element = evt.target;
+//     let element = g;
+//     console.log(element);
+//     var dim = element.getBoundingClientRect();
+//     var x = evt.clientX - dim.left;
+//     var y = evt.clientY - dim.top;
+//     console.log ("x: " + x + " y: " + y);
+//
+
+        pt.x = evt.clientX;
+        pt.y = evt.clientY;
+
+        // The cursor point, translated into svg coordinates
+        let cursorPoint =  pt.matrixTransform(g.getScreenCTM().inverse());
+        console.log("cursorPoint", cursorPoint);
+        let coords = "(" + cursorPoint.x.toFixed(2) + ", " + cursorPoint.y.toFixed(2) + ")";
+
+        document.getElementById("coords").innerText = coords;
 });
