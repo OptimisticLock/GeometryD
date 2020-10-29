@@ -1,16 +1,23 @@
 class Edge {
-    constructor(x0, y0, x1, y1) {
-        this.x0 = x0;
-        this.y0 = y0;
-        this.x1 = x1;
-        this.y1 = y1;
+    constructor(x1, y1, x2, y2) {
+        this.x0 = x1;
+        this.y0 = y1;
+        this.x1 = x2;
+        this.y1 = y2;
     }
 }
 
 class Line extends Edge {}
 
 // Quarter circle arcs
-class Arc extends Edge {}
+class Arc extends Edge {
+    discretize(deflection) {
+
+        // TODO assert rx === ry
+        let r = this.x2 - this.x1;
+
+    }
+}
 
 class Wire {
 

@@ -26,7 +26,7 @@ function onload() {
         newLine.setAttribute('x2',x2);
         newLine.setAttribute('y2',y2);
         newLine.setAttribute("stroke", type === "Arc" ? "red" : "black");
-        newLine.setAttribute("stroke-width", ".5");
+        newLine.setAttribute("stroke-width", ".1");
         g.append(newLine);
     }
 }
