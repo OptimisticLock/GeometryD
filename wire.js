@@ -1,27 +1,84 @@
+class Point {
+    /**
+     * @param {number} x
+     * @param {number} y
+     */
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+}
+
 class Edge {
-    constructor(x1, y1, x2, y2) {
-        this.x0 = x1;
-        this.y0 = y1;
-        this.x1 = x2;
-        this.y1 = y2;
+    static to(x, y) {
+        throw new TypeError("Edge.to() is an abstract method and can't be called directly");
+    }
+
+    /**
+     * An arbitrary curve in two-dimensional coordinate space. Currently, the only edges
+     * supported are Line and Arc.
+     *
+     * @param {Edge}  previous - optional, previous edge at which this edge starts
+     * @param {Point} to - pint where this edge ends
+     */
+    constructor(previous, x, y) {
+        this.previous = previous;
+        this.to = ne
+
+        // A workaround for the absence of abstract classes in JS. Alternatively, if (new.target === Edge)
+        if (this.constructor === Edge)
+            throw new TypeError("Edge is an abstract class and can't be instantiated directly");
     }
 }
 
-class Line extends Edge {}
+/** A line segment */
+class Line extends Edge {
+    /**
+     * @param x : number
+     * @param y : number
+     */
 
-// Quarter circle arcs
+    static to(x, y) {
+        return new Line(undefined, x, y); // TODO replace undefined
+    }
+}
+
+/** A circular arc */
 class Arc extends Edge {
+    /**
+     *
+     * @param {Edge} previous - optional, previous edge at which the arc starts
+     * @param {number} x - x the arc ends
+     * @param {number} y - y where arc ends
+     * @param {number} r - radius
+     * @param {boolean} isClockwise - if true, arc is drawn clockwise
+     */
+    constructor(previous, x, y, r, isClockwise = true) {
+        super(previous, x, y);
+        this.r = r;
+        this.clockwise = isClockwise;
+    }
+
+    static to(x, y, r) {
+        return new Arc(undefined, x, y);
+    }
+
+
     discretize(deflection) {
 
         // TODO assert rx === ry
         let r = this.x2 - this.x1;
-
     }
 }
 
 class Wire {
 
-    // TODO verify that edges form a closed loop; alternatively, remove redundancy.
+
+    /**
+     * @param  {Array<Edge>} edges
+     */
+
     constructor(edges) {
         this.edges = edges;
     }
@@ -37,7 +94,6 @@ class Wire {
         return wire;
     }
 }
-
 
 
 // wire.constructor.name

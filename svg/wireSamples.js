@@ -53,10 +53,20 @@ let wires = {
     ]),
 
 // TODO is fillet what I think it is?
-// TODO const
-// TODO Typescript?
 
-    wire0: new Wire([
+
+    testing: new Wire([
+        Line.to(9, 0),
+        Arc.to (10, 1),
+        Line.to(10, 9),
+        Arc.to(9, 10),
+        Line.to(1, 10),
+        Arc.to(0, 9),
+        Line.to(0, 1),
+        Arc.to(1, 0)
+    ]),
+
+    original: new Wire([
         ["Line", 0, 1, 0, 9],
         ["Arc", 0, 1, 1, 0],
         ["Line", 1, 0, 9, 0],

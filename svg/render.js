@@ -35,11 +35,6 @@ function assert(condition, message) {
     }
 }
 
-// x1=xC, y1=yC, x2=x, y2=y
-// dx = x - xC
-// dy = y - yC
-
-// if x < xC then dx < 0
 
 function angle(x1, y1, x2, y2) {
     let dx = x2 - x1;
