@@ -17,8 +17,8 @@
 
 
 .line {
-    stroke: blue;
-    stroke-width: .2;
+    stroke: darkgray;
+    stroke-width: .1;
     stroke-opacity: .3;
 }
 
@@ -32,14 +32,14 @@
 
 .ray {
     stroke: blueviolet;
-    stroke-width: .2;
-    stroke-opacity: .05;
+    stroke-width: .05;
+    stroke-opacity: .1;
 }
 
 .chord {
     stroke: red;
-    stroke-width: .1;
-    stroke-opacity: .3;
+    stroke-width: .05;
+    stroke-opacity: .5;
 }
 
 
@@ -51,7 +51,7 @@
 
 .marker {
     stroke: lightgray;
-    stroke-width: .1;
+    stroke-width: 0;
 }
 
 

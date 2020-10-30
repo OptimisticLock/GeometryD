@@ -8,7 +8,7 @@ boundary-representation geometry data structures and algorithms, as described [h
 
 ### Obstacles. 
 
-I am not familiar with graphic libraries, so I had to build a rudimentary SVG-based one. Learning SVG took most of the assignment time. (That, and a refresher on trigonometry.) 
+I am not familiar with graphic libraries, so I built a rudimentary SVG-based one. I had to teach myself SVG. And run a refresher on high school trigonometry.
 
 ### TODO
 
@@ -18,19 +18,20 @@ I am not familiar with graphic libraries, so I had to build a rudimentary SVG-ba
 
 3. Assumptions regarding the input need to be verified.
 
+ *  I am almost positive I got the concept of "fillets" right, but need to double-check.
+
+ * All arcs are 90 degrees and start and end at 90 * n degrees angles.
 
 
-
-### Assumptions.
-
-1. All arcs are 90 degrees and start and end at 90 * n degrees angles.
 
 ### Latest SVG renderer snapshot
 
 This is the latest snapshot of the  renderer [svg/render.html](svg/render.html).
-![Snapshot](svg/snapshot.png)
+![Snapshot](svg/snapshot.png).
 
-Currently, working on item #4 of the challenge. Red chords approximate the arcs. At this point, with arbitrary precision.
+Currently, working on item #4 of the challenge. Red chords approximate the arcs. At this point, with arbitrary deflection.
+
+
 
 
 

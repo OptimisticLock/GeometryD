@@ -9,7 +9,7 @@ console.log("------------------- render.js");
 // Broken for NE
 
 // A little serialization test. TODO: make this into a unit test
-let wire = Wire.deserialize(reordered.serialize())
+let wire = Wire.deserialize(wires.reordered.serialize())
 
 function addElement(name, attributes) {
     let g = document.getElementById("g");
@@ -117,7 +117,7 @@ function onload() {
 
             let step = (alpha1 - alpha0) / 3;
 
-            let x0 = xC; let y0 = yC;
+            let x0; let y0;
 
             for (let alpha = alpha0; alpha <= alpha1; alpha += step) {
                 let x = xC + r * Math.cos(alpha);
@@ -130,7 +130,8 @@ function onload() {
                     x2: x, y2: y,
                 });
 
-                // Add the actual chords
+                // Adding the actual chords at last.
+                if (x0 !== undefined)
                 addElement("line", {
                     class: "chord",
                     x1: x0, y1: y0,
