@@ -11,7 +11,7 @@ console.log("------------------- render.js");
 // TODO let wire = Wire.deserialize(wires.original.serialize())
 
 
-function addElement(name, attributes) {
+function drawElement(name, attributes) {
     let g = document.getElementById("g");
 
     // TODO check namespace url
@@ -53,8 +53,8 @@ function arcCenter(x1, y1, x2, y2) {
 }
 
 // Add a short marker line to help debugging
-function addMarker(x, y) {
-    addElement("line", {
+function drawMarker(x, y) {
+    drawElement("line", {
         class: "marker",
         x, y,
         x2: x - .5, y2: y - .5,
@@ -70,7 +70,7 @@ function drawLineEdge(edge) {
     let y2 = edge.y;
 
     // The actual line from the wire
-    addElement("line", {
+    drawElement("line", {
         class: "line",
         x1, y1, x2, y2,
     })
@@ -85,7 +85,7 @@ function drawArcEdge(edge) {
     let x2 = edge.x;
     let y2 = edge.y;
     let r = edge.r;
-    addMarker(x1, y1);
+    drawMarker(x1, y1);
 
     // TODO assert ry === rx. Circle, not ellipse.
     const r2 = Math.abs(x2 - x1);
@@ -94,11 +94,14 @@ function drawArcEdge(edge) {
     //    let arc = Math.sign((x2 - x1) || (y2 - y1));
 
 
-    // Add the actual arc
-    addElement("path", {
-        class: "arc",
-        d: `M ${x1} ${y1}  A ${r} ${r}   0 0 1  ${x2} ${y2}`
-    })
+    function drawArc(x1, y1, x2, y2, r = 1, clockwise = true) {
+        // Add the actual arc
+        drawElement("path", {
+            class: "arc",
+            d: `M ${x1} ${y1}  A ${r} ${r}   0 0 ${+clockwise}  ${x2} ${y2}`
+        })
+    }
+    drawArc(x1, y1, x2, y2, r, false);
 
     let [xC, yC] = arcCenter(x1, y1, x2, y2);
     console.log("center", xC, yC);
@@ -132,7 +135,7 @@ function drawArcEdge(edge) {
         let y = yC + r * Math.sin(alpha);
 
         // Add daisy-shaped rays for debugging
-        addElement("line", {
+        drawElement("line", {
             class: "ray",
             x1: xC, y1: yC,
             x2: x, y2: y,
@@ -140,12 +143,12 @@ function drawArcEdge(edge) {
 
         // Adding the actual chords at last.
         if (x0 !== undefined)
-            addElement("line", {
+            drawElement("line", {
                 class: "chord",
                 x1: x0, y1: y0,
                 x2: x, y2: y
             });
-        
+
         x0 = x;
         y0 = y;
     }
