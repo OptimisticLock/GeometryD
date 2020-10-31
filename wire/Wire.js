@@ -25,6 +25,19 @@ class Wire {
     }
 
     serialize() {
+        let first = this.edges[0];
+
+        if (first) {
+            // Remove circular dependencies before we can call JSON.stringify().
+            // FIXME. Not thread-safe. Not safe, period.
+            let tmp = first.previous;
+            first.previous = undefined;
+            let result = JSON.stringify(this.edges);
+            first.previous = tmp;
+            return result;
+        }
+
+        // An empty wire with no edges
         return JSON.stringify(this.edges);
     }
 
