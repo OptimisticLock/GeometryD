@@ -43,7 +43,6 @@ class Edge {
 
     /**
      * Checks whether this is a valid edge. Throws an error otherwise.
-     * An edge that can be invalid should override this.
      * @return void
      */
     validate() {}

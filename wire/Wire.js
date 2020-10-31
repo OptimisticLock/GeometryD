@@ -109,7 +109,7 @@ class Wire {
 
     /**
      * Add an edge to a wire. The wire must not be closed.
-     * @param edgeTypeName : string - type of edge. Currently, "Line" and "Arc" are
+     * @param type : string - type of edge. Currently, "Line" and "Arc" are
      * the supported values, but provisions are made to support additional types.
      * #TODO test that at least some.
      *
@@ -125,15 +125,15 @@ class Wire {
      * @return {Wire} - `this`, to allow for fluent interface.
      */
 
-    add(edgeTypeName, x, y, ...args) {
+    addEdge(type, x, y, ...args) {
 
         check(!this.isClosed, "Can't add edge to a closed wire");
 
         // edgeType is a reference to a class that is dynamically instantiated.
         // Currently, "Line" and "Arc" are supported
-        let edgeType = Wire.edgeTypes[edgeTypeName];
+        let edgeType = Wire.edgeTypes[type];
 
-        check(edgeType, `Unknown edge type ${edgeTypeName}`);
+        check(edgeType, `Unknown edge type ${type}`);
 
         let edge = new edgeType(this.lastEdge, x, y, ...args);
         this.edges.push(edge);
@@ -168,7 +168,7 @@ class Wire {
 
         // Add a closing line if needed. TODO: consider throwing an error instead
         if (this.lastEdge.x !== this.x || this.lastEdge.y !== this.y)
-            this.add("Line", this.x, this.y);
+            this.addEdge("Line", this.x, this.y);
 
         firstEdge.previous = this.lastEdge;
         this.isClosed = true;

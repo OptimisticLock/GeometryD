@@ -15,11 +15,15 @@ class Arc extends Edge {
         this.clockwise = isClockwise;
     }
 
+    static revive(obj) {
+        return new Arc(obj.x, obj.y, obj.r, obj.clockwise);
+    }
+
     /**
      * Checks whether this is a valid arc. Throws an error otherise
      * An arc is valid if its radius is big enough to connect the points
-     * @override
      * @return void
+     * @override
      */
     validate() {
         check(this.previous, "Can't validate without knowing the previous edge");
