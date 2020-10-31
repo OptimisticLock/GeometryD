@@ -1,4 +1,3 @@
-
 console.log("------------------- render.js");
 
 // import { hello } from './wireSamples.js';
@@ -11,7 +10,6 @@ console.log("------------------- render.js");
 // A little serialization test. TODO: make this into a unit test
 // TODO let wire = Wire.deserialize(wires.original.serialize())
 
-let wire = wires.original;
 
 function addElement(name, attributes) {
     let g = document.getElementById("g");
@@ -31,7 +29,7 @@ function angle(x1, y1, x2, y2) {
     let dy = y2 - y1;
 
     if (x1 === x2 && y1 > y2)
-        return - Math.PI / 2;
+        return -Math.PI / 2;
 
     if (x1 === x2 && y1 < y2)
         return Math.PI / 2;
@@ -42,7 +40,7 @@ function angle(x1, y1, x2, y2) {
     if (y1 === y2 && x1 > x2)
         return Math.PI;
 
- // TODO   assert (false, `Invalid arch radius: ${x1}, ${y1}, ${x2}, ${y2}`)
+    // TODO   assert (false, `Invalid arch radius: ${x1}, ${y1}, ${x2}, ${y2}`)
 }
 
 
@@ -54,7 +52,36 @@ function arcCenter(x1, y1, x2, y2) {
         return [x2, y1];
 }
 
-function onload() {
+// Add a short marker line to help debugging
+function addMarker(x, y) {
+    addElement("line", {
+        class: "marker",
+        x, y,
+        x2: x - .5, y2: y - .5,
+    })
+}
+
+function drawLineEdge(edge) {
+
+    // TODO fix the discrepancy in names
+    let x1 = edge.x0;
+    let y1 = edge.y0;
+    let x2 = edge.x;
+    let y2 = edge.y;
+
+    // The actual line from the wire
+    addElement("line", {
+        class: "line",
+        x1, y1, x2, y2,
+    })
+
+}
+
+function drawArcEdge() {
+
+}
+
+function render(wire) {
 
     for (const edge of wire.edges) {
 
@@ -65,21 +92,18 @@ function onload() {
         let y2 = edge.y;
 
 
-        if (edge.constructor.name === "Arc") { // TODO
+        if (edge.constructor.name === "Line") { // TOD
+            drawLineEdge(edge);
+        } else {
 
             let r = edge.r;
 
-            // Add a short line to help debugging
-            addElement("line", {
-                class: "marker",
-                x1, y1,
-                x2: x1 - .5, y2: y1 - .5,
-            })
+            addMarker(x1, y1);
 
             // TODO assert ry === rx. Circle, not ellipse.
             const r2 = Math.abs(x2 - x1);
 
-  //          assert(r === r2), // FIXME  What am I doing here?
+            //          assert(r === r2), // FIXME  What am I doing here?
             //    let arc = Math.sign((x2 - x1) || (y2 - y1));
 
 
@@ -102,7 +126,7 @@ function onload() {
 
 
             let chordLength = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
- //           let alpha0 = Math.asin(chordLength / (2 * r));
+            //           let alpha0 = Math.asin(chordLength / (2 * r));
 
 
             let alpha0 = angle(xC, yC, x1, y1);
@@ -113,7 +137,8 @@ function onload() {
 
             let step = (alpha1 - alpha0) / 3;
 
-            let x0; let y0;
+            let x0;
+            let y0;
 
             for (let alpha = alpha0; alpha <= alpha1; alpha += step) {
                 let x = xC + r * Math.cos(alpha);
@@ -128,11 +153,11 @@ function onload() {
 
                 // Adding the actual chords at last.
                 if (x0 !== undefined)
-                addElement("line", {
-                    class: "chord",
-                    x1: x0, y1: y0,
-                    x2: x, y2: y
-                });
+                    addElement("line", {
+                        class: "chord",
+                        x1: x0, y1: y0,
+                        x2: x, y2: y
+                    });
 
                 // console.log("Chord: ", {
                 //     class: "chord",
@@ -140,22 +165,17 @@ function onload() {
                 //     x2: x, y2: y
                 // })
 
-                x0 = x; y0 = y;
+                x0 = x;
+                y0 = y;
             }
 
-        } else {
-
-            // The actual line from the wire
-            addElement("line", {
-                class: "line",
-                x1, y1, x2, y2,
-            })
         }
     }
 }
 
-onload();
 
+let wire = wires.original;
+render(wire);
 
 function toDegrees(radians) {
     return radians * 360 / (2 * Math.PI);
@@ -182,3 +202,4 @@ g.addEventListener('mousemove', evt => {
 
     document.getElementById("coords").innerText = coords;
 });
+
