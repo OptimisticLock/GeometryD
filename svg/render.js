@@ -84,33 +84,38 @@ function drawArc(x1, y1, x2, y2, r = 1, clockwise = true) {
     })
 }
 
-function drawChords(x1, y1, x2, y2, r) {
-    let [xC, yC] = arcCenter(x1, y1, x2, y2);
+function drawChords(x0, y0, x, y, r = 1, clockwise = true) {
+    
+    // If we are to draw counterclockwise, just swap (x0, y0) and (x, y)
+    if (!clockwise)
+        [x0, y0, x, y] = [x, y, x0, y0];
+
+    let [xC, yC] = arcCenter(x0, y0, x, y);
     console.log("center", xC, yC);
 
     // TODO: optimize trigonometric functions.
 
-    // let x0 = xC + r * Math.cos(0);
-    // let y0 = yC + r * Math.sin(0);
+    // let xPrev = xC + r * Math.cos(0);
+    // let yPrev = yC + r * Math.sin(0);
 
-    let xMidpoint = (x1 + x2) / 2;
-    let yMidpoint = (y1 + y2) / 2;
+    let xMidpoint = (x0 + x) / 2;
+    let yMidpoint = (y0 + y) / 2;
 
 
-    let chordLength = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+    let chordLength = Math.sqrt((x - x0) ** 2 + (y - y0) ** 2);
     //           let alpha0 = Math.asin(chordLength / (2 * r));
 
 
-    let alpha0 = angle(xC, yC, x1, y1);
-//            let alpha1 = angle(xC, yC, x2, y2);
+    let alpha0 = angle(xC, yC, x0, y0);
+//            let alpha1 = angle(xC, yC, x, y);
     let alpha1 = alpha0 + Math.PI / 2;
 
     console.log("alpha", toDegrees(alpha0), toDegrees(alpha1));
 
     let step = (alpha1 - alpha0) / 3;
 
-    let x0;
-    let y0;
+    let xPrev;
+    let yPrev;
 
     for (let alpha = alpha0; alpha <= alpha1; alpha += step) {
         let x = xC + r * Math.cos(alpha);
@@ -124,36 +129,36 @@ function drawChords(x1, y1, x2, y2, r) {
         });
 
         // Adding the actual chords at last.
-        if (x0 !== undefined)
+        if (xPrev !== undefined)
             drawElement("line", {
                 class: "chord",
-                x1: x0, y1: y0,
+                x1: xPrev, y1: yPrev,
                 x2: x, y2: y
             });
 
-        x0 = x;
-        y0 = y;
+        xPrev = x;
+        yPrev = y;
     }
 }
 function drawArcEdge(edge) {
-
     // TODO fix the discrepancy in names
-    let x1 = edge.x0;
-    let y1 = edge.y0;
-    let x2 = edge.x;
-    let y2 = edge.y;
+
+    let x0 = edge.x0;
+    let y0 = edge.y0;
+    let x = edge.x;
+    let y = edge.y;
     let r = edge.r;
-    drawMarker(x1, y1);
+    drawMarker(x0, y0);
 
     // TODO assert ry === rx. Circle, not ellipse.
-    const r2 = Math.abs(x2 - x1);
+    const r2 = Math.abs(x - x0);
 
     //          assert(r === r2), // FIXME  What am I doing here?
-    //    let arc = Math.sign((x2 - x1) || (y2 - y1));
+    //    let arc = Math.sign((x - x1) || (y - y0));
 
 
-    drawArc(x1, y1, x2, y2, r, false);
-    drawChords(x1, y1, x2, y2, r);
+    drawArc(x0, y0, x, y, r, false);
+    drawChords(x0, y0, x, y, r);
 }
 
 function render(wire) {
