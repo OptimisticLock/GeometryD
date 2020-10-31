@@ -9,7 +9,9 @@ console.log("------------------- render.js");
 // Broken for NE
 
 // A little serialization test. TODO: make this into a unit test
-let wire = Wire.deserialize(wires.original.serialize())
+// TODO let wire = Wire.deserialize(wires.original.serialize())
+
+let wire = wires.original;
 
 function addElement(name, attributes) {
     let g = document.getElementById("g");
@@ -40,7 +42,7 @@ function angle(x1, y1, x2, y2) {
     if (y1 === y2 && x1 > x2)
         return Math.PI;
 
-    assert (false, `Invalid arch radius: ${x1}, ${y1}, ${x2}, ${y2}`)
+ // TODO   assert (false, `Invalid arch radius: ${x1}, ${y1}, ${x2}, ${y2}`)
 }
 
 
@@ -54,9 +56,18 @@ function arcCenter(x1, y1, x2, y2) {
 
 function onload() {
 
-    for (const [type, x1, y1, x2, y2] of wire.edges) {
+    for (const edge of wire.edges) {
 
-        if (type === "Arc") {
+        // TODO fix the discrepancy in names
+        let x1 = edge.x0;
+        let y1 = edge.y0;
+        let x2 = edge.x;
+        let y2 = edge.y;
+
+
+        if (edge.constructor.name === "Arc") { // TODO
+
+            let r = edge.r;
 
             // Add a short line to help debugging
             addElement("line", {
@@ -66,7 +77,9 @@ function onload() {
             })
 
             // TODO assert ry === rx. Circle, not ellipse.
-            const r = Math.abs(x2 - x1);
+            const r2 = Math.abs(x2 - x1);
+
+  //          assert(r === r2), // FIXME  What am I doing here?
             //    let arc = Math.sign((x2 - x1) || (y2 - y1));
 
 

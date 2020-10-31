@@ -9,13 +9,16 @@
  * @param message - an error message to be shown otherwise.
  */
 function check(condition, message) {
+
+    message ||= "Assertion failed!";
+
     if (!condition) {
-        console.error(message);
+        console.error(message);       // TODO Test
 
         if (alert)
             alert(message);
 
-        throw new Error(message);
+ //       throw new Error(message); TODO uncomment this
     }
 }
 

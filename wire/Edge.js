@@ -16,10 +16,32 @@ class Edge {
         this.x = x;
         this.y = y;
 
+
+
         // A workaround for the absence of abstract classes in JS. Alternatively, if (new.target === Edge)
         if (this.constructor === Edge)
             throw new TypeError("Edge is an abstract class and can't be instantiated directly");
     }
+
+    /**
+     * Returns the x coordinate of the beginning of the edge, or error if undefined.
+     * @return {number} The x coordinate of the beginning of the edge.
+     */
+    get x0() {
+        check(this.previous, "This edge's start point is unknown, probably because wire isn't closed yet");
+        return this.previous.x;
+    }
+
+    /**
+     * Returns the y coordinate of the beginning of the edge, or error if undefined.
+     * @return {number} The y coordinate of the beginning of the edge.
+     */
+    get y0() {
+        check(this.previous, "This edge's start point is unknown, probably because wire isn't closed yet");
+        return this.previous.y;
+    }
+
+
 }
 
 // edge.constructor.name

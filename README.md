@@ -8,7 +8,15 @@ boundary-representation geometry data structures and algorithms, as described [h
 
 ### Obstacles. 
 
-I am not familiar with graphic libraries, so I built a rudimentary SVG-based one. I had to teach myself SVG. And run a refresher on high school trigonometry.
+1. I am not familiar with graphic libraries, so I built a rudimentary SVG-based one. I had to teach myself SVG. And run a refresher on high school trigonometry, which was, alas, completely forgotten in the beginning.
+
+2. I tried and rejected due to the complications and the lack of time: Typescript, Node, modules on local web page (for causing CORS errors #TODO duplicate)
+
+3. Took me some time and lots of refactoring to learn to write this type of applications in idiomatic Javascript. 
+
+
+
+
 
 ### TODO
 
@@ -21,7 +29,29 @@ I am not familiar with graphic libraries, so I built a rudimentary SVG-based one
  *  I am almost positive I got the concept of "fillets" right, but need to double-check.
 
  * All arcs are 90 degrees and start and end at 90 * n degrees angles.
+ 
+ * Tests. Including unit tests.
+ 
+ * I felt the nature of the company requires more defensive programming. I felt I haven't been defensive enough.
 
+### Problems
+
+* Normally, I'd be squashing a lot of `git commit`s. I wouldm't be checking in broken code, definitely not into the main branch.
+
+* Need to use `const` a lot more
+
+* use the arrow `=>` syntax
+
+* Use `module`/`export`/`import`/`require`, instead of polluting global namespace. I found that in a local browser, that causes CORS issues requiring further attention.
+
+* Use TypeScript. I actually tried and loved how it worked in Node, but then rolled it back because of the compilation issues involving modules in the local browser (see above) and finding myself spending a lot of time in `tsconfig.json`. 
+
+### Tradeoffs
+
+* When designing a new app, especially for greenfield objects, I think there can be a tradeoff between the YAGNI principle and good architecture. Where "good architecture" is defined as anticipating the possible future vectors of change and making them straightforward to implement in the future, if not implementing them upfront.
+
+    In my design, I made a wild bet that lines and circular arcs won't be sufficient long term, and more edge types, e.g. elliptic curves, will be needed. I made adjustments for that, avoiding hard-coding "Line" and "Arc" throughout the code and instead instantiating edge types dynamically. In retrospect, that *was* overengineering and a major YAGNI violation and I probably wouldn't have done it if I did it again. But, it's there now, and I don't think it complicated the code too much, so I kept it. (I guess I did it because I am on my own time and it was a learning moment for me).
+    
 
 
 ### Latest SVG renderer snapshot
