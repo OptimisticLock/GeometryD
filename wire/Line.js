@@ -10,8 +10,7 @@ class Line extends Edge {
     }
 }
 // This would normally be in a static constructor.
-Wire.addEdgeType(Line);
-
+Wire.addEdgeType("Line", Line);
 
 // TODO consider mixin syntax instead, like this:
 // Wire.lineTo = function(x, y) {

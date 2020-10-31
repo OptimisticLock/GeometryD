@@ -50,7 +50,12 @@ class Wire {
     add(edgeTypeName, x, y, ...args) {
 
         let edgeType = Wire.edgeTypes[edgeTypeName];
-        let edge = new edgeType.constructor(this.lastEdge, x, y, ...args);
+        check (edgeType, `Unknown edge type ${edgeTypeName}`);
+        let edge = new edgeType(this.lastEdge, x, y, ...args);
+
+        // Undefined for the first edge until @link close() is called
+        edge.previous = this.lastEdge;
+
         this.edges.push(edge);
         this.lastEdge = edge;
         return this;
