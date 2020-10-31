@@ -4,13 +4,24 @@
 // global namespace.
 
 let wires = {
-    original: Wire.startAt(0, 1)
+    weird: Wire.startAt(0, 1)
         .add("Arc", 1, 2)
         .add ("Line", 9, 8)
         .add ("Arc", 9, 9)
         .add("Line", 9, 1)
         .add("Arc", 9, 1, 1, true)
         .close(),
+
+    original: Wire.startAt(0, 1)
+        .add("Arc", 1, 0)
+        .add("Line", 9, 0)
+        .add("Arc", 10, 1)
+        .add("Line", 10, 9)
+        .add("Arc", 9, 10)
+        .add("Line", 1, 10)
+        .add("Arc", 0, 9)
+        .close()
+
 }
 
 
