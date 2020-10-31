@@ -59,7 +59,7 @@ boundary-representation geometry data structures and algorithms, as described [h
 This is the latest snapshot of the  renderer [svg/render.html](svg/render.html).
 ![Snapshot](svg/snapshot.png).
 
-After spending a lot of time refactoring everything, it renders SOMETHING again, hooray! 
+After spending a lot of time refactoring everything, it renders simple shapes again, hurray!
 
 
 
