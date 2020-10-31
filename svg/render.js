@@ -74,35 +74,17 @@ function drawLineEdge(edge) {
         class: "line",
         x1, y1, x2, y2,
     })
-
 }
 
-function drawArcEdge(edge) {
+function drawArc(x1, y1, x2, y2, r = 1, clockwise = true) {
+    // Add the actual arc
+    drawElement("path", {
+        class: "arc",
+        d: `M ${x1} ${y1}  A ${r} ${r}   0 0 ${+clockwise}  ${x2} ${y2}`
+    })
+}
 
-    // TODO fix the discrepancy in names
-    let x1 = edge.x0;
-    let y1 = edge.y0;
-    let x2 = edge.x;
-    let y2 = edge.y;
-    let r = edge.r;
-    drawMarker(x1, y1);
-
-    // TODO assert ry === rx. Circle, not ellipse.
-    const r2 = Math.abs(x2 - x1);
-
-    //          assert(r === r2), // FIXME  What am I doing here?
-    //    let arc = Math.sign((x2 - x1) || (y2 - y1));
-
-
-    function drawArc(x1, y1, x2, y2, r = 1, clockwise = true) {
-        // Add the actual arc
-        drawElement("path", {
-            class: "arc",
-            d: `M ${x1} ${y1}  A ${r} ${r}   0 0 ${+clockwise}  ${x2} ${y2}`
-        })
-    }
-    drawArc(x1, y1, x2, y2, r, false);
-
+function drawChords(x1, y1, x2, y2, r) {
     let [xC, yC] = arcCenter(x1, y1, x2, y2);
     console.log("center", xC, yC);
 
@@ -152,6 +134,26 @@ function drawArcEdge(edge) {
         x0 = x;
         y0 = y;
     }
+}
+function drawArcEdge(edge) {
+
+    // TODO fix the discrepancy in names
+    let x1 = edge.x0;
+    let y1 = edge.y0;
+    let x2 = edge.x;
+    let y2 = edge.y;
+    let r = edge.r;
+    drawMarker(x1, y1);
+
+    // TODO assert ry === rx. Circle, not ellipse.
+    const r2 = Math.abs(x2 - x1);
+
+    //          assert(r === r2), // FIXME  What am I doing here?
+    //    let arc = Math.sign((x2 - x1) || (y2 - y1));
+
+
+    drawArc(x1, y1, x2, y2, r, false);
+    drawChords(x1, y1, x2, y2, r);
 }
 
 function render(wire) {
