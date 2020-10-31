@@ -23,27 +23,23 @@ function drawElement(name, attributes) {
     g.append(elem);
 }
 
-
-function angle(x1, y1, x2, y2) {
-    let dx = x2 - x1;
-    let dy = y2 - y1;
-
-    if (x1 === x2 && y1 > y2)
-        return -Math.PI / 2;
-
-    if (x1 === x2 && y1 < y2)
-        return Math.PI / 2;
-
-    if (y1 === y2 && x1 < x2)
-        return 0;
-
-    if (y1 === y2 && x1 > x2)
-        return Math.PI;
-
-    // TODO   assert (false, `Invalid arch radius: ${x1}, ${y1}, ${x2}, ${y2}`)
+/**
+ * Calculates the angle to the horizon of a line connexting (x0, y0) and (x, y)
+ * @param x0
+ * @param y0
+ * @param x
+ * @param y
+ * @return {number} angle
+ */
+function angle(x0, y0, x, y) {
+    let dx = x - x0;
+    let dy = y - y0;
+    let angle = Math.atan(dy/dx);
+    return angle;
 }
 
 
+// http://mathforum.org/library/drmath/view/53027.html#:~:text=You%20do%20this%20just%20by,is%20just%20half%20of%20q.
 function arcCenter(x1, y1, x2, y2) {
 
     if (Math.sign(x2 - x1) === Math.sign(y2 - y1))
@@ -141,23 +137,13 @@ function drawChords(x0, y0, x, y, r = 1, clockwise = true) {
     }
 }
 function drawArcEdge(edge) {
-    // TODO fix the discrepancy in names
-
     let x0 = edge.x0;
     let y0 = edge.y0;
-    let x = edge.x;
-    let y = edge.y;
-    let r = edge.r;
+    let x  = edge.x;
+    let y  = edge.y;
+    let r  = edge.r;
     let clockwise = edge.clockwise;
     drawMarker(x0, y0);
-
-    // TODO assert ry === rx. Circle, not ellipse.
-    const r2 = Math.abs(x - x0);
-
-    //          assert(r === r2), // FIXME  What am I doing here?
-    //    let arc = Math.sign((x - x1) || (y - y0));
-
-
     drawArc(x0, y0, x, y, r, clockwise);
     drawChords(x0, y0, x, y, r, clockwise);
 }

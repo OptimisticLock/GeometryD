@@ -20,24 +20,35 @@ class Wire {
         this.y = y;
     }
 
-    #getLastEdge () {
+    #getLastEdge() {
         return this.lastEdge;
     }
 
     serialize() {
         this.checkClosed();
 
-       function replacer(key, value) {console.log("Serializing", key, value); return value}
+        function replacer(key, value) {
+
+            // If it's an Edge, we massage it a bit first
+            if (value instanceof Edge) {
+                let edge = value;
+                let clone = {...edge};
+
+                // delete the 'previous' property from clone, to avoid saving duplicates
+                delete clone.previous;
+
+                // Specifies whether this edge a line, an arc or..?
+                clone.type = edge.constructor.name;
+
+                return clone;
+            } else
+                return value;
+        }
 
         let first = this.edges[0];
 
         if (first) {
-            // Remove circular dependencies before we can call JSON.stringify().
-            // FIXME. Not thread-safe. Not safe, period.
-            let tmp = first.previous;
-            first.previous = undefined;
-            let result = JSON.stringify(this.edges, replacer, " ");
-            first.previous = tmp;
+            let result = JSON.stringify(this, replacer, " ");
             return result;
         }
 
@@ -45,11 +56,44 @@ class Wire {
         return JSON.stringify(this.edges, replacer, " ");
     }
 
+
     static deserialize(str) {
+
+        let wire2 = new Wire;
+
+        function reviver(key, value) {
+            console.log("!!!!!!~!~Reviver", key, value);
+            return value;
+        }
+
         // TODO: handle errors
-        let edges = JSON.parse(str);
-        let wire = new Wire(edges);
-        return wire;
+        let edges = JSON.parse(str, reviver);
+        console.log("Edges", edges);
+        return null;
+
+
+        JSON.parse('{"p": 5}', (key, value) =>
+            typeof value === 'number'
+                ? value * 2 // return value * 2 for numbers
+                : value     // return everything else unchanged
+        );
+
+// { p: 10 }
+
+        JSON.parse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}}', (key, value) => {
+            console.log(key); // log the current property name, the last is "".
+            return value;     // return the unchanged property value.
+        });
+
+// 1
+// 2
+// 4
+// 6
+// 5
+// 3
+// ""
+
+
     }
 
     /**
@@ -89,7 +133,7 @@ class Wire {
         // Currently, "Line" and "Arc" are supported
         let edgeType = Wire.edgeTypes[edgeTypeName];
 
-        check (edgeType, `Unknown edge type ${edgeTypeName}`);
+        check(edgeType, `Unknown edge type ${edgeTypeName}`);
 
         let edge = new edgeType(this.lastEdge, x, y, ...args);
         this.edges.push(edge);
@@ -129,6 +173,11 @@ class Wire {
         firstEdge.previous = this.lastEdge;
         this.isClosed = true;
         this.validate();
+        let str = this.serialize();
+        console.log("***Serialized: ", str);
+        let des = Wire.deserialize(str);
+        console.log("&&&&& Des", des);
+
         return this;
     }
 

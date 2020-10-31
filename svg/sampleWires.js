@@ -14,13 +14,17 @@ let wires = {
 
 
     original: Wire.startAt(0, 1)
-        .add("Arc", 1, 0, 2, false) // FIXME 2, false works; but 1, false is same as 1, true.
+        .add("Arc", 1, 0, 2, false)
         .add("Line", 9, 0)
         .add("Arc", 10, 1)
         .add("Line", 10, 9)
         .add("Arc", 9, 10)
         .add("Line", 1, 10)
         .add("Arc", 0, 8, 2.5, false)
+        .close(),
+
+    lemonSlice: Wire.startAt(5, 0)
+        .add("Arc", 6, 10, 10, false)
         .close()
 }
 

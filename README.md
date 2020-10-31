@@ -48,11 +48,10 @@ boundary-representation geometry data structures and algorithms, as described [h
 
 ### Tradeoffs
 
-* When designing a new app, especially for greenfield objects, I think there can be a tradeoff between the YAGNI principle and good architecture. Where "good architecture" is defined as anticipating the possible future vectors of change and making them straightforward to implement in the future, if not implementing them upfront.
+* When designing a new app, especially a greenfield project, there can be a bit of a tradeoff between the YAGNI principle and good architecture. Where "good architecture" is defined as anticipating the possible directions of change and making them easier to implement in the future.
 
-    In my design, I made a wild bet that lines and circular arcs won't be sufficient long term, and more edge types, e.g. elliptic curves, will be needed. I made adjustments for that, avoiding hard-coding "Line" and "Arc" throughout the code and instead instantiating edge types dynamically. In retrospect, that *was* overengineering and a major YAGNI violation and I probably wouldn't have done it if I did it again. But, it's there now, and I don't think it complicated the code too much, so I kept it. (I guess I did it because I am on my own time and it was a learning moment for me).
+    In my design, I made a wild bet that lines and circular arcs won't be sufficient long term, and more edge types, e.g. elliptic curves, will be needed. I made some adjustments for that, avoiding hard-coding "Line" and "Arc" throughout the code and instead instantiating lines and arcs dynamically. In retrospect, that *was* overengineering and a major YAGNI violation, I don't even know if my bet is accurate, and it probably wasn't a good idea. (I guess I did it because I was on my own time and I wanted to experiment and see if it's feasible to do reasonably complex OO in ES6).
     
-
 
 ### Latest SVG renderer snapshot
 
