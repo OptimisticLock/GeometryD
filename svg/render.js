@@ -1,6 +1,6 @@
 console.log("------------------- render.js");
 
-// import { hello } from './wireSamples.js';
+// import { hello } from './sampleWires.js';
 // console.log("render.js", hello());
 // TODO <script type="module" src="..."></script>
 
@@ -148,6 +148,7 @@ function drawArcEdge(edge) {
     let x = edge.x;
     let y = edge.y;
     let r = edge.r;
+    let clockwise = edge.clockwise;
     drawMarker(x0, y0);
 
     // TODO assert ry === rx. Circle, not ellipse.
@@ -157,8 +158,8 @@ function drawArcEdge(edge) {
     //    let arc = Math.sign((x - x1) || (y - y0));
 
 
-    drawArc(x0, y0, x, y, r, false);
-    drawChords(x0, y0, x, y, r);
+    drawArc(x0, y0, x, y, r, clockwise);
+    drawChords(x0, y0, x, y, r, clockwise);
 }
 
 function render(wire) {

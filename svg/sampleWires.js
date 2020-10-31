@@ -12,6 +12,7 @@ let wires = {
     //     .add("Arc", 9, 1, 1, true)
     //     .close(),
 
+
     original: Wire.startAt(0, 1)
         .add("Arc", 1, 0, 2, false) // FIXME 2, false works; but 1, false is same as 1, true.
         .add("Line", 9, 0)
@@ -21,10 +22,7 @@ let wires = {
         .add("Line", 1, 10)
         .add("Arc", 0, 8, 2.5, false)
         .close()
-
 }
-
-
 
 
 // let wires = {
