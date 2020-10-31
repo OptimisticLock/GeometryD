@@ -8,11 +8,13 @@ class Edge {
      * supported are Line and Arc.
      *
      * @param {Edge}  previous - optional, previous edge at which this edge starts
-     * @param {Point} to - pint where this edge ends
+     * @param {number} x
+     * @param {number} y - point where this edge ends
      */
     constructor(previous, x, y) {
         this.previous = previous;
-        this.to = ne
+        this.x = x;
+        this.y = y;
 
         // A workaround for the absence of abstract classes in JS. Alternatively, if (new.target === Edge)
         if (this.constructor === Edge)
