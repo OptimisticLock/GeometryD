@@ -9,7 +9,7 @@ console.log("------------------- render.js");
 // Broken for NE
 
 // A little serialization test. TODO: make this into a unit test
-let wire = Wire.deserialize(wires.reordered.serialize())
+let wire = Wire.deserialize(wires.original.serialize())
 
 function addElement(name, attributes) {
     let g = document.getElementById("g");
