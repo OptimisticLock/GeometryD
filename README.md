@@ -59,7 +59,7 @@ boundary-representation geometry data structures and algorithms, as described [h
 This is the latest snapshot of the  renderer [svg/render.html](svg/render.html).
 ![Snapshot](svg/snapshot.png).
 
-Currently, working on item #4 of the challenge. Red chords approximate the arcs. At this point, with arbitrary deflection.
+After spending a lot of time refactoring everything, it renders SOMETHING again, hooray! 
 
 
 
