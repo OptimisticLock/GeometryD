@@ -15,6 +15,20 @@ class Arc extends Edge {
         this.clockwise = isClockwise;
     }
 
+    /**
+     * Checks whether this is a valid arc. Throws an error otherise
+     * An arc is valid if its radius is big enough to connect the points
+     * @override
+     * @return void
+     */
+    validate() {
+        check(this.previous, "Can't validate without knowing the previous edge");
+        let dx = this.x - this.x0;
+        let dy = this.y - this.y0;
+        let minDiameter = Math.sqrt(dx**2 + dy**2);
+        check (this.r * 2 >= minDiameter, `Arc radius ${this.r} too small to connect points (${this.x0}, ${this.y0}) and (${this.x}, ${this.y})`)
+    }
+
     discretize(deflection) {
 
         // TODO assert rx === ry

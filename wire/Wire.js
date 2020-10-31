@@ -128,6 +128,7 @@ class Wire {
 
         firstEdge.previous = this.lastEdge;
         this.isClosed = true;
+        this.validate();
         return this;
     }
 
@@ -136,6 +137,22 @@ class Wire {
      */
     checkClosed() {
         check(this.isClosed, "Use Wire.close() to close the wire");
+    }
+
+    /**
+     * Check whether this is a valid wire, throw an error otherwise.
+     *
+     * A wire is valid if it's closed, non-empty and all its edges are valid. Though
+     * one can add more checks as needed, e.g. to make sure it's not one-dimensional.
+     * TODO Not validating that every parameter is defined and of the right type as a strictly-typed language with non-nullables should take care of that.
+     *
+     * @return void
+     */
+    validate() {
+        this.checkClosed();
+
+        for (let edge of this.edges)
+            edge.validate();
     }
 
     /**
