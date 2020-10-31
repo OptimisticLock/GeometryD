@@ -5,7 +5,9 @@ class Wire {
     isClosed = false;
 
     // This is designed for easy future addition of new edge types
-    edgeTypes = {Line, Arc};
+    // Could just do static edgeTypes = {Line, Arc}, but eating own dog food instead,
+    // letting Line and Arc register themselves.
+    static edgeTypes = {};
 
     /**
      * A private constructor. Use Wire.startAt() to instantiate.
@@ -47,16 +49,17 @@ class Wire {
 
     add(edgeTypeName, x, y, ...args) {
 
-        let edgeType = this.edgeTypes[edgeTypeName];
-        let edge = new edgeType(this.lastEdge, x, y, ...args);
+        let edgeType = Wire.edgeTypes[edgeTypeName];
+        let edge = new edgeType.constructor(this.lastEdge, x, y, ...args);
         this.edges.push(edge);
+        this.lastEdge = edge;
         return this;
     }
 
     close() {
         let firstEdge = this.edges[0];
 
-        check(!isClosed, "Wire already closed");
+        check(!this.isClosed, "Wire already closed");
 
         // TODO: add other checks as needed
         check(firstEdge, "Can't close an empty wire");
@@ -76,7 +79,18 @@ class Wire {
      * Checks whether the wire is closed
      */
     checkClosed() {
-        check(isClosed, "Use Wire.close() to close the wire");
+        check(this.isClosed, "Use Wire.close() to close the wire");
+    }
+
+    /**
+     * Add a new edge type, such as Line and Arc. This is advanced
+     * use and not well tested, beyond the above two.
+     *
+     * @param edgeType : string
+     * @param edgeClass : Edge
+     */
+    static addEdgeType(edgeType, edgeClass) {
+        this.edgeTypes[edgeType] = edgeClass;
     }
 }
 

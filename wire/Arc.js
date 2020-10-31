@@ -27,3 +27,6 @@ class Arc extends Edge {
     }
 }
 
+// This would normally be in a static constructor.
+Wire.addEdgeType("Arc", Arc);
+
