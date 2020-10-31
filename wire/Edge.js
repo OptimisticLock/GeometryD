@@ -1,7 +1,20 @@
 class Edge {
-    // static to(x, y) {
-    //     throw new TypeError("Edge.to() is an abstract method and can't be called directly");
-    // }
+
+    /**
+     *
+     * @type {Edge}  The edge preceding this one in the wire. TODO: encapsulate everything to make Edges as
+     * immutable as possible. Make sure the same edge isn't shared between multiple wires
+     */
+    previous = undefined;
+
+    /**
+     * Sets previous edge. Users shouldn't call this directly. TODO: see if this can be made private
+     * @param previous : Edge
+     */
+    set previous(previous) {
+        check(this.prev === undefined, "Previous already set. Can't reuse an edge, instantiate a new one instead");
+        this.prev = previous;
+    }
 
     /**
      * An arbitrary curve in two-dimensional coordinate space. Currently, the only edges
@@ -11,11 +24,10 @@ class Edge {
      * @param {number} x
      * @param {number} y - point where this edge ends
      */
-    constructor(previous, x, y) {
-        this.previous = previous;
+    constructor(x, y) {
+
         this.x = x;
         this.y = y;
-
 
 
         // A workaround for the absence of abstract classes in JS. Alternatively, if (new.target === Edge)
@@ -28,7 +40,7 @@ class Edge {
      * @return {number} The x coordinate of the beginning of the edge.
      */
     get x0() {
-        check(this.previous, "This edge's start point is unknown, probably because wire isn't closed yet");
+        check(this.previous, "This edge's start point is unknown, probably because the edge hasn't been added to a wire or wire hasn't been closed yet");
         return this.previous.x;
     }
 
@@ -37,7 +49,7 @@ class Edge {
      * @return {number} The y coordinate of the beginning of the edge.
      */
     get y0() {
-        check(this.previous, "This edge's start point is unknown, probably because wire isn't closed yet");
+        check(this.previous, "This edge's start point is unknown, probably because the edge hasn't been added to a wire or wire hasn't been closed yet");
         return this.previous.y;
     }
 
@@ -46,8 +58,4 @@ class Edge {
      * @return void
      */
     validate() {}
-
-
 }
-
-// edge.constructor.name

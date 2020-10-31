@@ -84,16 +84,6 @@ class Wire {
             console.log(key); // log the current property name, the last is "".
             return value;     // return the unchanged property value.
         });
-
-// 1
-// 2
-// 4
-// 6
-// 5
-// 3
-// ""
-
-
     }
 
     /**
@@ -116,26 +106,16 @@ class Wire {
      * The first edge begins at coordinates defined by `Wire.startAt(x, y)`.
      * Subsequent edges begin at the end of the wire's previous edge.
      *
-     * @param x : number
-     * @param y : number - destination point where the edge ends
-     * @param args - additional arguments required for the given edge type.
-     *    For Line, none.
-     *    For Arc, optional radius:number=1 and clockwise:Boolean=true.
-     *
+     * @param  {Edge} edge - edge to add
      * @return {Wire} - `this`, to allow for fluent interface.
      */
 
-    addEdge(type, x, y, ...args) {
+    addEdge(edge) {
 
         check(!this.isClosed, "Can't add edge to a closed wire");
 
-        // edgeType is a reference to a class that is dynamically instantiated.
-        // Currently, "Line" and "Arc" are supported
-        let edgeType = Wire.edgeTypes[type];
+        edge.previous = this.lastEdge;
 
-        check(edgeType, `Unknown edge type ${type}`);
-
-        let edge = new edgeType(this.lastEdge, x, y, ...args);
         this.edges.push(edge);
         this.lastEdge = edge;
         return this;
@@ -168,7 +148,7 @@ class Wire {
 
         // Add a closing line if needed. TODO: consider throwing an error instead
         if (this.lastEdge.x !== this.x || this.lastEdge.y !== this.y)
-            this.addEdge("Line", this.x, this.y);
+            this.addEdge(new Line(this.x, this.y));
 
         firstEdge.previous = this.lastEdge;
         this.isClosed = true;

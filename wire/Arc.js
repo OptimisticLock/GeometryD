@@ -9,8 +9,8 @@ class Arc extends Edge {
      * @param {number} r - radius
      * @param {boolean} isClockwise - if true, arc is drawn clockwise
      */
-    constructor(previous, x, y, r = 1, isClockwise = true) {
-        super(previous, x, y);
+    constructor(x, y, r = 1, isClockwise = true) {
+        super(x, y);
         this.r = r;
         this.clockwise = isClockwise;
     }

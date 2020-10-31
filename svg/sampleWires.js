@@ -12,20 +12,19 @@ let wires = {
     //     .add("Arc", 9, 1, 1, true)
     //     .close(),
 
- 
 
     original: Wire.startAt(0, 1)
-        .addEdge("Arc", 1, 0, 2, false)
-        .addEdge("Line", 9, 0)
-        .addEdge("Arc", 10, 1)
-        .addEdge("Line", 10, 9)
-        .addEdge("Arc", 9, 10)
-        .addEdge("Line", 1, 10)
-        .addEdge("Arc", 0, 8, 2.5, false)
+        .addEdge(new Arc(1, 0, 2, false))
+        .addEdge(new Line(9, 0))
+        .addEdge(new Arc(10, 1))
+        .addEdge(new Line(10, 9))
+        .addEdge(new Arc( 9, 10))
+        .addEdge(new Line(1, 10))
+        .addEdge(new Arc(0, 8, 2.5, false))
         .close(),
 
     lemonSlice: Wire.startAt(5, 0)
-        .addEdge("Arc", 6, 10, 10, false)
+        .addEdge(new Arc(6, 10, 10, false))
         .close()
 }
 

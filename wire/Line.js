@@ -5,17 +5,10 @@ class Line extends Edge {
      * @param x : number
      * @param y : number
      */
-    constructor(previous, x, y) {
-        super(previous, x, y);
+    constructor(x, y) {
+        super(x, y);
     }
 }
-// This would normally be in a static constructor.
-Wire.addEdgeType("Line", Line);
 
-// TODO consider mixin syntax instead, like this:
-// Wire.lineTo = function(x, y) {
-//     const line = new Line(this.getLastEdge(), x, y);
-//     return line
-// }
 
 
