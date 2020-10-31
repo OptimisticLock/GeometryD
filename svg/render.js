@@ -84,10 +84,7 @@ function drawArcEdge(edge) {
     let y1 = edge.y0;
     let x2 = edge.x;
     let y2 = edge.y;
-
-    
     let r = edge.r;
-
     addMarker(x1, y1);
 
     // TODO assert ry === rx. Circle, not ellipse.
@@ -148,13 +145,7 @@ function drawArcEdge(edge) {
                 x1: x0, y1: y0,
                 x2: x, y2: y
             });
-
-        // console.log("Chord: ", {
-        //     class: "chord",
-        //     x1: x0, y1: y0,
-        //     x2: x, y2: y
-        // })
-
+        
         x0 = x;
         y0 = y;
     }
