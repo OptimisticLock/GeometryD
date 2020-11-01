@@ -4,11 +4,6 @@ class Wire {
     lastEdge = undefined;
     isClosed = false;
 
-    // This is designed for easy future addition of new edge types
-    // Could just do static edgeTypes = {Line, Arc}, but eating own dog food instead,
-    // letting Line and Arc register themselves.
-    static edgeTypes = {};
-
     /**
      * A private constructor. Use Wire.startAt() to instantiate.
      * @param  {number} x - starting point x
@@ -27,63 +22,42 @@ class Wire {
     serialize() {
         this.checkClosed();
 
-        function replacer(key, value) {
-
-            // If it's an Edge, we massage it a bit first
-            if (value instanceof Edge) {
-                let edge = value;
-                let clone = {...edge};
-
-                // delete the 'previous' property from clone, to avoid saving duplicates
-                delete clone.previous;
-
-                // Specifies whether this edge a line, an arc or..?
-                clone.type = edge.constructor.name;
-
-                return clone;
-            } else
-                return value;
-        }
-
-        let first = this.edges[0];
-
-        if (first) {
-            let result = JSON.stringify(this, replacer, " ");
-            return result;
-        }
-
         // An empty wire with no edges
-        return JSON.stringify(this.edges, replacer, " ");
+        return JSON.stringify(this.edges, function (key, value) {
+            return value instanceof Edge ? value.serializeIntoArray() : value;
+        });
     }
 
 
     static deserialize(str) {
 
-        let wire2 = new Wire;
-
         function reviver(key, value) {
-            console.log("!!!!!!~!~Reviver", key, value);
-            return value;
+
+            if (Array.isArray(value) && key !== "") {
+                let result = Edge.deserialize(...value);
+         //       console.log("Array: ", key, value, result);
+                return result;
+            }
+            else {
+        //        console.log("Non-array: ", key, value)
+                return value;
+            }
         }
 
         // TODO: handle errors
         let edges = JSON.parse(str, reviver);
-        console.log("Edges", edges);
-        return null;
 
+     //   console.log("????????????? Edges", edges);
 
-        JSON.parse('{"p": 5}', (key, value) =>
-            typeof value === 'number'
-                ? value * 2 // return value * 2 for numbers
-                : value     // return everything else unchanged
-        );
+        let wire = new Wire(); // TODO private constructor?
 
-// { p: 10 }
+        for (let edge of edges)
+            wire.addEdge(edge);
 
-        JSON.parse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}}', (key, value) => {
-            console.log(key); // log the current property name, the last is "".
-            return value;     // return the unchanged property value.
-        });
+        wire.x = wire.lastEdge.x;
+        wire.y = wire.lastEdge.y;
+        wire.close();
+        return wire;
     }
 
     /**
@@ -99,9 +73,6 @@ class Wire {
 
     /**
      * Add an edge to a wire. The wire must not be closed.
-     * @param type : string - type of edge. Currently, "Line" and "Arc" are
-     * the supported values, but provisions are made to support additional types.
-     * #TODO test that at least some.
      *
      * The first edge begins at coordinates defined by `Wire.startAt(x, y)`.
      * Subsequent edges begin at the end of the wire's previous edge.
@@ -153,11 +124,6 @@ class Wire {
         firstEdge.previous = this.lastEdge;
         this.isClosed = true;
         this.validate();
-        let str = this.serialize();
-        console.log("***Serialized: ", str);
-        let des = Wire.deserialize(str);
-        console.log("&&&&& Des", des);
-
         return this;
     }
 
@@ -182,17 +148,6 @@ class Wire {
 
         for (let edge of this.edges)
             edge.validate();
-    }
-
-    /**
-     * Add a new edge type, such as Line and Arc. Experimental. Use at your own risk.
-     * FIXME Do we want it public?
-     *
-     * @param edgeType : string - the name of the new edge type to be added, e.g. "EllipticArc"
-     * @param edgeClass : Edge - a custom subclass of Edge for the new edge type, e.g. EllipticArc
-     */
-    static addEdgeType(edgeType, edgeClass) {
-        this.edgeTypes[edgeType] = edgeClass;
     }
 }
 

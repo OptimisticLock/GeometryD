@@ -15,10 +15,6 @@ class Arc extends Edge {
         this.clockwise = isClockwise;
     }
 
-    static revive(obj) {
-        return new Arc(obj.x, obj.y, obj.r, obj.clockwise);
-    }
-
     /**
      * Checks whether this is a valid arc. Throws an error otherise
      * An arc is valid if its radius is big enough to connect the points
@@ -38,8 +34,22 @@ class Arc extends Edge {
         // TODO assert rx === ry
         let r = this.x2 - this.x1;
     }
+
+    // @override
+    serializeIntoArray() {
+        return [...super.serializeIntoArray(), this.r, this.clockwise];
+    }
+
+    // /**
+    //  *
+    //  * @return {string} Serialized object
+    //  * @override
+    //  */
+    // serialize() {
+    //     let obj = [this.constructor.name, this.x, this.y, this.r, this.clockwise]
+    //     return JSON.stringify(obj);
+    // }
 }
 
 // This would normally be in a static constructor.
-Wire.addEdgeType("Arc", Arc);
-
+Edge.addEdgeType("Arc", Arc);

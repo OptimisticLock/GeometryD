@@ -1,5 +1,42 @@
 class Edge {
 
+    //     static edgeTypes = {"Line" : Line, "Arc" : Arc};
+    static edgeTypes = {}; //
+
+    /**
+     * Add a new edge type, such as Line and Arc. Experimental. Use at your own risk.
+     * FIXME Do we want it public?
+     *
+     * @param edgeType : string - the name of the new edge type to be added, e.g. "EllipticArc"
+     * @param edgeClass : Edge - a custom subclass of Edge for the new edge type, e.g. EllipticArc
+     */
+    static addEdgeType(edgeType, edgeClass) {
+        this.edgeTypes[edgeType] = edgeClass;
+    }
+
+    serializeIntoArray() {
+        return [this.constructor.name, this.x, this.y]
+    }
+
+    /**
+     *
+     * @param type String edge type, e.g. "Line" or "Arc"
+     * @param x - endpoint of the edge
+     * @param y - endpoint of the edge
+     * @param args - edge-specific args if any, e.g for Arc, radius and clockwise
+     * @return {Edge} - the deserialized edge
+     */
+    static deserialize(type, x, y, ...args) {
+        // edgeType is a reference to a class that is dynamically instantiated.
+        // Currently, "Line" and "Arc" are suppo
+        let edgeType = this.edgeTypes[type];
+
+        check(edgeType, `Unknown edge type ${type}`);
+        let edge = new edgeType(x, y, ...args);
+        return edge;
+    }
+
+
     /**
      *
      * @type {Edge}  The edge preceding this one in the wire. TODO: encapsulate everything to make Edges as

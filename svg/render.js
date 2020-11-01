@@ -159,9 +159,6 @@ function render(wire) {
 }
 
 
-let wire = wires.original;
-render(wire);
-
 function toDegrees(radians) {
     return radians * 360 / (2 * Math.PI);
 }
@@ -187,4 +184,12 @@ g.addEventListener('mousemove', evt => {
 
     document.getElementById("coords").innerText = coords;
 });
+
+let wire = wires.original;
+let serialized = wire.serialize();
+let deserialized = Wire.deserialize(serialized);
+console.log(wire, serialized, deserialized);
+render(deserialized);
+
+
 
