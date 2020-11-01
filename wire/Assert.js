@@ -1,5 +1,10 @@
 "use strict";
 
+class AssertionError extends Error {
+    constructor(message) {
+        super(message);
+    }
+}
 /**
  * Checks whether condition is true. Otherwise does a number
  * of error handling actions: writes to console, alerts if in browser, throws an error.
@@ -19,8 +24,17 @@ function check(condition, message) {
         if (alert)
             alert(message);
 
-        throw new Error(message);
+        throw new AssertionError(message);
     }
+}
+
+function handleError(error) {
+
+    // Already handled.
+    if (error instanceof AssertionError)
+        return;
+
+    check(false, error.message);
 }
 
 /**

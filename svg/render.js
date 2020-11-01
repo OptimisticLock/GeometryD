@@ -90,19 +90,23 @@ g.addEventListener('mousemove', evt => {
     document.getElementById("coords").innerText = coords;
 });
 
+// Turns the #seralized HTML element into a wire editor, allowing to parse and display edited wires.
+
 document.getElementById("serialized").addEventListener("keypress", function(event) {
-    if (event.key === "Enter" && !event.ctrlKey) {
+    if (event.key === "Enter" && !event.ctrlKey && !event.shiftKey) {
         let str = document.getElementById("serialized").innerText;
         console.log(str);
         try {
             let wire = Wire.deserialize(str);
+            removeAllSvg();
             renderWire(wire, .1);
         } catch (e) {
-            console.log(e);
+             handleError(e);
         }
         event.preventDefault();
     }
 })
+
 
 function removeAllSvg() {
     let g = document.getElementById("g");
@@ -139,7 +143,6 @@ for (let wireName of Object.keys(wires)) {
     // option.value = "myvalue";
     wire.appendChild(option);
 }
-
 
 
 //document.querySelector('#wire').appendChild()

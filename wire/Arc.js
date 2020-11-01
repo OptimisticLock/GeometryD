@@ -25,7 +25,7 @@ class Arc extends Edge {
         let dx = this.x - this.x0;
         let dy = this.y - this.y0;
         let minDiameter = Math.sqrt(dx ** 2 + dy ** 2);
-        check(this.radius * 2 >= minDiameter, `Arc radius ${this.radius} too small to connect points (${this.x0}, ${this.y0}) and (${this.x}, ${this.y})`)
+        check(this.radius * 2 >= minDiameter, `Arc radius ${this.radius} too small to connect points (${this.x0}, ${this.y0}) and (${this.x}, ${this.y}). Must be at least ${(minDiameter/2 + .01).toFixed(2)}`)
     }
 
     /**
