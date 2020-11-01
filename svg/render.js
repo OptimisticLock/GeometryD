@@ -97,10 +97,20 @@ function drawArc(x1, y1, x2, y2, radius, clockwise) {
     })
 }
 
-function getStep(deflection, radius) {
+/**
+ *
+ * @param deflection
+ * @param radius
+ * @return {number}
+ * TODO: this uses inscribed polygon, but inscribed polygon doesn't provide the lowest maximum deflection!
+ * As can be easily visualized by inscribing an isosceles triangle into a circle.
+ * Technically, this meets requirement #4, albeit suboptimally, by creating too many chords.
+ */
+function getChordAngle(deflection, radius) {
  //   return toRadians(30);
     let result =  2 * Math.acos(1 - deflection/radius);
-    console.log(`Step for radius ${radius} and deflection ${deflection} is ${toDegrees(result)}`)
+    console.log(`Step for radius ${radius} and deflection ${deflection} is ${toDegrees(result)}`);
+    return result;
 }
 
 function drawChords(x0, y0, x, y, radius, clockwise) {
@@ -144,16 +154,18 @@ function drawChords(x0, y0, x, y, radius, clockwise) {
 
    // let step = (alpha - alpha0) / 5;
 
-    let deflection = .3;
+//    let deflection = .3;
 
-    let step = getStep(deflection, radius);
+    let deflection = radius/20;
 
-    console.log("alpha", toDegrees(alpha0), toDegrees(alpha), toDegrees(step));
+    let chordAngle = getChordAngle(deflection, radius);
+
+    console.log("alpha", toDegrees(alpha0), toDegrees(alpha), toDegrees(chordAngle));
 
     let xPrev;
     let yPrev;
 
-    for (let alphai = alpha0; alphai <= alpha; alphai += step) {
+    for (let alphai = alpha0; alphai <= alpha; alphai += chordAngle) {
 
         let xi = xC + radius * Math.cos(alphai);
         let yi = yC + radius * Math.sin(alphai);

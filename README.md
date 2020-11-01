@@ -60,10 +60,7 @@ boundary-representation geometry data structures and algorithms, as described [h
 This is the latest snapshot of the  renderer [svg/render.html](svg/render.html).
 ![Snapshot](svg/snapshot.png).
 
-It calculates arc centers and  angles correctly.
-
-Also, serialization finally fixed, after all the refactoring.
-
+It calculates arc centers and  angles correctly, and approximates arcs with chords with a given maxium deflection. Does that suboptimally though, by using insribed polygons.
 
 
 
