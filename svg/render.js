@@ -101,35 +101,14 @@ function removeAllSvg() {
 
 
 function renderWire(wire, deflection) {
-    let serialized = wire.serialize();
-    let deserialized = Wire.deserialize(serialized);
-    // console.log(wire, serialized, deserialized);
-    let discrete = deserialized.discretize(deflection);
-
-// FIXME: this doesn't appear to show deflection that's 10% of radius, visually.
-//let discrete = deserialized.discretize(.4);
-
-    let s2 = discrete.serialize();
-    console.log("discrete", discrete);
-    console.log("%%%%% discrete serialized", s2);
+    let discrete = wire.discretize(deflection);
     render(discrete, "red");
     render(wire, "gray");
 }
 
 
-
-document.querySelector('#deflection').addEventListener('change', (event) => {
-    let deflection = event.target.value;
-    const result = document.querySelector('#result');
-    result.textContent = `Deflection ${deflection}`;
-    selectionChanged();
-});
-
-
-document.querySelector('#wire').addEventListener('change', (event) => {
-    console.log(event.target.value);
-    selectionChanged();
-});
+document.querySelector('#deflection').addEventListener('change', selectionChanged);
+document.querySelector('#wire').addEventListener('change', selectionChanged);
 
 function selectionChanged() {
     let wireName = document.querySelector("#wire").value;
@@ -138,12 +117,13 @@ function selectionChanged() {
 
     removeAllSvg();
     renderWire(wire, deflection);
+    showSerialized(wire);
 }
 
 let wire = document.getElementById("wire");
 
 for (let wireName of Object.keys(wires)) {
-    var option = document.createElement("option");
+    let option = document.createElement("option");
     option.text = wireName;
     // option.value = "myvalue";
     wire.appendChild(option);
@@ -157,6 +137,21 @@ for (let wireName of Object.keys(wires)) {
 selectionChanged();
 
 
+function showSerialized(wire) {
+    let serialized = wire.serialize();
+    serialized = serialized.replaceAll(",\[", ",\n[");
+
+    const ser = document.querySelector('#serialized');
+    ser.textContent = serialized;
+
+    let deserialized = Wire.deserialize(serialized);
+    // console.log(wire, serialized, deserialized);
+
+    // let s2 = discrete.serialize();
+    // console.log("discrete", discrete);
+    // console.log("%%%%% discrete serialized", s2);
+
+}
 
 
 

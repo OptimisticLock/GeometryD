@@ -19,6 +19,7 @@
     stroke-width: .05;
     fill-opacity: 0;
     stroke-opacity: .5;
+    transition: all 1s ease-in-out;
 }
 
 
@@ -37,7 +38,7 @@
 
 .line:hover {
     stroke-opacity: 1;
-    stroke: red;
+    stroke: black;
 }
 
 
@@ -48,16 +49,9 @@
 
 /** TODO  combine them together*/
 
-path:hover {
-    /*stroke: green;*/
-    /*stroke-width: .3;*/
-    stroke-opacity: 1;
-    stroke: red;
-}
-
 line:hover {
     stroke-opacity: 1;
-    stroke: red;
+    stroke: blue;
 }
 
 #deflection {
@@ -83,6 +77,7 @@ line:hover {
     /*width: 800px;*/
 }
 
-#result {
+#serialized {
     background: lightyellow;
+    font-size: 1.5em;
 }
