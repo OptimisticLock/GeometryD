@@ -4,22 +4,24 @@
 // global namespace.
 
 let wires = {
-    // weird: Wire.startAt(0, 1)
-    //     .add("Arc", 1, 2, 1, false)
-    //     .add ("Line", 9, 8)
-    //     .add ("Arc", 9, 9)
-    //     .add("Line", 9, 1)
-    //     .add("Arc", 9, 1, 1, true)
-    //     .close(),
+     weird: Wire.startAt(0, 1)
+         .addEdge(new Arc(1, 2, 1, false))
+         .addEdge(new Line(9, 8))
+         .addEdge(new Arc(9, 9))
+         .addEdge(new Line(9, 1))
+         .addEdge(new Arc(9, 1, 1, true))
+         .close(),
 
 
-    weird: Wire.startAt(5, 5)
+    weird2: Wire.startAt(5, 5)
         .addEdge(new Arc(5, 4.9, 6, false))
         .close(),  // FIXME does this draw correctly?
 
+    // TODO: have a way to describe arcs with angle 180 degrees using
+    // a single arc. Presently, that requires two ars.
 
-circle: Wire.startAt(8, 4)
-    .addEdge(new Arc(0, 4, 4))
+    circle: Wire.startAt(8, 4)
+    .addEdge(new Arc(0, 4, 4, false))
     .close(),
 
     lemonWedge2: Wire.startAt(0, 5)

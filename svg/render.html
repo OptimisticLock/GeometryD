@@ -5,12 +5,19 @@
 </head>
 <body>
 
-<svg id="svg" height="800" width="800" style="background:RGB(240, 240, 240)">
+<svg id="svg" height="600" width="800" style="background:RGB(240, 240, 240)">
     <g id="g" transform="scale(40) translate(1, 1)" stroke-width=.1,></g>
     Sorry, your browser does not support inline SVG.
 </svg>
 
-<div id="coords">Hover for info</div>
+
+<label for="deflection">Deflection:</label>
+<input id="deflection" value=.1 min = .01 max=4 step = .01 type="number">
+<div id="result"></div>
+
+<div id="coords">Hover for coords</div>
+
+
 <script src="../wire/Assert.js"></script>
 <script src="../wire/Wire.js"></script>
 <script src="../wire/Point.js"></script>

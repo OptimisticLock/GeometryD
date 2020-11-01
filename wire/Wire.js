@@ -151,6 +151,8 @@ class Wire {
     }
 
     discretize(deflection) {
+        check (deflection > 0, "Deflection must be positive")
+
         this.checkClosed();
         let discreteWire = Wire.startAt(this.x, this.y);
 

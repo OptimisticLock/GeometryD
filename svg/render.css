@@ -4,17 +4,6 @@
     height: 100%;
 }
 
-#coords {
-    font-size: 1.5em;
-    position: relative;
-    width: 200px;
-    height: 100px;
-    float: right;
-    bottom: 2em;
-    right: 0;
-    text-align: right;
-}
-
 
 .line {
     /*stroke: green;*/
@@ -54,6 +43,7 @@
     stroke-width: 0;
 }
 
+/** TODO  combine them together*/
 
 path:hover {
     /*stroke: green;*/
@@ -67,4 +57,23 @@ line:hover {
     /*stroke-width: .3;*/
     stroke-opacity: 1;
     stroke: red;
+}
+
+
+#coords {
+    font-size: 1.5em;
+    position: relative;
+    width: 200px;
+    height: 100px;
+    float: right;
+    bottom: 2em;
+    right: 0;
+    text-align: right;
+}
+
+#deflection {
+    font-size: 1.5em;
+    position: relative;
+    bottom: 10vh;
+    left: 10vw;
 }
