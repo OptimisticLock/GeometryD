@@ -90,14 +90,15 @@ class Arc extends Edge {
         return angle;
     }
 
+    // TODO: at very low deflection, the result can be very a very long array. Replace it with
+    //  an iterator. A generator function perhaps?
 
-    discretize(deflection) {
-        let result = [];
+    discretizeInto(wire, deflection) {
 
         let [xC, yC] = this.getCenter();
 
-        let alpha0 = Arc.angle(xC, yC, x0, y0);
-        let alpha = Arc.angle(xC, yC, x, y);
+        let alpha0 = Arc.angle(xC, yC, this.x0, this.y0);
+        let alpha = Arc.angle(xC, yC, this.x, this.y);
 
         if (this.clockwise && alpha < alpha0)
             alpha += 2 * Math.PI;
@@ -116,10 +117,7 @@ class Arc extends Edge {
             let xi = xC + this.radius * Math.cos(alphai);
             let yi = yC + this.radius * Math.sin(alphai);
 
-            result.push(new Line(xi, yi));
-            //
-            // xPrev = xi;
-            // yPrev = yi;
+            wire.addEdge(new Line(xi, yi));
         }
     }
 

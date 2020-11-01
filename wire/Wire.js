@@ -149,6 +149,18 @@ class Wire {
         for (let edge of this.edges)
             edge.validate();
     }
+
+    discretize(deflection) {
+        this.checkClosed();
+        let discreteWire = Wire.startAt(this.x, this.y);
+
+        for (let edge of this.edges)
+            edge.discretizeInto(discreteWire, deflection);
+
+        discreteWire.close();
+        return discreteWire;
+    }
 }
+
 
 

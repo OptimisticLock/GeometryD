@@ -95,4 +95,9 @@ class Edge {
      * @return void
      */
     validate() {}
+
+    discretizeInto(discreteWire, deflection) {
+        let line = new Line(this.x, this.y);
+        discreteWire.addEdge(line);
+    }
 }

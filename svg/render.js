@@ -102,7 +102,8 @@ let wire = wires.original;
 let serialized = wire.serialize();
 let deserialized = Wire.deserialize(serialized);
 // console.log(wire, serialized, deserialized);
-render(deserialized);
+let discrete = deserialized.discretize(.01);
+render(discrete);
 
 
 
