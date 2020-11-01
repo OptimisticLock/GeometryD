@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="render.css">
 </head>
+
 <body>
 
 <svg id="svg" height="600" width="800" style="background:RGB(240, 240, 240)">
@@ -10,12 +11,12 @@
     Sorry, your browser does not support inline SVG.
 </svg>
 
-
-<label for="deflection">Deflection:</label>
-<input id="deflection" value=.1 min = .01 max=4 step = .01 type="number">
+<div id="controls">
+    <label for="deflection">Deflection:</label>
+    <input id="deflection" value=.1 min=.01 max=4 step=.01 type="number">
+    <div id="coords">Hover for coords</div>
+</div>
 <div id="result"></div>
-
-<div id="coords">Hover for coords</div>
 
 
 <script src="../wire/Assert.js"></script>

@@ -88,24 +88,39 @@ g.addEventListener('mousemove', evt => {
     document.getElementById("coords").innerText = coords;
 });
 
-let wire = wires.circle;
-let serialized = wire.serialize();
-let deserialized = Wire.deserialize(serialized);
+function renderWire(deflection) {
+
+    let wire = wires.circle;
+    let serialized = wire.serialize();
+    let deserialized = Wire.deserialize(serialized);
 // console.log(wire, serialized, deserialized);
-let discrete = deserialized.discretize(.1);
+    let discrete = deserialized.discretize(deflection);
 
 // FIXME: this doesn't appear to show deflection that's 10% of radius, visually.
 //let discrete = deserialized.discretize(.4);
 
-let s2 = discrete.serialize();
-console.log("discrete", discrete);
-console.log("11111111111111 discrete serialized", s2);
-render(discrete, "red");
-render(wire, "blue");
+    let s2 = discrete.serialize();
+    console.log("discrete", discrete);
+    console.log("%%%%% discrete serialized", s2);
+    render(discrete, "red");
+    render(wire, "blue");
 
-selectElement = document.querySelector('#deflection');
-selectElement.addEventListener('change', (event) => {
-    const result = document.querySelector('#result');
-    result.textContent = `You like ${event.target.value}`;
-});
+    selectElement = document.querySelector('#deflection');
+    selectElement.addEventListener('change', (event) => {
+        console.log("aaaaaaaaa");
+        const result = document.querySelector('#result');
+        result.textContent = `Deflection ${event.target.value}`;
+        removeAllSvg();
+        renderWire(.1);
+    });
+}
+
+function removeAllSvg() {
+    let g = document.getElementById("g");
+
+    while (g.firstChild)
+        g.removeChild(g.firstChild);
+
+}
+
 

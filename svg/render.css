@@ -77,3 +77,11 @@ line:hover {
     bottom: 10vh;
     left: 10vw;
 }
+
+#controls {
+    background: pink;
+}
+
+#result {
+    background: lightyellow;
+}
