@@ -5,6 +5,17 @@
 // global namespace.
 
 let wires = {
+    original: Wire.startAt(0,1)
+            .addEdge(new Arc(1, 0))
+            .addEdge(new Line(9, 0))
+            .addEdge(new Arc(10, 1))
+            .addEdge(new Line(10, 9))
+            .addEdge(new Arc(9, 10))
+            .addEdge(new Line(1, 10))
+            .addEdge(new Arc(0, 9))
+            .addEdge(new Line(0, 1))
+            .close(),
+
      weird: Wire.startAt(0, 1)
          .addEdge(new Arc(1, 2, 1, false))
          .addEdge(new Line(9, 8))
@@ -29,7 +40,7 @@ let wires = {
         .addEdge(new Arc(7, 0, 5, false))
         .close(),
 
-    original: Wire.startAt(0, 5)
+    cheese: Wire.startAt(0, 5)
         .addEdge(new Arc(7, 0, 5, false))
         .addEdge(new Line(9, 0))
         .addEdge(new Arc(10, 1))
