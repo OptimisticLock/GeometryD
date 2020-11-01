@@ -13,6 +13,15 @@ let wires = {
     //     .close(),
 
 
+    weird: Wire.startAt(5, 5)
+        .addEdge(new Arc(5, 4.9, 6, false))
+        .close(),  // FIXME does this draw correctly?
+
+
+circle: Wire.startAt(8, 4)
+    .addEdge(new Arc(0, 4, 4))
+    .close(),
+
     original: Wire.startAt(0, 1)
         .addEdge(new Arc(1, 0, 2, false))
         .addEdge(new Line(9, 0))
@@ -23,9 +32,17 @@ let wires = {
         .addEdge(new Arc(0, 8, 2.5, false))
         .close(),
 
-    lemonWedge: Wire.startAt(5, 0)
-        .addEdge(new Arc(6, 10, 10, false))
-        .close()
+    lemonWedge: Wire.startAt(2, 0)
+        .addEdge(new Arc(1, 10, 10, false))
+        .addEdge(new Line(2, 10))
+        .addEdge(new Line(2, 9))
+        .addEdge(new Line(3, 9))
+        .addEdge(new Line(3, 8))
+        .addEdge(new Line(1, 10))
+        .addEdge(new Line(1.4, 5.3))
+        .addEdge(new Line(0, 5.3))
+        .addEdge(new Line(1.4, 5.3))
+        .close(),
 }
 
 

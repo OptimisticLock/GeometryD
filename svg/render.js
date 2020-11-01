@@ -97,6 +97,12 @@ function drawArc(x1, y1, x2, y2, radius, clockwise) {
     })
 }
 
+function getStep(deflection, radius) {
+ //   return toRadians(30);
+    let result =  2 * Math.acos(1 - deflection/radius);
+    console.log(`Step for radius ${radius} and deflection ${deflection} is ${toDegrees(result)}`)
+}
+
 function drawChords(x0, y0, x, y, radius, clockwise) {
     
     // // If we are to draw counterclockwise, just swap (x0, y0) and (x, y)
@@ -122,6 +128,9 @@ function drawChords(x0, y0, x, y, radius, clockwise) {
     let alpha0 = angle(xC, yC, x0, y0);
     let alpha = angle(xC, yC, x, y);
 
+    console.log("alphaBefore", toDegrees(alpha0), toDegrees(alpha), clockwise);
+
+
     if (clockwise && alpha < alpha0)
         alpha += 2 * Math.PI;
 
@@ -131,16 +140,15 @@ function drawChords(x0, y0, x, y, radius, clockwise) {
     if (alpha0 > alpha)
         [alpha0, alpha] = [alpha, alpha0];
 
-    console.log("alphaBefore", toDegrees(alpha0), toDegrees(alpha), clockwise);
 
 
-    // let alpha0 = 0;
-    // let alpha1 = Math.PI * 2;
+   // let step = (alpha - alpha0) / 5;
 
-    let step = (alpha - alpha0) / 33;
+    let deflection = .3;
+
+    let step = getStep(deflection, radius);
 
     console.log("alpha", toDegrees(alpha0), toDegrees(alpha), toDegrees(step));
-
 
     let xPrev;
     let yPrev;
@@ -219,7 +227,7 @@ g.addEventListener('mousemove', evt => {
     document.getElementById("coords").innerText = coords;
 });
 
-let wire = wires.original;
+let wire = wires.circle;
 let serialized = wire.serialize();
 let deserialized = Wire.deserialize(serialized);
 // console.log(wire, serialized, deserialized);
