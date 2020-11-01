@@ -1,3 +1,4 @@
+"use strict";
 
 /**
  * Checks whether condition is true. Otherwise does a number

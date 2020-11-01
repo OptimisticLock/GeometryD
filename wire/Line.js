@@ -1,3 +1,4 @@
+"use strict";
 /** An Edge that is a line segment */
 class Line extends Edge {
     /**

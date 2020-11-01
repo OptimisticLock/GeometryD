@@ -1,3 +1,4 @@
+"use strict";
 
 // TODO: I'd rather use modules, but they are tricky when loading local files from hard drive due to the browser's CORS restrictions.
 // There should probably be a solution to that, but I left it out of scope and am instead just polluting the

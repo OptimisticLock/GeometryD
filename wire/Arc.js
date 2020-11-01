@@ -1,3 +1,5 @@
+"use strict";
+
 /** A circular arc */
 class Arc extends Edge {
     /**

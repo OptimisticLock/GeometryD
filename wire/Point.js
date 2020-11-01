@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * I am undecided whether I want to Points or [x, y] numbers. They clutter code in
  * different ways. In a language with operator overloading and implicit

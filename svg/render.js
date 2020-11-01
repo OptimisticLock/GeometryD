@@ -1,3 +1,5 @@
+"use strict";
+
 console.log("------------------- render.js");
 
 // import { hello } from './sampleWires.js';
@@ -88,8 +90,17 @@ g.addEventListener('mousemove', evt => {
     document.getElementById("coords").innerText = coords;
 });
 
-function renderWire(deflection) {
-    let wire = wires.circle;
+
+function removeAllSvg() {
+    let g = document.getElementById("g");
+
+    while (g.firstChild)
+        g.removeChild(g.firstChild);
+}
+
+
+
+function renderWire(wire, deflection) {
     let serialized = wire.serialize();
     let deserialized = Wire.deserialize(serialized);
     // console.log(wire, serialized, deserialized);
@@ -102,26 +113,50 @@ function renderWire(deflection) {
     console.log("discrete", discrete);
     console.log("%%%%% discrete serialized", s2);
     render(discrete, "red");
-    render(wire, "blue");
+    render(wire, "gray");
 }
 
 
-selectElement = document.querySelector('#deflection');
 
-selectElement.addEventListener('change', (event) => {
-    console.log("aaaaaaaaa");
+document.querySelector('#deflection').addEventListener('change', (event) => {
+    let deflection = event.target.value;
     const result = document.querySelector('#result');
-    result.textContent = `Deflection ${event.target.value}`;
-    removeAllSvg();
-    renderWire(event.target.value)
+    result.textContent = `Deflection ${deflection}`;
+    selectionChanged();
 });
 
 
-function removeAllSvg() {
-    let g = document.getElementById("g");
+document.querySelector('#wire').addEventListener('change', (event) => {
+    console.log(event.target.value);
+    selectionChanged();
+});
 
-    while (g.firstChild)
-        g.removeChild(g.firstChild);
+function selectionChanged() {
+    let wireName = document.querySelector("#wire").value;
+    let deflection = document.querySelector("#deflection").value;
+    let wire = wires[wireName];
+
+    removeAllSvg();
+    renderWire(wire, deflection);
 }
+
+let wire = document.getElementById("wire");
+
+for (let wireName of Object.keys(wires)) {
+    var option = document.createElement("option");
+    option.text = wireName;
+    // option.value = "myvalue";
+    wire.appendChild(option);
+}
+
+
+
+//document.querySelector('#wire').appendChild()
+
+
+selectionChanged();
+
+
+
 
 
