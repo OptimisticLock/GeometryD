@@ -90,6 +90,19 @@ g.addEventListener('mousemove', evt => {
     document.getElementById("coords").innerText = coords;
 });
 
+document.getElementById("serialized").addEventListener("keypress", function(event) {
+    if (event.key === "Enter" && !event.ctrlKey) {
+        let str = document.getElementById("serialized").innerText;
+        console.log(str);
+        try {
+            let wire = Wire.deserialize(str);
+            renderWire(wire, .1);
+        } catch (e) {
+            console.log(e);
+        }
+        event.preventDefault();
+    }
+})
 
 function removeAllSvg() {
     let g = document.getElementById("g");
@@ -99,13 +112,11 @@ function removeAllSvg() {
 }
 
 
-
 function renderWire(wire, deflection) {
     let discrete = wire.discretize(deflection);
     render(discrete, "red");
     render(wire, "gray");
 }
-
 
 document.querySelector('#deflection').addEventListener('change', selectionChanged);
 document.querySelector('#wire').addEventListener('change', selectionChanged);
