@@ -122,14 +122,17 @@ function drawChords(x0, y0, x, y, radius, clockwise) {
     let alpha0 = angle(xC, yC, x0, y0);
     let alpha = angle(xC, yC, x, y);
 
-    console.log("alphaBefore", toDegrees(alpha0), toDegrees(alpha), clockwise);
+    if (clockwise && alpha < alpha0)
+        alpha += 2 * Math.PI;
 
-
-    if (!clockwise)
-        alpha0 += 2 * Math.PI;
+    if (!clockwise && alpha > alpha0)
+        alpha -= 2 * Math.PI;
 
     if (alpha0 > alpha)
-       [alpha0, alpha] = [alpha, alpha0];
+        [alpha0, alpha] = [alpha, alpha0];
+
+    console.log("alphaBefore", toDegrees(alpha0), toDegrees(alpha), clockwise);
+
 
     // let alpha0 = 0;
     // let alpha1 = Math.PI * 2;
