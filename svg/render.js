@@ -23,7 +23,7 @@ function drawElement(name, attributes) {
     g.append(elem);
 }
 
-function drawLineEdge(edge, color="black") {
+function drawLineEdge(edge, color = "black") {
 
     // TODO fix the discrepancy in names
     let x1 = edge.x0;
@@ -40,7 +40,7 @@ function drawLineEdge(edge, color="black") {
 }
 
 
-function drawArcEdge(edge, color="black") {
+function drawArcEdge(edge, color = "black") {
 
     drawElement("path", {
         class: "arc",
@@ -89,11 +89,10 @@ g.addEventListener('mousemove', evt => {
 });
 
 function renderWire(deflection) {
-
     let wire = wires.circle;
     let serialized = wire.serialize();
     let deserialized = Wire.deserialize(serialized);
-// console.log(wire, serialized, deserialized);
+    // console.log(wire, serialized, deserialized);
     let discrete = deserialized.discretize(deflection);
 
 // FIXME: this doesn't appear to show deflection that's 10% of radius, visually.
@@ -104,23 +103,25 @@ function renderWire(deflection) {
     console.log("%%%%% discrete serialized", s2);
     render(discrete, "red");
     render(wire, "blue");
-
-    selectElement = document.querySelector('#deflection');
-    selectElement.addEventListener('change', (event) => {
-        console.log("aaaaaaaaa");
-        const result = document.querySelector('#result');
-        result.textContent = `Deflection ${event.target.value}`;
-        removeAllSvg();
-        renderWire(.1);
-    });
 }
+
+
+selectElement = document.querySelector('#deflection');
+
+selectElement.addEventListener('change', (event) => {
+    console.log("aaaaaaaaa");
+    const result = document.querySelector('#result');
+    result.textContent = `Deflection ${event.target.value}`;
+    removeAllSvg();
+    renderWire(event.target.value)
+});
+
 
 function removeAllSvg() {
     let g = document.getElementById("g");
 
     while (g.firstChild)
         g.removeChild(g.firstChild);
-
 }
 
 
