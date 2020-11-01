@@ -13,12 +13,12 @@ function check(condition, message) {
     message ||= "Assertion failed!";
 
     if (!condition) {
-        console.error(message);       // TODO Test
+        console.error(message);
 
         if (alert)
             alert(message);
 
- //       throw new Error(message); TODO uncomment this
+        throw new Error(message);
     }
 }
 
