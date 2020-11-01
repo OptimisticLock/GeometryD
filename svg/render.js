@@ -89,15 +89,15 @@ function drawLineEdge(edge) {
     })
 }
 
-function drawArc(x1, y1, x2, y2, r = 1, clockwise = true) {
+function drawArc(x1, y1, x2, y2, radius, clockwise) {
     // Add the actual arc
     drawElement("path", {
         class: "arc",
-        d: `M ${x1} ${y1}  A ${r} ${r}   0 0 ${+clockwise}  ${x2} ${y2}`
+        d: `M ${x1} ${y1}  A ${radius} ${radius}   0 0 ${+clockwise}  ${x2} ${y2}`
     })
 }
 
-function drawChords(x0, y0, x, y, radius = 1, clockwise = true) {
+function drawChords(x0, y0, x, y, radius, clockwise) {
     
     // // If we are to draw counterclockwise, just swap (x0, y0) and (x, y)
     // if (!clockwise)
@@ -160,12 +160,12 @@ function drawArcEdge(edge) {
     let y0 = edge.y0;
     let x  = edge.x;
     let y  = edge.y;
-    let r  = edge.r;
+    let radius  = edge.radius;
     let clockwise = edge.clockwise;
     drawMarker(x0, y0);
-    drawArc(x0, y0, x, y, r, clockwise);
-    drawChords(x0, y0, x, y, r, clockwise);
-  //  drawChords(x0, y0, x, y, r, !clockwise);
+    drawArc(x0, y0, x, y, radius, clockwise);
+    drawChords(x0, y0, x, y, radius, clockwise);
+
 }
 
 function render(wire) {
