@@ -52,6 +52,8 @@ boundary-representation geometry data structures and algorithms, as described [h
 
     In my design, I made a wild bet that lines and circular arcs won't be sufficient long term, and more edge types, e.g. elliptic curves, will be needed. I made some adjustments for that, avoiding hard-coding "Line" and "Arc" throughout the code and instead instantiating lines and arcs dynamically. In retrospect, that *was* overengineering and a major YAGNI violation, I don't even know if my bet is accurate, and it probably wasn't a good idea. (I guess I did it because I was on my own time and I wanted to experiment and see if it's feasible to do reasonably complex OO in ES6).
     
+ Edit: That was a mistake. I really didn't need it, and the cost  of the experiment turned much higher than anticipated. 
+    
 
 ### Latest SVG renderer snapshot
 

@@ -120,27 +120,38 @@ function drawChords(x0, y0, x, y, radius, clockwise) {
 
     //
     let alpha0 = angle(xC, yC, x0, y0);
-    let alpha1 = angle(xC, yC, x, y);
+    let alpha = angle(xC, yC, x, y);
+
+    console.log("alphaBefore", toDegrees(alpha0), toDegrees(alpha), clockwise);
+
+
+    if (!clockwise)
+        alpha0 += 2 * Math.PI;
+
+    if (alpha0 > alpha)
+       [alpha0, alpha] = [alpha, alpha0];
 
     // let alpha0 = 0;
     // let alpha1 = Math.PI * 2;
 
-    console.log("alpha", toDegrees(alpha0), toDegrees(alpha1));
+    let step = (alpha - alpha0) / 33;
 
-    let step = (alpha1 - alpha0) / 33;
+    console.log("alpha", toDegrees(alpha0), toDegrees(alpha), toDegrees(step));
+
 
     let xPrev;
     let yPrev;
 
-    for (let alpha = alpha0; alpha <= alpha1; alpha += step) {
-        let x = xC + radius * Math.cos(alpha);
-        let y = yC + radius * Math.sin(alpha);
+    for (let alphai = alpha0; alphai <= alpha; alphai += step) {
+
+        let xi = xC + radius * Math.cos(alphai);
+        let yi = yC + radius * Math.sin(alphai);
 
         // Add daisy-shaped rays for debugging
         drawElement("line", {
             class: "ray",
             x1: xC, y1: yC,
-            x2: x, y2: y,
+            x2: xi, y2: yi,
         });
 
         // Adding the actual chords at last.
@@ -148,11 +159,11 @@ function drawChords(x0, y0, x, y, radius, clockwise) {
             drawElement("line", {
                 class: "chord",
                 x1: xPrev, y1: yPrev,
-                x2: x, y2: y
+                x2: xi, y2: yi
             });
 
-        xPrev = x;
-        yPrev = y;
+        xPrev = xi;
+        yPrev = yi;
     }
 }
 function drawArcEdge(edge) {

@@ -23,7 +23,7 @@ let wires = {
         .addEdge(new Arc(0, 8, 2.5, false))
         .close(),
 
-    lemonSlice: Wire.startAt(5, 0)
+    lemonWedge: Wire.startAt(5, 0)
         .addEdge(new Arc(6, 10, 10, false))
         .close()
 }
