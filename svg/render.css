@@ -17,13 +17,13 @@
 
 
 .line {
-    stroke: darkgray;
+    /*stroke: green;*/
     stroke-width: .1;
     stroke-opacity: .3;
 }
 
 .arc {
-    stroke: gray;
+    /*stroke: gray;*/
     stroke-width: .05;
     fill-opacity: 0;
     stroke-opacity: .5;

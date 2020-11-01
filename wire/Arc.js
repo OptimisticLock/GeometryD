@@ -35,12 +35,16 @@ class Arc extends Edge {
      * As can be easily visualized by inscribing an isosceles triangle into a circle.
      * Technically, this meets requirement #4, albeit suboptimally, by creating too many chords.
      */
-    getChordAngle(deflection) {
+    getAngleIncrement(deflection) {
         //   return toRadians(30);
-        // TODO verify partial curves, especially sharp angles
+        // TODO verify partial curves, especially sharp angles. // TODO test for deflection > radius. Consider negatives, etc.
 
         let result = 2 * Math.acos(1 - deflection / this.radius);
-        console.log(`Step for radius ${this.radius} and deflection ${deflection} is ${toDegrees(result)}`);
+
+        if (!this.clockwise)
+            result = -result;
+
+        console.log(`Angle increment for radius ${this.radius} and deflection ${deflection} is ${toDegrees(result)}`);
         return result;
     }
 
@@ -92,6 +96,11 @@ class Arc extends Edge {
 
     // TODO: at very low deflection, the result can be very a very long array. Replace it with
     //  an iterator. A generator function perhaps?
+    /**
+     *
+     * @param wire - a target wire to discretize this edge into.
+     * @param deflection - maximum linear deflection (TODO add definition)
+     */
 
     discretizeInto(wire, deflection) {
 
@@ -106,19 +115,24 @@ class Arc extends Edge {
         if (!this.clockwise && alpha > alpha0)
             alpha -= 2 * Math.PI;
 
-        if (alpha0 > alpha)
-            [alpha0, alpha] = [alpha, alpha0];
+        console.log("##### Angles: ", toDegrees(alpha0), toDegrees(alpha), this.clockwise);
 
-        let chordAngle = this.getChordAngle(deflection);
+        let angleIncrement = this.getAngleIncrement(deflection);
 
-
-        for (let alphai = alpha0; alphai <= alpha; alphai += chordAngle) {
-
-            let xi = xC + this.radius * Math.cos(alphai);
-            let yi = yC + this.radius * Math.sin(alphai);
-
-            wire.addEdge(new Line(xi, yi));
-        }
+        // TODO fix the DRY violation
+        if (angleIncrement > 0)
+            for (let alphai = alpha0 + angleIncrement; alphai <= alpha; alphai += angleIncrement) {
+                let xi = xC + this.radius * Math.cos(alphai);
+                let yi = yC + this.radius * Math.sin(alphai);
+                wire.addEdge(new Line(xi, yi));
+            }
+        else
+            for (let alphai = alpha0 + angleIncrement; alphai >= alpha; alphai += angleIncrement) {
+                let xi = xC + this.radius * Math.cos(alphai);
+                let yi = yC + this.radius * Math.sin(alphai);
+                wire.addEdge(new Line(xi, yi));
+            }
+        wire.addEdge(new Line(this.x, this.y));
     }
 
     // @override

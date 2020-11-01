@@ -23,22 +23,7 @@ function drawElement(name, attributes) {
     g.append(elem);
 }
 
-/**
- * Calculates the angle to the horizon of a line connexting (x0, y0) and (x, y)
- * @param x0
- * @param y0
- * @param x
- * @param y
- * @return {number} angle
- */
-function angle(x0, y0, x, y) {
-    let dx = x - x0;
-    let dy = y - y0;
-    let angle = Math.atan2(dy, dx);
-    return angle;
-}
-
-function drawLineEdge(edge) {
+function drawLineEdge(edge, color="black") {
 
     // TODO fix the discrepancy in names
     let x1 = edge.x0;
@@ -49,25 +34,30 @@ function drawLineEdge(edge) {
     // The actual line from the wire
     drawElement("line", {
         class: "line",
+        stroke: color,
         x1, y1, x2, y2,
     })
 }
 
 
-function drawArcEdge(edge) {
+function drawArcEdge(edge, color="black") {
 
     drawElement("path", {
         class: "arc",
+        stroke: color,
         d: `M ${edge.x0} ${edge.y0}  A ${edge.radius} ${edge.radius}   0 0 ${+edge.clockwise}  ${edge.x} ${edge.y}`
-    })}
+    })
+}
 
-function render(wire) {
+function render(wire, color) {
 
     for (const edge of wire.edges) {
+
+        // This is the only place where Arcs are hard-coded, but this is just for debugging
         if (edge.constructor.name === "Line")
-            drawLineEdge(edge);
+            drawLineEdge(edge, color);
         else
-            drawArcEdge(edge);
+            drawArcEdge(edge, color);
     }
 }
 
@@ -102,8 +92,12 @@ let wire = wires.original;
 let serialized = wire.serialize();
 let deserialized = Wire.deserialize(serialized);
 // console.log(wire, serialized, deserialized);
-let discrete = deserialized.discretize(.01);
-render(discrete);
+let discrete = deserialized.discretize(.2);
+let s2 = discrete.serialize();
+console.log("discrete", discrete);
+console.log("11111111111111 discrete serialized", s2);
+render(discrete, "red");
+render(wire, "blue");
 
 
 

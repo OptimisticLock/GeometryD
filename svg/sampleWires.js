@@ -22,6 +22,10 @@ circle: Wire.startAt(8, 4)
     .addEdge(new Arc(0, 4, 4))
     .close(),
 
+    lemonWedge2: Wire.startAt(0, 5)
+        .addEdge(new Arc(7, 0, 5, false))
+        .close(),
+
     original: Wire.startAt(0, 5)
         .addEdge(new Arc(7, 0, 5, false))
         .addEdge(new Line(9, 0))
@@ -32,16 +36,16 @@ circle: Wire.startAt(8, 4)
         .addEdge(new Arc(0, 8, 2.5, false))
         .close(),
 
-    lemonWedge: Wire.startAt(2, 0)
-        .addEdge(new Arc(1, 10, 10, false))
-        .addEdge(new Line(2, 10))
-        .addEdge(new Line(2, 9))
-        .addEdge(new Line(3, 9))
-        .addEdge(new Line(3, 8))
-        .addEdge(new Line(1, 10))
-        .addEdge(new Line(1.4, 5.3))
-        .addEdge(new Line(0, 5.3))
-        .addEdge(new Line(1.4, 5.3))
+    lemonWedge: Wire.startAt(6, 1)
+        .addEdge(new Arc(5, 10, 6, false))
+        // .addEdge(new Line(2, 10))
+        // .addEdge(new Line(2, 9))
+        // .addEdge(new Line(3, 9))
+        // .addEdge(new Line(3, 8))
+        // .addEdge(new Line(1, 10))
+        // .addEdge(new Line(1.4, 5.3))
+        // .addEdge(new Line(0, 5.3))
+        // .addEdge(new Line(1.4, 5.3))
         .close(),
 }
 

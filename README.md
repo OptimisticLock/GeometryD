@@ -64,5 +64,3 @@ It calculates arc centers and  angles correctly, and approximates arcs with chor
 
 
 
-
-
