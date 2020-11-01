@@ -22,8 +22,8 @@ circle: Wire.startAt(8, 4)
     .addEdge(new Arc(0, 4, 4))
     .close(),
 
-    original: Wire.startAt(0, 1)
-        .addEdge(new Arc(1, 0, 2, false))
+    original: Wire.startAt(0, 5)
+        .addEdge(new Arc(7, 0, 5, false))
         .addEdge(new Line(9, 0))
         .addEdge(new Arc(10, 1))
         .addEdge(new Line(10, 9))
