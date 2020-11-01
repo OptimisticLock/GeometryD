@@ -58,7 +58,9 @@ boundary-representation geometry data structures and algorithms, as described [h
 This is the latest snapshot of the  renderer [svg/render.html](svg/render.html).
 ![Snapshot](svg/snapshot.png).
 
-After spending a lot of time refactoring everything, it renders simple shapes again, hurray!
+It calculates the arc centers correctly, except it doesn't know yet to pick the right circle between the two possible.
+
+Also, serialization finally fixed, after all the refactoring.
 
 
 

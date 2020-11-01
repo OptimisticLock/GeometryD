@@ -40,12 +40,27 @@ function angle(x0, y0, x, y) {
 
 
 // http://mathforum.org/library/drmath/view/53027.html#:~:text=You%20do%20this%20just%20by,is%20just%20half%20of%20q.
-function arcCenter(x1, y1, x2, y2) {
+function arcCenter(x1, y1, x2, y2, radius, clockwise) {
 
-    if (Math.sign(x2 - x1) === Math.sign(y2 - y1))
-        return [x1, y2];
-    else
-        return [x2, y1];
+    // Midpoint between (x1, y1) and (x2, y2)
+    let x3 = (x1 + x2)/2;
+    let y3 = (y1 + y2)/2;
+
+    // The distance between points 1 and 2.  We'll
+    let q =  Math.sqrt((x2 - x1)**2 + (y2 - y1)**2);
+
+    if (clockwise) {
+        x = x3 + Math.sqrt(radius**2 - (q/2)**2) * (y1-y2)/q;
+        y = y3 + Math.sqrt(radius**2 - (q/2)**2) * (x2-x1)/q;
+        return [x, y];
+    }
+    else {
+        x = x3 - Math.sqrt(radius**2 - (q/2)**2) * (y1-y2)/q;
+        y = y3 - Math.sqrt(radius**2 - (q/2)**2) * (x2-x1)/q;
+        return [x, y];
+    }
+
+
 }
 
 // Add a short marker line to help debugging
@@ -80,42 +95,44 @@ function drawArc(x1, y1, x2, y2, r = 1, clockwise = true) {
     })
 }
 
-function drawChords(x0, y0, x, y, r = 1, clockwise = true) {
+function drawChords(x0, y0, x, y, radius = 1, clockwise = true) {
     
     // If we are to draw counterclockwise, just swap (x0, y0) and (x, y)
     if (!clockwise)
         [x0, y0, x, y] = [x, y, x0, y0];
 
-    let [xC, yC] = arcCenter(x0, y0, x, y);
+    let [xC, yC] = arcCenter(x0, y0, x, y, radius, clockwise);
     console.log("center", xC, yC);
 
     // TODO: optimize trigonometric functions.
 
-    // let xPrev = xC + r * Math.cos(0);
-    // let yPrev = yC + r * Math.sin(0);
+    // let xPrev = xC + radius * Math.cos(0);
+    // let yPrev = yC + radius * Math.sin(0);
 
     let xMidpoint = (x0 + x) / 2;
     let yMidpoint = (y0 + y) / 2;
 
 
     let chordLength = Math.sqrt((x - x0) ** 2 + (y - y0) ** 2);
-    //           let alpha0 = Math.asin(chordLength / (2 * r));
+    //           let alpha0 = Math.asin(chordLength / (2 * radius));
 
+    //
+    // let alpha0 = angle(xC, yC, x0, y0);
+    // let alpha1 = alpha0 + Math.PI / 2;
 
-    let alpha0 = angle(xC, yC, x0, y0);
-//            let alpha1 = angle(xC, yC, x, y);
-    let alpha1 = alpha0 + Math.PI / 2;
+    let alpha0 = 0;
+    let alpha1 = Math.PI * 2;
 
     console.log("alpha", toDegrees(alpha0), toDegrees(alpha1));
 
-    let step = (alpha1 - alpha0) / 3;
+    let step = (alpha1 - alpha0) / 33;
 
     let xPrev;
     let yPrev;
 
     for (let alpha = alpha0; alpha <= alpha1; alpha += step) {
-        let x = xC + r * Math.cos(alpha);
-        let y = yC + r * Math.sin(alpha);
+        let x = xC + radius * Math.cos(alpha);
+        let y = yC + radius * Math.sin(alpha);
 
         // Add daisy-shaped rays for debugging
         drawElement("line", {
@@ -188,7 +205,7 @@ g.addEventListener('mousemove', evt => {
 let wire = wires.original;
 let serialized = wire.serialize();
 let deserialized = Wire.deserialize(serialized);
-console.log(wire, serialized, deserialized);
+// console.log(wire, serialized, deserialized);
 render(deserialized);
 
 
