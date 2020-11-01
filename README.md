@@ -58,7 +58,7 @@ boundary-representation geometry data structures and algorithms, as described [h
 This is the latest snapshot of the  renderer [svg/render.html](svg/render.html).
 ![Snapshot](svg/snapshot.png).
 
-It calculates the arc centers correctly.
+It calculates the arc centers and clockwise angles correctly.
 
 Also, serialization finally fixed, after all the refactoring.
 

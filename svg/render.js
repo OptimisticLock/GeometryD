@@ -34,7 +34,7 @@ function drawElement(name, attributes) {
 function angle(x0, y0, x, y) {
     let dx = x - x0;
     let dy = y - y0;
-    let angle = Math.atan(dy/dx);
+    let angle = Math.atan2(dy, dx);
     return angle;
 }
 
@@ -119,11 +119,11 @@ function drawChords(x0, y0, x, y, radius, clockwise) {
     //           let alpha0 = Math.asin(chordLength / (2 * radius));
 
     //
-    // let alpha0 = angle(xC, yC, x0, y0);
-    // let alpha1 = alpha0 + Math.PI / 2;
+    let alpha0 = angle(xC, yC, x0, y0);
+    let alpha1 = angle(xC, yC, x, y);
 
-    let alpha0 = 0;
-    let alpha1 = Math.PI * 2;
+    // let alpha0 = 0;
+    // let alpha1 = Math.PI * 2;
 
     console.log("alpha", toDegrees(alpha0), toDegrees(alpha1));
 
