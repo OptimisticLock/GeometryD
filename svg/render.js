@@ -50,14 +50,16 @@ function arcCenter(x1, y1, x2, y2, radius, clockwise) {
     let q =  Math.sqrt((x2 - x1)**2 + (y2 - y1)**2);
 
     if (clockwise) {
-        x = x3 + Math.sqrt(radius**2 - (q/2)**2) * (y1-y2)/q;
-        y = y3 + Math.sqrt(radius**2 - (q/2)**2) * (x2-x1)/q;
-        return [x, y];
+        let xa = x3 + Math.sqrt(radius**2 - (q/2)**2) * (y1-y2)/q;
+        let ya = y3 + Math.sqrt(radius**2 - (q/2)**2) * (x2-x1)/q;
+        console.log("Center: xa, ya", xa, ya, q, y1, y2, y3);
+        return [xa, ya];
     }
     else {
-        x = x3 - Math.sqrt(radius**2 - (q/2)**2) * (y1-y2)/q;
-        y = y3 - Math.sqrt(radius**2 - (q/2)**2) * (x2-x1)/q;
-        return [x, y];
+        let xb = x3 - Math.sqrt(radius**2 - (q/2)**2) * (y1-y2)/q;
+        let yb = y3 - Math.sqrt(radius**2 - (q/2)**2) * (x2-x1)/q;
+        console.log("Center: xb, yb", xb, yb, q, y1, y2, y3);
+        return [xb, yb];
     }
 
 
@@ -97,9 +99,9 @@ function drawArc(x1, y1, x2, y2, r = 1, clockwise = true) {
 
 function drawChords(x0, y0, x, y, radius = 1, clockwise = true) {
     
-    // If we are to draw counterclockwise, just swap (x0, y0) and (x, y)
-    if (!clockwise)
-        [x0, y0, x, y] = [x, y, x0, y0];
+    // // If we are to draw counterclockwise, just swap (x0, y0) and (x, y)
+    // if (!clockwise)
+    //     [x0, y0, x, y] = [x, y, x0, y0];
 
     let [xC, yC] = arcCenter(x0, y0, x, y, radius, clockwise);
     console.log("center", xC, yC);
@@ -163,6 +165,7 @@ function drawArcEdge(edge) {
     drawMarker(x0, y0);
     drawArc(x0, y0, x, y, r, clockwise);
     drawChords(x0, y0, x, y, r, clockwise);
+  //  drawChords(x0, y0, x, y, r, !clockwise);
 }
 
 function render(wire) {
