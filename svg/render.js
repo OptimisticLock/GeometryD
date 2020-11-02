@@ -1,23 +1,16 @@
 "use strict";
 
-console.log("------------------- render.js");
-
 // import { hello } from './sampleWires.js';
-// console.log("render.js", hello());
 // TODO <script type="module" src="..."></script>
 
-// Works for NW, SE, SW.
-// Broken for NE
-
-// A little serialization test. TODO: make this into a unit test
-// TODO let wire = Wire.deserialize(wires.original.serialize())
-
-
+/**
+ * Create an SVG element and append it to the parent.
+ * @param name - SVG name, e.g. "line" or "arc"
+ * @param attributes - attributes of the SVG element, e.g. "color"
+ */
 function drawElement(name, attributes) {
-    let g = document.getElementById("g");
-
-    // TODO check namespace url
-    let elem = document.createElementNS('http://www.w3.org/2000/svg', name);
+    const g = document.getElementById("g");
+    const elem = document.createElementNS('http://www.w3.org/2000/svg', name);
 
     for (const attribute in attributes)
         elem.setAttribute(attribute, attributes[attribute]);
@@ -25,37 +18,46 @@ function drawElement(name, attributes) {
     g.append(elem);
 }
 
-function drawLineEdge(edge, color = "black") {
-
-    // TODO fix the discrepancy in names
-    let x1 = edge.x0;
-    let y1 = edge.y0;
-    let x2 = edge.x;
-    let y2 = edge.y;
+/**
+ * Draws a line edge using SVG
+ * @param {Line} line
+ * @param color
+ */
+function drawLineEdge(line, color = "black") {
 
     // The actual line from the wire
     drawElement("line", {
         class: "line",
         stroke: color,
-        x1, y1, x2, y2,
+        x1:line.x0, y1:line.y0, x2:line.x, y2:line.y
     })
 }
 
-
-function drawArcEdge(edge, color = "black") {
-
+/**
+ * Draws an arc edge using SVG
+ * @param {Arc} arc
+ * @param color
+ */
+function drawArcEdge(arc, color = "black") {
     drawElement("path", {
         class: "arc",
         stroke: color,
-        d: `M ${edge.x0} ${edge.y0}  A ${edge.radius} ${edge.radius}   0 0 ${+edge.clockwise}  ${edge.x} ${edge.y}`
+        // TODO: one of flags below allows to draw an arc > 180 degrees. Currently, these have to be combined out of 2 arcs
+        d: `M ${arc.x0} ${arc.y0}  A ${arc.radius} ${arc.radius}   0 0 ${+arc.clockwise}  ${arc.x} ${arc.y}`
     })
 }
 
+
+/**
+ * Renders a wire using SVG
+ * @param wire
+ * @param color
+ */
 function render(wire, color) {
 
     for (const edge of wire.edges) {
 
-        // This is the only place where Arcs are hard-coded, but this is just for debugging
+        // This is the only place where specific edge types are hard-coded, but this is just a debugging tool
         if (edge.constructor.name === "Line")
             drawLineEdge(edge, color);
         else
@@ -64,20 +66,11 @@ function render(wire, color) {
 }
 
 
-function toDegrees(radians) {
-    return radians * 360 / (2 * Math.PI);
-}
-
-function toRadians(degrees) {
-    return degrees * 2 * Math.PI / 360;
-}
-
-
 let svg = document.getElementById("svg");
 let point = svg.createSVGPoint();  // Created once for document
 
+// On mousemove, show coordinates on the page. A handy debugging tool.
 g.addEventListener('mousemove', evt => {
-//    console.log("evt", evt);
     let element = evt.target;
 
     point.x = evt.clientX;
@@ -90,10 +83,14 @@ g.addEventListener('mousemove', evt => {
     document.getElementById("coords").innerText = coords;
 });
 
+
 // Turns the #seralized HTML element into a wire editor, allowing to parse and display edited wires.
+// It's kind of raw, but better than nothing. Also demoes deserialization.
+// Listen to "Enter", but not to shift-enter, which is still a newline.
 
 document.getElementById("serialized").addEventListener("keypress", function(event) {
     if (event.key === "Enter" && !event.ctrlKey && !event.shiftKey) {
+        event.preventDefault();
         let str = document.getElementById("serialized").innerText;
         console.log(str);
         try {
@@ -103,11 +100,12 @@ document.getElementById("serialized").addEventListener("keypress", function(even
         } catch (e) {
              handleError(e);
         }
-        event.preventDefault();
     }
 })
 
-
+/**
+ * Removes all svg elements from the parent g element, erasing the old drawing
+ */
 function removeAllSvg() {
     let g = document.getElementById("g");
 
@@ -115,11 +113,20 @@ function removeAllSvg() {
         g.removeChild(g.firstChild);
 }
 
-
+/**
+ * Discretizes and renders the wire.
+ * In fact, two renderings take place. The original wire in gray, the discretized one, in red
+ * @param wire
+ * @param deflection
+ */
 function renderWire(wire, deflection) {
-    let discrete = wire.discretize(deflection);
+    // Doing this for no particular reason expect to meet requirement 3 (and eat own dogfood).
+    // There is another example of serialization and deserialization in the code as well.
+    let deserialized = Wire.deserialize(wire.serialize());
+
+    let discrete = deserialized.discretize(deflection);
     render(discrete, "red");
-    render(wire, "gray");
+    render(deserialized, "gray");
 }
 
 document.querySelector('#deflection').addEventListener('change', selectionChanged);
@@ -144,27 +151,20 @@ for (let wireName of Object.keys(wires)) {
     wire.appendChild(option);
 }
 
-
-//document.querySelector('#wire').appendChild()
-
-
 selectionChanged();
 
-
+/**
+ * Serializes the wire and shows it in the editor
+ * @param wire
+ */
 function showSerialized(wire) {
     let serialized = wire.serialize();
+
+    // Nice to add some white space where needed. JSON.serialize() adds either too much or too little.
     serialized = serialized.replaceAll(",\[", ",\n[");
 
     const ser = document.querySelector('#serialized');
     ser.textContent = serialized;
-
-    let deserialized = Wire.deserialize(serialized);
-    // console.log(wire, serialized, deserialized);
-
-    // let s2 = discrete.serialize();
-    // console.log("discrete", discrete);
-    // console.log("%%%%% discrete serialized", s2);
-
 }
 
 

@@ -5,62 +5,43 @@
 This challenge is to implement a heavily simplified form of some 2D
 boundary-representation geometry data structures and algorithms, as described [here](GeometryTakeHome.md).
 
-
-### Obstacles. 
-
-1. I am not familiar with graphic libraries, so I built a rudimentary SVG-based one. I had to teach myself SVG. And run a refresher on high school trigonometry, which was, alas, completely forgotten in the beginning.
-
-2. I tried and rejected due to the complications and the lack of time: Typescript, Node, modules on local web page (for causing CORS errors #TODO duplicate)
-
-3. Took me some time and lots of refactoring to learn to write this type of applications in idiomatic Javascript. 
+The solution has a web UI, found at [svg/render.html](svg/render.html), or at https://optimisticlock.github.io/geometry/svg/render.html 
 
 
 
+### Obstacles
+
+* I am not familiar with graphic libraries, so I built a rudimentary SVG-based one. I had to teach myself SVG. And run a refresher on high school trigonometry, which was, alas, completely forgotten in the beginning.
+
+* I tried and rejected due to the complications and the lack of time: Typescript, Node, modules on local web page. 
+
+* I made a mistake of massively overengineering the type hierarchy of Edges. I wanted to make it possible to allow for addition of new future edge types, e.g. an EllipticalArc or BezierCurve. I guess I wanted to use this exercise to experiment and find out to what extent ES6 is suitable for moderately complex OO. Seemed like a good idea at the time, but turned into a showcase on YAGNI, and slowed me down greatly. 
+
+* In hindsight, if I wanted to overengineer, I think it would have been much more useful to focus on making Wires, not Edges, as generic as possible, make it an interface using iterators (ES6 generators would be great for that) and remove the requirement of backing it by an array. The reason for that is, the lower the maximum deflection, the higher the storage requirements for discretized wires, unless they are calculated on the fly. Would have been a much easier change with a greater effect.
+
+* I spent a lot of downtime trying to create the right modular structure instead of polluting the global namespace (`import`/`export`/`require` etc.) Turns out, web browsers aren't very fond of accessing the local file system, because CORS. I even tried to migrate to Typescript, in part because of this issue, and because a strongly typed language is clearly called for. I abandoned both attempts.
+
+* Using Javascript for this has been an interesting experiment, but I wouldn't have done it again.
 
 
-### TODO
+### Roadmap
 
-1. The code needs major refactoring. Everything lives at the presentation layer.
+##* Detect intersections!!
 
-2. I assume input needs to be heavily sanity-checked, given the nature of real life challenges faced by the company.
 
-3. Assumptions regarding the input need to be verified.
+* I assume input needs to be heavily sanity-checked, given the nature of the business.
 
- *  I am almost positive I got the concept of "fillets" right, but need to double-check.
+* Tests. Including unit tests.
 
- * All arcs are 90 degrees and start and end at 90 * n degrees angles.
+*. Consider turtle graphics. (In fact, I  might have done just that had I understood the assignment correctly in the beginning).
  
- * Tests. Including unit tests.
- 
- * I felt the nature of the company requires more defensive programming. I felt I haven't been defensive enough.
+* Use `module`/`export`/`import`/`require`
 
-### Problems
+* In a strictly typed language with operator overloading and implicit conversions, like Skala, I'd use Points, not numbers.'That didn't fly so well in Javascript and was one of the things I had to undo.
 
-* Normally, I'd be squashing a lot of `git commit`s. I wouldm't be checking in broken code, definitely not into the main branch.
 
-* Need to use `const` a lot more
 
-* use the arrow `=>` syntax
+### Latest screenshot
 
-* Use `module`/`export`/`import`/`require`, instead of polluting global namespace. I found that in a local browser, that causes CORS issues requiring further attention.
-
-* Use TypeScript. I actually tried and loved how it worked in Node, but then rolled it back because of the compilation issues involving modules in the local browser (see above) and finding myself spending a lot of time in `tsconfig.json`. 
-
-### Tradeoffs
-
-* When designing a new app, especially a greenfield project, there can be a bit of a tradeoff between the YAGNI principle and good architecture. Where "good architecture" is defined as anticipating the possible directions of change and making them easier to implement in the future.
-
-    In my design, I made a wild bet that lines and circular arcs won't be sufficient long term, and more edge types, e.g. elliptic curves, will be needed. I made some adjustments for that, avoiding hard-coding "Line" and "Arc" throughout the code and instead instantiating lines and arcs dynamically. In retrospect, that *was* overengineering and a major YAGNI violation, I don't even know if my bet is accurate, and it probably wasn't a good idea. (I guess I did it because I was on my own time and I wanted to experiment and see if it's feasible to do reasonably complex OO in ES6).
+![Snapshot](svg/snapshot.png)    
     
- Edit: That was a mistake. I really didn't need it, and the cost  of the experiment turned much higher than anticipated. 
-    
-
-### Latest SVG renderer snapshot
-
-This is the latest snapshot of the  renderer [svg/render.html](svg/render.html).
-![Snapshot](svg/snapshot.png).
-
-It calculates arc centers and  angles correctly, and approximates arcs with chords with a given maxium deflection. Does that suboptimally though, by using insribed polygons.
-
-
-

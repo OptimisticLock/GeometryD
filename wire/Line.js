@@ -12,7 +12,7 @@ class Line extends Edge {
 // This would normally be in a static constructor.
 Edge.addEdgeType("Line", Line);
 
-// TODO consider mixin syntax instead, like this:
+// My first thought was, as below. Ruled against it because of the lack of autocomplete.
 // Wire.lineTo = function(x, y) {
 //     const line = new Line(this.getLastEdge(), x, y);
 //     return line

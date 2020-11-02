@@ -22,9 +22,9 @@ class Arc extends Edge {
      */
     validate() {
         check(this.previous, "Can't validate without knowing the previous edge");
-        let dx = this.x - this.x0;
-        let dy = this.y - this.y0;
-        let minDiameter = Math.sqrt(dx ** 2 + dy ** 2);
+        const dx = this.x - this.x0;
+        const dy = this.y - this.y0;
+        const minDiameter = Math.sqrt(dx ** 2 + dy ** 2);
         check(this.radius * 2 >= minDiameter, `Arc radius ${this.radius} too small to connect points (${this.x0}, ${this.y0}) and (${this.x}, ${this.y}). Must be at least ${(minDiameter/2 + .01).toFixed(2)}`)
     }
 
@@ -82,7 +82,7 @@ class Arc extends Edge {
     }
 
     /**
-     * Calculates the angle to the horizon of a line connexting (x1, y1) and (x2, y2)
+     * Calculates the angle to the horizon of a line connecting (x1, y1) and (x2, y2)
      * @param x1
      * @param y1
      * @param x2
@@ -99,16 +99,18 @@ class Arc extends Edge {
     // TODO: at very low deflection, the result can be very a very long array. Replace it with
     //  an iterator. A generator function perhaps?
     /**
+     * Discretizes wire into another wire. A discrete wire is one consisting of lines only.
+     * @param wire - a target wire to discretize this edge into. I am trying to make wires as
+     * unmutable as possible
      *
-     * @param wire - a target wire to discretize this edge into.
      * @param deflection - maximum linear deflection (TODO add definition)
      */
 
     discretizeInto(wire, deflection) {
 
-        let [xC, yC] = this.getCenter();
+        const [xC, yC] = this.getCenter();
 
-        let alpha0 = Arc.angle(xC, yC, this.x0, this.y0);
+        const alpha0 = Arc.angle(xC, yC, this.x0, this.y0);
         let alpha = Arc.angle(xC, yC, this.x, this.y);
 
         if (this.clockwise && alpha < alpha0)
@@ -124,34 +126,31 @@ class Arc extends Edge {
         // TODO fix the DRY violation
         if (angleIncrement > 0)
             for (let alphai = alpha0 + angleIncrement; alphai <= alpha; alphai += angleIncrement) {
-                let xi = xC + this.radius * Math.cos(alphai);
-                let yi = yC + this.radius * Math.sin(alphai);
+                const xi = xC + this.radius * Math.cos(alphai);
+                const yi = yC + this.radius * Math.sin(alphai);
                 wire.addEdge(new Line(xi, yi));
             }
         else
             for (let alphai = alpha0 + angleIncrement; alphai >= alpha; alphai += angleIncrement) {
-                let xi = xC + this.radius * Math.cos(alphai);
-                let yi = yC + this.radius * Math.sin(alphai);
+                const xi = xC + this.radius * Math.cos(alphai);
+                const yi = yC + this.radius * Math.sin(alphai);
                 wire.addEdge(new Line(xi, yi));
             }
         wire.addEdge(new Line(this.x, this.y));
     }
 
-    // @override
+    /**
+     * Serializes an arc into an array.
+     * @return {Array<any>} A serialized representation of this arc
+     */
     serializeIntoArray() {
         return [...super.serializeIntoArray(), this.radius, this.clockwise];
     }
 
-    // /**
-    //  *
-    //  * @return {string} Serialized object
-    //  * @override
-    //  */
-    // serialize() {
-    //     let obj = [this.constructor.name, this.x, this.y, this.r, this.clockwise]
-    //     return JSON.stringify(obj);
-    // }
 }
 
-// This would normally be in a static constructor.
+// Register Arc with parent class so that it knows to instantiate arcs dynamically. Seemed like a good
+// idea at the time. Now, I am debating removing this altogether.
+
+// The ES6 equivalent of a static constructor.
 Edge.addEdgeType("Arc", Arc);

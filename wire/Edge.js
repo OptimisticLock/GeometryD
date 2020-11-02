@@ -6,8 +6,10 @@ class Edge {
     static edgeTypes = {}; //
 
     /**
-     * Add a new edge type, such as Line and Arc. Experimental. Use at your own risk.
-     * FIXME Do we want it public?
+     * Add a new edge type dynamically, e.g. Line and Arc. I wanted to allow this functionality
+     * at the time, mostly just to see whether it can be  done in ES6; now I am not happy with
+     * the overengineering and thinking of simplifying it back into the two usual, hard-coded edge types.
+     * Except I do need to show something for the time spent! :-) Plus, it's an interesting pattern.
      *
      * @param edgeType : string - the name of the new edge type to be added, e.g. "EllipticArc"
      * @param edgeClass : Edge - a custom subclass of Edge for the new edge type, e.g. EllipticArc
@@ -16,12 +18,17 @@ class Edge {
         this.edgeTypes[edgeType] = edgeClass;
     }
 
+    /**
+     * Serializes this edge into an array. I preferred it to the default JSON.stringify() for a number of reasons.
+     * Subclasses may override if needed.
+     * @return {Array}
+     */
     serializeIntoArray() {
         return [this.constructor.name, this.x, this.y]
     }
 
     /**
-     *
+     * Deserializes an Edge
      * @param type String edge type, e.g. "Line" or "Arc"
      * @param x - endpoint of the edge
      * @param y - endpoint of the edge
@@ -40,7 +47,6 @@ class Edge {
 
 
     /**
-     *
      * @type {Edge}  The edge preceding this one in the wire. TODO: encapsulate everything to make Edges as
      * immutable as possible. Make sure the same edge isn't shared between multiple wires
      */
@@ -93,11 +99,16 @@ class Edge {
     }
 
     /**
-     * Checks whether this is a valid edge. Throws an error otherwise.
+     * Checks whether this is a valid edge. If yes, does nothing. If not, throws error. Subclasses may override.
      * @return void
      */
     validate() {}
 
+    /**
+     * Discretizes a wire into a new wire with a given maximum linear deflection.
+     * @param {Wire} discreteWire - the new wire being built, mustn't be closed
+     * @param {mumber} deflection - maximum linear deflection
+     */
     discretizeInto(discreteWire, deflection) {
         let line = new Line(this.x, this.y);
         discreteWire.addEdge(line);

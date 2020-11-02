@@ -4,6 +4,13 @@ class Wire {
 
     edges = [];
     lastEdge = undefined;
+
+    /**
+     * Some operations are only allowed on closed wires; others, only on open ones (i.e. still being built).
+     * Once closed, a wire should be as immutable as the language allows. Prevents lots of bugs.
+     *
+     * @type {boolean}
+     */
     isClosed = false;
 
     /**
@@ -21,50 +28,47 @@ class Wire {
         return this.lastEdge;
     }
 
+    /**
+     * Serializes this wire into a string containing json.
+     * @return {string}
+     */
     serialize() {
         this.checkClosed();
 
-        // An empty wire with no edges
         return JSON.stringify(this.edges, function (key, value) {
             return value instanceof Edge ? value.serializeIntoArray() : value;
         });
     }
 
 
+    /**
+     * Deserializes a wire from a string containing json.
+     * @param {String} str - json to deserialize
+     * @return {Wire}
+     */
     static deserialize(str) {
 
-        function reviver(key, value) {
+        // Massaging JSON.parse() a bit to make it more concise and fit into the rest of the code better.
+        const reviver = (key, value) =>  Array.isArray(value) && key !== "" ? Edge.deserialize(...value) : value;
 
-            if (Array.isArray(value) && key !== "") {
-                let result = Edge.deserialize(...value);
-         //       console.log("Array: ", key, value, result);
-                return result;
-            }
-            else {
-        //        console.log("Non-array: ", key, value)
-                return value;
-            }
-        }
+        // This throws Error if JSON is malformed, with a reasonably good text message, so we are good.
+        const edges = JSON.parse(str, reviver);
 
-        // TODO: handle errors
-        let edges = JSON.parse(str, reviver);
-
-     //   console.log("????????????? Edges", edges);
-
-        let wire = new Wire(); // TODO private constructor?
+        const wire = new Wire(undefined, undefined);
 
         for (let edge of edges)
             wire.addEdge(edge);
 
         wire.x = wire.lastEdge.x;
         wire.y = wire.lastEdge.y;
+
+        // This also validates the wire.
         wire.close();
         return wire;
     }
 
     /**
-     * This is the only public way to instantiate a Wire.
-     *
+     * This should be the only public way to instantiate a Wire.
      * @param x
      * @param y - point at which the wire's first edge starts.
      * @return {Wire}
@@ -86,9 +90,7 @@ class Wire {
     addEdge(edge) {
 
         check(!this.isClosed, "Can't add edge to a closed wire");
-
         edge.previous = this.lastEdge;
-
         this.edges.push(edge);
         this.lastEdge = edge;
         return this;
@@ -105,12 +107,11 @@ class Wire {
      * Some operations, such as serialization, aren't allowed on open wires and
      * throw an error. TODO: I can think of reasons to serialize and open wire
      *
-     *
-     * @return {Wire} this, for fluent interface. TODO is it needed?
+     * @return {Wire} this, for fluent interface.
      */
 
     close() {
-        let firstEdge = this.edges[0];
+        const firstEdge = this.edges[0];
 
         check(!this.isClosed, "Wire already closed");
 
@@ -141,8 +142,7 @@ class Wire {
      *
      * A wire is valid if it's closed, non-empty and all its edges are valid. Though
      * one can add more checks as needed, e.g. to make sure it's not one-dimensional.
-     * TODO Not validating that every parameter is defined and of the right type as a strictly-typed language with non-nullables should take care of that.
-     *
+     * TODO Add more checks
      * @return void
      */
     validate() {
