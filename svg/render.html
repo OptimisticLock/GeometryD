@@ -6,22 +6,30 @@
 
 <body>
 
+<!--Wire rendered here-->
 <svg id="svg">
     <g id="g" transform="scale(40) translate(1, 1)" stroke-width=.1,></g>
     Sorry, your browser does not support inline SVG.
 </svg>
 
 <div id="controls">
+     <!--  Allows user to select one of the predefined wires to display, including rounded rectangle and bowtie-->
     <label for="wire">Wire:</label>
     <select id="wire"></select>
 
+    <!-- Allows user to change the maximum linear deflection-->
     <label for="deflection">Deflection:</label>
     <input id="deflection" value=.03 min=.01 max=4 step=.01 type="number">
 
+    <!-- Mouse coords shown here-->
     <span id="coords">(0, 0)</span>
 </div>
+
+<!--Serialized wire is shown here. User can edit it, press Enter to deserialize and redraw.
+TODO Editable HTML elements might not behave well across browsers. Tested on Chrome -->
 <pre id="serialized" contenteditable="true"></pre>
 
+<p> Click text to edit serialized wire. Enter to deserialize and draw. Shift-enter for new line </p>
 
 <script src="../wire/Assert.js"></script>
 <script src="../wire/Wire.js"></script>

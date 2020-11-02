@@ -70,6 +70,10 @@ line:hover {
     padding-left: 5em;
 }
 
+p {
+    font-size: 1.2em;
+}
+
 
 #controls {
     background: lightgrey;
@@ -78,6 +82,6 @@ line:hover {
 }
 
 #serialized {
-    background: lightyellow;
+    background: whitesmoke;
     font-size: 1.5em;
 }

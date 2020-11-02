@@ -16,6 +16,21 @@ let wires = {
             .addEdge(new Line(0, 1))
             .close(),
 
+    bowtie: Wire.startAt(2, 4)
+        .addEdge(new Line(12, 8))
+        .addEdge(new Arc(12, 4, 6, true))    //
+        .addEdge(new Line(2, 8))
+        .addEdge(new Arc(2, 4, 6, false))     //
+        .close(),
+
+    bowtie2: Wire.startAt(2, 4)
+        .addEdge(new Line(12, 8))
+        .addEdge(new Arc(12, 4, 6, false))    //
+        .addEdge(new Line(2, 8))
+        .addEdge(new Arc(2, 4, 6, true))     //
+        .close(),
+
+
     sansCorners: Wire.startAt(0,4)
         .addEdge(new Arc(4, 0, 3, false))
         .addEdge(new Line(6, 0))
@@ -50,20 +65,6 @@ let wires = {
 
     circle: Wire.startAt(8, 4)
         .addEdge(new Arc(0, 4, 4, false))
-        .close(),
-
-    bowtie: Wire.startAt(2, 4)
-        .addEdge(new Line(12, 8))
-        .addEdge(new Arc(12, 4, 6, true))    //
-        .addEdge(new Line(2, 8))
-        .addEdge(new Arc(2, 4, 6, false))     //
-        .close(),
-
-    bowtie2: Wire.startAt(2, 4)
-        .addEdge(new Line(12, 8))
-        .addEdge(new Arc(12, 4, 6, false))    //
-        .addEdge(new Line(2, 8))
-        .addEdge(new Arc(2, 4, 6, false))     //
         .close(),
 
     weird: Wire.startAt(0, 1)
