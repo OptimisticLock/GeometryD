@@ -52,6 +52,8 @@ function drawArcEdge(arc, color = "black") {
  * Renders a wire using SVG
  * @param wire
  * @param color
+ * TODO: as simple as this method is, it should exist in Wire, as im `wire.render(renderer)`.
+ * This way, SVG graphics described in `render.js` would be only one out of possible Renderer implementations.
  */
 function render(wire, color) {
 
