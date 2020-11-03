@@ -4,12 +4,22 @@
 // There should probably be a solution to that, but I left it out of scope and am instead just polluting the
 // global namespace.
 
+/**
+ *
+ * @type {{string: Wire}} A dictionary of some predefined wires and their names.
+ *
+ * Some of these wires are hard-coded, while others, as their names show, are random and change
+ * on every reload. Bowtie is serialized from string as requested.
+ *
+ */
 let wires = {
 
+    // These two wires are regenerated randomly every time. Hit reload n browser to see a new one.
     randomArcs: generateRandomArcWire(),
     randomLines: generateRandomLinearWire(),
 
-    // Bowtie deserialization as requested.
+
+    // Bowtie deserialization
     // TODO: Only when editing this string in built-in editor did I realize how user-unfriendly these numbers are. Turtle graphics?
     deserializedBowtie: Wire.deserialize(
         '[' +
