@@ -7,30 +7,38 @@
 <body>
 
 <!--Wire rendered here-->
-<svg id="svg">
-    <g id="g" transform="scale(40) translate(1, 1)" stroke-width=.1,></g>
-    Sorry, your browser does not support inline SVG.
-</svg>
-
-<div id="controls">
-     <!--  Allows user to select one of the predefined wires to display, including rounded rectangle and bowtie-->
-    <label for="wire">Wire:</label>
-    <select id="wire"></select>
-
-    <!-- Allows user to change the maximum linear deflection-->
-    <label for="deflection">Deflection:</label>
-    <input id="deflection" value=0.03 min=.01 max=5 step=.01 type="number">
-
-    <!-- Mouse coords shown here-->
-    <span id="coords">(0, 0)</span>
+<div id="renderer">
+    <svg id="svg">
+        <g id="g" transform="scale(40) translate(1, 1)" stroke-width=.1,></g>
+        Sorry, your browser does not support inline SVG.
+    </svg>
 </div>
 
-<!--Serialized wire is shown here. User can edit it, press Enter to deserialize and redraw.
+
+
+<div id="editor">
+
+    <div id="statusBar">
+        <!--  Allows user to select one of the predefined wires to display, including rounded rectangle and bowtie-->
+        <label for="wire">Wire:</label>
+        <select id="wire"></select>
+
+        <!-- Allows user to change the maximum linear deflection-->
+        <label for="deflection">Deflection:</label>
+        <input id="deflection" value=0.03 min=.01 max=5 step=.01 type="number">
+
+        <!-- Mouse coords shown here-->
+        <span id="coords">(0, 0)</span>
+    </div>
+
+    <!--Serialized wire is shown here. User can edit it, press Enter to deserialize and redraw.
   TODO: instead of intercepting Enter, add a "Draw" button, enable it after change.
   -->
 
-<textarea id="serialized"></textarea>
-<p id="hotkeys"> Click text to edit the wire. Press <em>Enter</em> to deserialize and draw. <em>Shift-Enter</em> for new line </p>
+    <textarea id="serialized"></textarea>
+    <p id="hotkeys"> Click text to edit the wire. Press <em>Enter</em> to deserialize and draw. <em>Shift-Enter</em> for new line </p>
+
+</div>
 
 <script src="utilities/ErrorHandler.js"></script>
 <script src="geometry/lineGeometry.js"></script>
