@@ -76,8 +76,7 @@ class LineSegment {
         return new Vector(this.point1.x - this.point0.x, this.point1.y - this.point0.y);
     }
 
-
-    /**
+     /**
      * @param other : LineSegment - a segment to test collision with.
      * @return Point - collision point between two segments, or null if none.
      * http://stackoverflow.com/a/565282/786339
