@@ -36,9 +36,11 @@ The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other
 * All in all, using Javascript for this has been an interesting experiment, but I wouldn't do it again.
 
 
-## Detecting collisions
+## Collision detection
 
-  The current version only detects collisions between line segments. It is however possible to fist discretize an arbitrary wire to a desired maximum linear deflection, *then* check it for collisions. The demo does that (see picture above). Of course, the precision of collision detection in this case is a function of maximum linear deflection.
+  The current version only detects collisions between line segments. It is however possible to fist discretize an arbitrary wire to a desired maximum linear deflection, *then* check it for collisions. Of course, the precision of collision detection in this case is a function of maximum linear deflection.
+  
+  The demo does exactly that: first discretizes the wire, then detects collisions. On the picture above, collisions are marked with red dots.
   
   TODO: Collinear segments aren't detected as collisions yet. 
   
@@ -67,6 +69,8 @@ Or, we could do another inexpensive calculation, though I am not sure it will bu
   
   * More efficient algorithms exist, e.g. one for line segments described  [here](http://geomalgorithms.com/a09-_intersect-3.html#:~:text=Simple%20Polygons,-(A)%20Test%20if&text=The%20Shamos%2DHoey%20algorithm%20can,polygon%20is%20simple%20or%20not.&text=Nevertheless%2C%20there%20have%20often%20been,include%20a%20complete%20standalone%20algorithm).   I haven't had a chance to familiarize myself with them.
   
+    (TODO: in this document, I use the terms "collision" and "intersection" interchangeably, but they might have a different meaning).
+  
 
 ### Roadmap
 
@@ -81,7 +85,7 @@ Or, we could do another inexpensive calculation, though I am not sure it will bu
 * Tests. Including unit tests.
 
 * Consider turtle graphics. 
-
+ 
 * Allow for arcs with an angle > 180 degrees. Currently, the only way to construct these is by creating two shorter adjacent arcs. That should be easily fixable. 
  
 * Use `module`/`export`/`import`/`require`
