@@ -8,6 +8,14 @@ class Line extends Edge {
     constructor(x, y) {
         super(x, y);
     }
+
+    collisionWith(that) {
+        let thisSegment = new LineSegment(new Point(this.x0, this.y0), new Point(this.x, this.y));
+        let thatSegment = new LineSegment(new Point(that.x, that.y), new Point(that.x, that.y));
+
+        let intersection = segment1.collisionWith(segment2);
+        console.log("collision:", collides);
+    }
 }
 // This would normally be in a static constructor.
 Edge.addEdgeType("Line", Line);
@@ -17,6 +25,7 @@ Edge.addEdgeType("Line", Line);
 //     const line = new Line(this.getLastEdge(), x, y);
 //     return line
 // }
+
 
 
 
