@@ -5,19 +5,31 @@
 This challenge is to implement a heavily simplified form of some 2D
 boundary-representation geometry data structures and algorithms, as described [here](docs/GeometryTakeHome.md).
 
-The solution has a web UI, found at [svg/render.html](index.html), with a live demo at https://optimisticlock.github.io/geometry/svg/render.html  
+### How to run it
 
-The WebUI has only been tested on Chrome 86.0.4240.111 and might be glitchy in other browsers. As a matter of fact, it has a couple of smallish bugs on Chrome, too.
+On Mac,
+````
+git clone https://github.com/OptimisticLock/geometry
+cd geometry
+open index.html
+````
+
+There is also a [live demo](https://optimisticlock.github.io/geometry/), inactive for privacy reasons, which I can take online if needed. 
+
+The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other browsers. As a matter of fact, it is glitchy, period. Here is a screenshot.
+
+![Snapshot](docs/snapshot.png)  
+
 
 ### Obstacles
 
-* I am not familiar with graphic libraries, so I built a rudimentary SVG-based one. I had to teach myself SVG. And run a refresher on high school trigonometry, which was, alas, thoroughly forgotten.
+* I am not familiar with graphic libraries, so I built a rudimentary SVG-based one. I had to teach myself SVG. And, run a refresher on high school trigonometry, which was, alas, thoroughly forgotten. 
 
-* I tried and rejected due to the complications and the lack of time: Typescript, Node, modules on local web page. 
+* I tried and rejected due to the complications and the lack of time: Typescript, Node, different types of modules on local web page. 
 
-* I made a mistake of massively overengineering the type hierarchy of Edges. I wanted to make it possible to allow for addition of new future edge types, e.g. an EllipticalArc or BezierCurve. I guess I wanted to use this exercise to experiment and find out to what extent ES6 is suitable for moderately complex OO. Seemed like a good idea at the time, but turned into a showcase on YAGNI, and slowed me down greatly. 
+* I made a mistake of massively overengineering the type hierarchy of `Edge`s. I wanted to make it possible to allow for addition of new future edge types, e.g. an `EllipticalArc` or `BezierCurve`. I guess I wanted to use this exercise to experiment and find out to what extent ES6 is suitable for moderately complex OO. Seemed like a good idea at the time, but turned into a showcase on YAGNI, and slowed me down greatly. 
 
-* In hindsight, if I wanted to overengineer, I think it would have been much more useful to focus on making Wires, not Edges, as generic as possible, make it an interface using iterators (ES6 generators would work for that), so that very complex wires don't have to be backed by arrays. The lower the maximum deflection, the higher storage requirements for discretized wires, the more incentive to calculate them on the fly. Although, one would need to balance that against the cost of computations on wires, e.g. calculating intersections. 
+* In hindsight, if I wanted to overengineer, I think it would have been much more useful to focus on making `Wire`s, not `Edge`s, as generic as possible, make it an interface using iterators (ES6 generators would work nicely for that), so that very complex wires don't have to be backed by arrays. The lower the maximum deflection, the higher storage requirements for discretized wires, the more incentive to calculate them on the fly. Although, one would need to balance that against the cost of computations on wires, e.g. calculating intersections. 
 
 * I spent a lot of downtime trying to create the right modular structure  (`import`/`export`/`require` etc.) instead of polluting the global namespace. Turns out, web browsers aren't very fond of accessing the local file system, because CORS. I even tried to migrate to Typescript, in part because of this issue, and also because a strongly typed language is clearly called for. I abandoned both attempts.
 
@@ -28,7 +40,7 @@ The WebUI has only been tested on Chrome 86.0.4240.111 and might be glitchy in o
 
   The current version still doesn't detect intersections! I should still have the time to implement that.
   
-  Without having read any literature on the subject, some preliminary thoughts. 
+  After a very cursory look on the literature on the subject, some preliminary thoughts. 
   
   * Is it okay to assume that an edge that merely touches a non-adjacent edge, intersects it? E.g. is T-shape an intersection? That would greatly simplify the calculations. Especially it would be a nice simplification to assume that if more than two edges have the same vertex, the wire intersects.
 
@@ -45,13 +57,21 @@ The WebUI has only been tested on Chrome 86.0.4240.111 and might be glitchy in o
 ````  
   Where `(x1, y2)` and `(x2, y2)` are centers of the circular arcs, with the algorithm for finding the center already implemented at `Arc.getCenter()`
   
-  * A brute-force way of detecting intersections is to see whether any two non-adjacent wires intersect, with complexity of O(n²).
-    
-  * Two adjacent circular segments, or a circular and an adjacent line segment, can intersect, too. 
+ 
+  * A brute-force way of detecting intersections is to see whether any two non-adjacent wires intersect, with complexity of O(n²). 
   
-  ![illustrtion](docs/Arcs.png)
+  Actually, adjacent wires can intersect at points other than their vertices, too:
+  ![illustrtion](docs/IntersectingAdjacentArcs.png)
   
-  Two adjacent line segments never intersect (with the possible exception of a 180 degree angle between two lines, i.e. when a line traces back)
+  * We can improve performance by implementing broad and narrow phases of collision. In the broad phase, we'd quickly rule out the edges which obviously can't collide, e.g. because of their bounding boxes not intersecting. 
+  
+  Or, we could do another inexpensive calculation, though I am not sure it will buy us much: Arcs aren't colliding if
+````  
+      (x2 - x1)² + (y2 - y1)² > (r1 + r2)²`.
+```` 
+  
+  (TODO:look up AABB trees)
+  
   
   * More efficient algorithms should exist, e.g. one for line segments described  [here](http://geomalgorithms.com/a09-_intersect-3.html#:~:text=Simple%20Polygons,-(A)%20Test%20if&text=The%20Shamos%2DHoey%20algorithm%20can,polygon%20is%20simple%20or%20not.&text=Nevertheless%2C%20there%20have%20often%20been,include%20a%20complete%20standalone%20algorithm).
   
@@ -61,7 +81,7 @@ The WebUI has only been tested on Chrome 86.0.4240.111 and might be glitchy in o
 
 * Detect intersections!!
 
-* Arcs are discretized using inscribed regular polygons. That achieves the goal, but suboptimally. Tthe same maximum linear deflection can be achieved with fewer line segments by using regular polygons that are somewhere between inscribed and circumscribed ones. 
+* Arcs are discretized using inscribed regular polygons. That achieves the goal, but suboptimally. The same maximum linear deflection can be achieved with fewer line segments by using regular polygons that are somewhere between inscribed and circumscribed ones. 
 
 ![illustrtion](docs/betterDiscretization.png)
 
@@ -71,7 +91,7 @@ The WebUI has only been tested on Chrome 86.0.4240.111 and might be glitchy in o
 
 * Consider turtle graphics. (In fact, I  might have done just that had I understood the assignment correctly in the beginning).
 
-* Allow for arcs with an angle > 180 degrees. Currently, the only way to construct those is by constructing 2 shorter adjacent arcs. This is an oversight that should be easily fixable.
+* Allow for arcs with an angle > 180 degrees. Currently, the only way to construct those is by creating two shorter adjacent arcs. This is an oversight that should be easily fixable. 
  
 * Use `module`/`export`/`import`/`require`
 
@@ -83,7 +103,6 @@ The WebUI has only been tested on Chrome 86.0.4240.111 and might be glitchy in o
 
 * Also, [search for TODO in code](https://github.com/OptimisticLock/geometry/search?q=TODO).
 
-### Latest screenshot
 
-![Snapshot](docs/snapshot.png)    
+  
     
