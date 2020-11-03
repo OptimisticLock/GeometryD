@@ -39,7 +39,7 @@ function drawLineEdge(line, color = "black") {
     drawElement("line", {
         class: "line",
         stroke: color,
-        x1:line.x0, y1:line.y0, x2:line.x, y2:line.y
+        x1: line.x0, y1: line.y0, x2: line.x, y2: line.y
     })
 }
 
@@ -83,7 +83,7 @@ const svgPoint = svgElement.createSVGPoint();  // Created once for document
 
 // On mousemove, show coordinates on the page. A handy debugging tool.
 g.addEventListener('mousemove', evt => {
- //   let element = evt.target;
+    //   let element = evt.target;
 
     svgPoint.x = evt.clientX;
     svgPoint.y = evt.clientY;
@@ -95,12 +95,10 @@ g.addEventListener('mousemove', evt => {
     document.getElementById("coords").innerText = coords;
 });
 
-
-// Turns the #seralized HTML element into a wire editor, allowing to parse and display edited wires.
-// It's kind of raw, but better than nothing. Also demoes deserialization.
-// Listen to "Enter", but not to shift-enter, which is still a newline.
-
-document.getElementById("serialized").addEventListener("keypress", function(event) {
+/**
+ * Listens to TextArea and deserializes and renders on Enter. TODO: add an actual button.
+ */
+document.getElementById("serialized").addEventListener("keypress", function (event) {
     if (event.key === "Enter" && !event.ctrlKey && !event.shiftKey) {
         event.preventDefault();
         const str = document.getElementById("serialized").value;
@@ -110,7 +108,7 @@ document.getElementById("serialized").addEventListener("keypress", function(even
             removeAllSvg();
             renderWire(wire, .1);
         } catch (e) {
-             handleError(e);
+            handleError(e);
         }
     }
 })
@@ -133,11 +131,15 @@ function removeAllSvg() {
  */
 function renderWire(wire, deflection) {
 
-    //   const deserialized = Wire.deserialize(wire.serialize());
+    //   const deserialized = Wire.deserialize(wire.serialize()); TODO that would be a good unit test
 
     const discrete = wire.discretize(deflection);
     render(discrete, "red");
+
+    // Render the original wire, with arcs.
+    // At high enough deflection, gray arcs can be seen.
     render(wire, "gray");
+
     const collisions = discrete.getCollisions();
 
     for (let collision of collisions) {
@@ -166,6 +168,10 @@ function selectionChanged() {
 
 const wireElement = document.getElementById("wire");
 
+/*  Load all wires from sampleWires.js into the dropdown listbox, allowing
+    user to select one. Try selecting one of the 'random' wires and then
+    hitting Reload!
+ */
 for (let wireName of Object.keys(wires)) {
     const option = document.createElement("option");
     option.text = wireName;
