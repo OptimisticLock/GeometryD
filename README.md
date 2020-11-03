@@ -46,9 +46,9 @@ The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other
   
   When two edges merely touch (and not necessarily cross), it's considered a collision, with the exception of two adjacent edges touching at vertices omly.  E.g., a T shape is a collision.
 
- The current collision detection implementation is brute force: it tests all combinations of non-adjacent edges, hence the time complexity of O(n²) and the space complexity of O(n).
+ The current collision detection implementation is brute force: it tests all pairs of non-adjacent edges, hence the time complexity of O(n²) and the space complexity of O(n).
  
- In the future, it should be fairly straightforward to collision-check non-discrete wires. For instance, intersection of two circular arc segments can be solved by solving a system of two equations: 
+ In the future, it should be fairly straightforward to collision-check non-discrete wires. For instance, intersection of two circular arc segments can be detected by solving a system of two equations: 
 ````
       (x-x1)² + (y-y1)² = r1²
       (x-x2)² + (y-y2)² = r2²
@@ -96,7 +96,7 @@ Or, we could do another inexpensive calculation, though I am not sure it will bu
 
 * If needed, might optimize performance by not spending so much time in trigonometric functions (caching? Controlling precision? Substituting algorithms?)
 
-* Any discrete implementation may fail for very small and very large values, while possibly providing unnecessarily high precision (and low performance) mid-range. These issues require more careful consideration: testing, limiting the input ranges, adjusting the algorithms accordingly. (I've read somewhere that there are formats superior for computational geometry to floating point, TODO will see if I can find it).
+* Any discrete implementation may fail for very small and very large values, while possibly providing unnecessarily high precision (and low performance) mid-range. That may require more careful consideration: testing, limiting the input ranges, adjusting the algorithms accordingly. (I've read somewhere that there are formats superior for computational geometry to floating point, TODO will see if I can find it).
 
 * Also, [search for TODO in code](https://github.com/OptimisticLock/geometry/search?q=TODO).
 
