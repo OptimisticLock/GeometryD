@@ -135,12 +135,13 @@ function generateRandomLinearWire() {
 
 function generateRandomArcWire() {
     try {
-        const wire = Wire.startAt(random(), random())
+
+        let x0 = random()
+        let y0 = random()
+
+        const wire = Wire.startAt(x0, y0);
         const nWires = random() * 5;
         let clockwise = true;
-
-        let x0 = 0;
-        let y0 = 0;
 
         for (let i = 0; i < nWires; i++) {
             let x = random();
