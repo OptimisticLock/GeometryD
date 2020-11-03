@@ -44,7 +44,7 @@ class Arc extends Edge {
         if (!this.clockwise)
             result = -result;
 
-        console.log(`Angle increment for radius ${this.radius} and deflection ${deflection} is ${toDegrees(result)}`);
+//        console.log(`Angle increment for radius ${this.radius} and deflection ${deflection} is ${toDegrees(result)}`);
         return result;
     }
 
@@ -119,7 +119,7 @@ class Arc extends Edge {
         if (!this.clockwise && alpha > alpha0)
             alpha -= 2 * Math.PI;
 
-        console.log("##### Angles: ", toDegrees(alpha0), toDegrees(alpha), this.clockwise);
+ //       console.log("##### Angles: ", toDegrees(alpha0), toDegrees(alpha), this.clockwise);
 
         let angleIncrement = this.getAngleIncrement(deflection);
 
