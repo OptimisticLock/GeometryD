@@ -92,3 +92,11 @@ line:hover {
     color: darkgray;
 }
 
+.collision {
+    r:.2;
+    stroke: purple;
+    stroke-width: .02;
+    fill: red;
+    opacity: .6;
+}
+

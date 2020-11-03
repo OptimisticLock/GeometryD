@@ -38,9 +38,9 @@ The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other
 
 ## Detecting intersections
 
-  The current version still doesn't detect intersections! I should still have the time to implement that.
+  **Edit.** The current version detects intersections between line segments. Arcs are treated like line segments. Collinear segments aren't detected yet. In the renderer, collisions are marked with red dots.
   
-  After a very cursory look on the literature on the subject, some preliminary thoughts. 
+  After a very cursory look on the literature on the subject, some thoughts. 
   
   * Is it okay to assume that an edge that merely touches a non-adjacent edge, intersects it? E.g. is T-shape an intersection? That would greatly simplify the calculations. Especially it would be a nice simplification to assume that if more than two edges have the same vertex, the wire intersects.
 

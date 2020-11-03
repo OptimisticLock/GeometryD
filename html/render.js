@@ -138,10 +138,6 @@ function renderWire(wire, deflection) {
             class: "collision",
             cx: collision.x,
             cy: collision.y,
-            r:.5,
-            stroke: "purple",
-            "stroke-width": .1,
-            fill: "red"
         });
 
  //           <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />

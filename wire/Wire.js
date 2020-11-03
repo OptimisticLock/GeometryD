@@ -183,16 +183,13 @@ class Wire {
                     break;
                 }
 
-                if (edge2.getType() === "Line") {
-                    console.log(`edge1: #${e1} from ${edge1.x0}, ${edge1.y0} to ${edge1.x}, ${edge1.y}`);
-                    console.log(`edge2: #${e2} from ${edge2.x0}, ${edge2.y0} to ${edge2.x}, ${edge2.y}\n`);
-
-                    if (e1 === 0 && e2 === 4)
-                        console.log("Collision for butterfly here");
-                }
-
-
-
+                // if (edge2.getType() === "Line") {
+                //     console.log(`edge1: #${e1} from ${edge1.x0}, ${edge1.y0} to ${edge1.x}, ${edge1.y}`);
+                //     console.log(`edge2: #${e2} from ${edge2.x0}, ${edge2.y0} to ${edge2.x}, ${edge2.y}\n`);
+                //
+                //     if (e1 === 0 && e2 === 4)
+                //         console.log("Collision for butterfly here");
+                // }
 
                 const collision = edge1.collisionWith(edge2);
 
