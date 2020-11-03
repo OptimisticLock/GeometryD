@@ -5,16 +5,18 @@
 // global namespace.
 
 let wires = {
-    // TODO: Absolute coordinates aren't very user-friendly. Turtle graphics?
-    // Bowtie deserialized as requested.
-    deserializedBowtie: Wire.deserialize('[["Line",14,8],\n' +
-        '["Arc",15,7,1,false],\n' +
-        '["Line", 15, 4],\n' +
-        '["Arc", 14, 3, 1, false],\n' +
-        '["Line",1,8],\n' +
-        '["Arc", 0, 7],\n' +
-        '["Line", 0, 4],\n' +
-        '["Arc",1,3,1,true]]'),
+    // Bowtie deserialization as requested.
+    // TODO: Only when editing this string in built-in editor did I realize how user-unfriendly these numbers are. Turtle graphics?
+    deserializedBowtie: Wire.deserialize(
+        '[' +
+            '["Line",14,8],             \n' +
+            '["Arc",15,7,1,false],      \n' +
+            '["Line", 15, 4],           \n' +
+            '["Arc", 14, 3, 1, false],  \n' +
+            '["Line",1,8],              \n' +
+            '["Arc", 0, 7],             \n' +
+            '["Line", 0, 4],            \n' +
+            '["Arc",1,3,1,true]]'),
 
     roundedSquare: Wire.startAt(0, 1)
         .addEdge(new Arc(1, 0))
