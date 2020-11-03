@@ -1,3 +1,5 @@
+"use strict";
+
 // In this file, I bit the bullet and introduced geometry classes, because using points became unreadable.
 // Now I just need to TODO: refactor the rest of the code in kind..
 
