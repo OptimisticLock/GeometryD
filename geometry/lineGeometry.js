@@ -1,3 +1,6 @@
+// In this file, I bit the bullet and introduced geometry classes, because using points became unreadable.
+// Now I just need to TODO: refactor the rest of the code in kind..
+
 
 function toDegrees(radians) {
     return radians * 360 / (2 * Math.PI);
@@ -77,7 +80,7 @@ class LineSegment {
      * @return Point - collision point between two segments, or null if none.
      * http://stackoverflow.com/a/565282/786339
      */
-    intersectionWith(that) {
+    collisionWith(that) {
         // Not very fond of variable names, but keeping it consistent with the source
         const p = this.point0;
         const q = that.point0;
@@ -111,49 +114,57 @@ class LineSegment {
     }
 }
 
-let segment1, segment2, collides;
 
-// TODO. now Null always, need to handle colinear
-segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
-segment2 = new LineSegment(new Point(0, 0), new Point(1, 1));
-collides = segment1.intersectionWith(segment2);
-console.log("collision:", collides);
+// TODO make these & more into unit tests
 
+function quasiUnitTests() {
+    let segment1, segment2, collides;
+    // TODO. now Null always, need to handle colinear
+    segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
+    segment2 = new LineSegment(new Point(0, 0), new Point(1, 1));
+    collides = segment1.collisionWith(segment2);
+    console.log("collision:", collides);
 
-// Null
-segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
-segment2 = new LineSegment(new Point(0.00001, 0.0), new Point(5, 0));
-collides = segment1.intersectionWith(segment2);
-console.log("collision:", collides);
 
 // Null
-segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
-segment2 = new LineSegment(new Point(1, 0.0), new Point(5, 0));
-collides = segment1.intersectionWith(segment2);
-console.log("collides?", collides);
+    segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
+    segment2 = new LineSegment(new Point(0.00001, 0.0), new Point(5, 0));
+    collides = segment1.collisionWith(segment2);
+    console.log("collision:", collides);
+
+// Null
+    segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
+    segment2 = new LineSegment(new Point(1, 0.0), new Point(5, 0));
+    collides = segment1.collisionWith(segment2);
+    console.log("collides?", collides);
 
 
 // (1, 1)
-segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
-segment2 = new LineSegment(new Point(1, 0), new Point(1, 1));
-collides = segment1.intersectionWith(segment2);
-console.log("collision:", collides);
+    segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
+    segment2 = new LineSegment(new Point(1, 0), new Point(1, 1));
+    collides = segment1.collisionWith(segment2);
+    console.log("collision:", collides);
 
 // Null
-segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
-segment2 = new LineSegment(new Point(5, 0), new Point(5, 1));
-collides = segment1.intersectionWith(segment2);
-console.log("collision:", collides);
+    segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
+    segment2 = new LineSegment(new Point(5, 0), new Point(5, 1));
+    collides = segment1.collisionWith(segment2);
+    console.log("collision:", collides);
 
 // (0, 0)
-segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
-segment2 = new LineSegment(new Point(0.0, 0.0), new Point(5, 1));
-collides = segment1.intersectionWith(segment2);
-console.log("collision:", collides);
+    segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
+    segment2 = new LineSegment(new Point(0.0, 0.0), new Point(5, 1));
+    collides = segment1.collisionWith(segment2);
+    console.log("collision:", collides);
 
 
 // (0, 0)
-segment1 = new LineSegment(new Point(0, 0), new Point(0, 2));
-segment2 = new LineSegment(new Point(-1, 0), new Point(1, 1));
-collides = segment1.intersectionWith(segment2);
-console.log("collision:", collides);
+    segment1 = new LineSegment(new Point(0, 0), new Point(0, 2));
+    segment2 = new LineSegment(new Point(-1, 0), new Point(1, 1));
+    collides = segment1.collisionWith(segment2);
+    console.log("collision:", collides);
+
+}
+
+// TODO remove that
+quasiUnitTests();
