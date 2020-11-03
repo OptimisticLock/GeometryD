@@ -41,6 +41,12 @@ class Vector extends Point {
         const b = that;
         return  a.x * b.x + a.y * b.y;
     }
+
+    crossProductWith(that) {
+        let a = this;
+        let b = that;
+        return a.x * b.y - a.y * b.x;
+    }
 }
 
 
@@ -82,10 +88,10 @@ class LineSegment {
         // u = (q − p) × r / (r × s)
 
         const qMinusP = q.subtract(p);                  // q - p
-        const rxs = r.scalarProductWith(s);             // r × s
+        const rxs = r.crossProductWith(s);             // r × s
 
-        const t = qMinusP.scalarProductWith(s) / rxs;
-        const u = qMinusP.scalarProductWith(r) / rxs;
+        const t = qMinusP.crossProductWith(s) / rxs;
+        const u = qMinusP.crossProductWith(r) / rxs;
 
         return (0 <= t && t <= 1   &&   0 <=u && u <= 1);
 
@@ -93,13 +99,13 @@ class LineSegment {
     }
 }
 
-// true???
+// false
 let segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 let segment2 = new LineSegment(new Point(0.00001, 0.0), new Point(5, 0));
 let collides = segment1.collidesWith(segment2);
 console.log("collides?", collides);
 
-
+// false
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(1, 0.0), new Point(5, 0));
 collides = segment1.collidesWith(segment2);
