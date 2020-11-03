@@ -14,7 +14,7 @@ cd geometry
 open index.html
 ````
 
-There is also a [live demo](https://optimisticlock.github.io/geometry/), inactive for privacy reasons, which I can take online if needed. 
+There is also a [live demo](https://optimisticlock.github.io/geometry/), inactive for privacy reasons, I can bring it online if needed. 
 
 The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other browsers. As a matter of fact, it is glitchy, period. Here is a screenshot.
 
