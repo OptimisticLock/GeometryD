@@ -21,7 +21,7 @@ let wires = {
 
     // Bowtie deserialization
     // TODO: Only when editing this string in built-in editor did I realize how user-unfriendly these numbers are. Turtle graphics?
-    deserializedBowtie: Wire.deserialize(
+    bowtie: Wire.deserialize(
         '[' +
         '["Line",14,8],             \n' +
         '["Arc",15,7,1,false],      \n' +
@@ -136,8 +136,8 @@ function generateRandomLinearWire() {
 function generateRandomArcWire() {
     try {
 
-        let x0 = random()
-        let y0 = random()
+        let x0 = random();
+        let y0 = random();
 
         const wire = Wire.startAt(x0, y0);
         const nWires = random() * 5;

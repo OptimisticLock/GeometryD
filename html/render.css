@@ -94,7 +94,7 @@ line:hover {
 
 #hotkeys {
     font-size: 1.2em;
-    color: darkgray;
+    color: gray;
 }
 
 #outer {
@@ -108,7 +108,7 @@ line:hover {
     /*position: sticky;*/
     height: 600px;
     /*height: 100%; */
-    background: whitesmoke;
+    /*background: whitesmoke;*/
     width: 98%;
 
 }
