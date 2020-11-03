@@ -156,6 +156,9 @@ document.querySelector('#deflection').addEventListener('change', selectionChange
 document.querySelector('#wire').addEventListener('change', selectionChanged);
 
 function selectionChanged() {
+    wires.randomArc = generateRandomArcWire();
+    wires.randomLines = generateRandomLinearWire();
+
     const wireName = document.querySelector("#wire").value;
     const deflection = document.querySelector("#deflection").value;
     const wire = wires[wireName];
