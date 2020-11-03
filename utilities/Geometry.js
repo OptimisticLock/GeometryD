@@ -16,6 +16,12 @@ class Point {
     }
 }
 
+class Vector extends Point {
+    constructor(x, y) {
+        super(x, y);
+    }
+}
+
 
 class LineSegment {
     /**
@@ -31,22 +37,26 @@ class LineSegment {
     /**
      * @param other : LineSegment - a segment to test collision with.
      * @return boolean - true iff the two segments collide.
+     * http://stackoverflow.com/a/565282/786339
      */
     collidesWith(that) {
 
     }
 
-    length() {
-
-        // TODO: see if we can get rid of sqrt; and not recalculate every time!
-        return Math.sqrt((point.x - point0.x)**2 + (point.y - point0.y)**2);
+    toVector() {
+        return new Vector(this.point1.x - this.point0.x, this.point1.y - this.point0.y);
     }
 
-    /** Calculates scalar product of two LineSegments: a · b = |a| × |b| × cos(θ)
+
+    /** Calculates scalar product of two LineSegments:
+     * https://www.mathsisfun.com/algebra/vectors-dot-product.html
+     * a · b = |a| × |b| × cos(θ) = ax × bx + ay × by
      * @param that : LineSegment
      */
     scalarProductWith(that) {
-        const a = this.length() * that.length()
+        const a = this.toVector();
+        const b = that.toVector();
+        const result = a.x * b.x + a.y * b.y;
     }
 }
 
