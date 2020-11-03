@@ -93,7 +93,7 @@ g.addEventListener('mousemove', evt => {
 document.getElementById("serialized").addEventListener("keypress", function(event) {
     if (event.key === "Enter" && !event.ctrlKey && !event.shiftKey) {
         event.preventDefault();
-        const str = document.getElementById("serialized").innerText;
+        const str = document.getElementById("serialized").value;
         console.log(str);
         try {
             const wire = Wire.deserialize(str);
