@@ -7,6 +7,16 @@
  * Create an SVG element and append it to the parent.
  * @param name - SVG name, e.g. "line" or "arc"
  * @param attributes - attributes of the SVG element, e.g. "color"
+ *
+ * TODO: consider using fluent interface instead as follows:
+ *    var defs = this.svg.append('defs');
+ *    var gradient = defs
+ *    .append('linearGradient')
+ *    .attr('id', 'svgGradient')
+ *    .attr('x1', '0%')
+ *    .attr('x2', '100%')
+ *    .attr('y1', '0%')
+ *    .attr('y2', '100%');
  */
 function drawElement(name, attributes) {
     const g = document.getElementById("g");
@@ -122,26 +132,21 @@ function removeAllSvg() {
  * @param deflection
  */
 function renderWire(wire, deflection) {
-    // TODO Doing this for no particular reason expect to meet requirement 3 (and eat own dogfood).
-    // There is another example of serialization and deserialization in the code as well.
-    const deserialized = Wire.deserialize(wire.serialize());
-    const discrete = deserialized.discretize(deflection);
-    render(discrete, "red");
-    render(deserialized, "gray");
 
+    //   const deserialized = Wire.deserialize(wire.serialize());
+
+    const discrete = wire.discretize(deflection);
+    render(discrete, "red");
+    render(wire, "gray");
     const collisions = discrete.getCollisions();
 
     for (let collision of collisions) {
-  //      console.log("~~~~ Collision: ", collision);
 
         drawElement("circle", {
             class: "collision",
             cx: collision.x,
             cy: collision.y,
         });
-
- //           <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-
     }
 }
 

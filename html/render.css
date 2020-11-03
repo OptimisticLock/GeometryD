@@ -8,11 +8,6 @@
 }
 
 
-.line {
-    stroke: red;
-    stroke-width: .05;
-    stroke-opacity: .5;
-}
 
 .arc {
     stroke: darkgray;
@@ -20,6 +15,21 @@
     fill-opacity: 0;
     stroke-opacity: .5;
     transition: all 1s ease-in-out;
+}
+
+.line {
+    stroke: red;
+    stroke-width: .05;
+    stroke-opacity: .5;
+}
+
+.collision {
+    r:.16;
+    /*stroke: black;*/
+    /*stroke-width: .02;*/
+    fill: red;
+    opacity: .3;
+    background-image: radial-gradient(ellipse farthest-corner at 45px 45px, rgba(50, 50, 50, 0.8) 0%, rgba(80, 80, 80, 0.2) );
 }
 
 .ray {
@@ -95,11 +105,4 @@ line:hover {
     color: darkgray;
 }
 
-.collision {
-    r:.2;
-    /*stroke: purple;*/
-    /*stroke-width: .02;*/
-    fill: red;
-    opacity: .3;
-}
 

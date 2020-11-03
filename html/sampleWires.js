@@ -143,7 +143,12 @@ function generateRandomArcWire() {
         }
 
 //   ErrorHandler.quieter = true;
-        wire.close(); // This triggers validation, and some arcs are invalid.. hmm..
+
+        // FIXME: every now and then, it throws errors like this:
+        //  ErrorHandler.js:26 Arc radius 2.4778407003428584 too small to connect points (7.139425700209703, 7.453025507997502) and (1.0833193286517306, 2.112050758435382). Must be at least 4.05
+        // Am I miscalculating radii?
+        wire.close();
+
 //    ErrorHandler.quieter = false;
 
         return wire;

@@ -126,6 +126,10 @@ class Edge {
      */
     collisionWith(that) {
 
+        // TODO: allow to check collisions on non-Lines.
+        const isImplemented = (this instanceof Line) && (that instanceof Line);
+        check(isImplemented, "Only Line-Line collisions are detected at preset, use disretized wires as follows: \n    wire.discretize(deflection).getCollisions()")
+
         // FIXME: assuming that all segments are linear! Which is true for disretized wires..
 
         let thisSegment = new LineSegment(new Point(this.x0, this.y0), new Point(this.x, this.y));
