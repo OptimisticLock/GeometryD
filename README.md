@@ -25,11 +25,11 @@ The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other
 
 * I am not familiar with graphic libraries, so I built a rudimentary SVG-based one. I had to teach myself SVG. And, run a refresher on high school trigonometry, which was, alas, thoroughly forgotten. 
 
-* I tried and rejected due to the complications and the lack of time: Typescript, Node, different types of modules on local web page. 
+* I tried and rejected due to the complications and the lack of time: Typescript, Node, different types of `module`s on local web page. 
 
 * I made a mistake of massively overengineering the type hierarchy of `Edge`s. I wanted to make it possible to allow for addition of new future edge types, e.g. an `EllipticalArc` or `BezierCurve`. I guess I wanted to use this exercise to experiment and find out to what extent ES6 is suitable for moderately complex OO. Seemed like a good idea at the time, but turned into a showcase on YAGNI, and slowed me down greatly. 
 
-* In hindsight, if I wanted to overengineer, I think it would have been much more useful to focus on making `Wire`s, not `Edge`s, as generic as possible, make it an interface using iterators (ES6 generators would work nicely for that), so that very complex wires don't have to be backed by arrays. The lower the maximum deflection, the higher storage requirements for discretized wires, the more incentive to calculate them on the fly. Although, one would need to balance that against the cost of computations on wires, e.g. calculating intersections. 
+* In hindsight, if I wanted to overengineer, I think it would have been much more useful to focus on making `Wire`s, not `Edge`s, as generic as possible, make it an interface using iterators (ES6 generators would work nicely for that), so that very complex wires wouldn't have to be backed by arrays. The lower the maximum deflection, the higher the storage requirements for discretized wires, the more incentive to calculate them on the fly. Although, one would need to balance that against the cost of computations on wires, e.g. calculating intersections. 
 
 * I spent a lot of downtime trying to create the right modular structure  (`import`/`export`/`require` etc.) instead of polluting the global namespace. Turns out, web browsers aren't very fond of accessing the local file system, because CORS. I even tried to migrate to Typescript, in part because of this issue, and also because a strongly typed language is clearly called for. I abandoned both attempts.
 
@@ -38,48 +38,40 @@ The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other
 
 ## Detecting intersections
 
-  **Edit.** The current version detects intersections between line segments. Arcs are treated like line segments. Collinear segments aren't detected yet. In the renderer, collisions are marked with red dots.
+  The current version only detects intersections between line segments. It is however possible to fist discretize an arbitrary wire to a desired maximum linear deflection, *then* check it for collisions. The demo does that (see picture above). Of course, the precision of collision detection in this case will be a function of maximum linear deflection.
   
-  After a very cursory look on the literature on the subject, some thoughts. 
+  TODO: Collinear segments aren't detected yet, and aren't detected as collisions. 
   
-  * Is it okay to assume that an edge that merely touches a non-adjacent edge, intersects it? E.g. is T-shape an intersection? That would greatly simplify the calculations. Especially it would be a nice simplification to assume that if more than two edges have the same vertex, the wire intersects.
+  When two edges touch, it's considered a collision, with the exception of two adjacent edges touching at vertices omly. E.g., a T shape is a collision.
 
-  * Do we detect intersections on discretized wire, or the original one with arcs? The former is simpler algorithmically, if we don't need to worry about runtime efficiency. The precision of the discretized wire solution would be in the order of the maximum linear deflection. 
-
-  * To find whether two line segments intersect, we'd need to solve a system of two linear equations and then find if the intersection point lies within both segments.
+ The current solution is very brute force: it tests for collision all combinations of non-adjacent edges. That results in time complexity of O(n²) and space complexity of O(n).
+ 
+ In the future, it should be fairly straightforward to collision-check non-discrete wires. To find whether a circular arc and a line segment intersects, we'd need to solve a system of a linear and a quadratic equations `(x²2 + y²2 = r²2 `in the adjusted coordinate system) and then find whether one of the intersection points (if any) lies within both the linear segment and the arc. The latter means r `alpha0 < atan2(y, x) < alpha`,  that logic already exists in the code in  `Arc.discretizeInto(wire, deflection)`. 
   
-  * Likewise, to find whether a circular arc and a line segment intersects, we'd need to solve a system of a linear and a quadratic equations `(x²2 + y²2 = r²2 `in the translated coordinate system) and then find if the intersection point lie within both the linear segment and the arc (the latter means r `alpha0 < atan2(y, x) < alpha`,  that logic already exists in the code in  `Arc.discretizeInto(wire, deflection)`. 
-  
-  * Intersection of circular arcs can be solved similarly. 
+Intersection of two circular arc segments can be solved similarly. 
 ````
       (x-x1)² + (y-y1)² = r1²
       (x-x2)² + (y-y2)² = r2²
 ````  
   Where `(x1, y2)` and `(x2, y2)` are centers of the circular arcs, with the algorithm for finding the center already implemented at `Arc.getCenter()`
   
- 
-  * A brute-force way of detecting intersections is to see whether any two non-adjacent wires intersect, with complexity of O(n²). 
   
-  Actually, adjacent wires can intersect at points other than their vertices, too:
-  ![illustrtion](docs/IntersectingAdjacentArcs.png)
+Performance can be improved by implementing broad and narrow phases of collision. In the broad phase, we'd quickly rule out the edges which obviously can't collide, e.g. because of their bounding boxes not intersecting. 
   
-  * We can improve performance by implementing broad and narrow phases of collision. In the broad phase, we'd quickly rule out the edges which obviously can't collide, e.g. because of their bounding boxes not intersecting. 
-  
-  Or, we could do another inexpensive calculation, though I am not sure it will buy us much: Arcs aren't colliding if
+Or, we could do another inexpensive calculation, though I am not sure it will buy us much more: Arcs aren't colliding if
 ````  
       (x2 - x1)² + (y2 - y1)² > (r1 + r2)²`.
 ```` 
   
-  (TODO:look up AABB trees)
+  (TODO:look up AABB trees!)
   
   
-  * More efficient algorithms should exist, e.g. one for line segments described  [here](http://geomalgorithms.com/a09-_intersect-3.html#:~:text=Simple%20Polygons,-(A)%20Test%20if&text=The%20Shamos%2DHoey%20algorithm%20can,polygon%20is%20simple%20or%20not.&text=Nevertheless%2C%20there%20have%20often%20been,include%20a%20complete%20standalone%20algorithm).
+  * More efficient algorithms exist, e.g. one for line segments described  [here](http://geomalgorithms.com/a09-_intersect-3.html#:~:text=Simple%20Polygons,-(A)%20Test%20if&text=The%20Shamos%2DHoey%20algorithm%20can,polygon%20is%20simple%20or%20not.&text=Nevertheless%2C%20there%20have%20often%20been,include%20a%20complete%20standalone%20algorithm).   I haven't had a chance to familiarize myself with them.
   
-
 
 ### Roadmap
 
-* Detect intersections!!
+* Improve collision detection as described above.
 
 * Arcs are discretized using inscribed regular polygons. That achieves the goal, but suboptimally. The same maximum linear deflection can be achieved with fewer line segments by using regular polygons that are somewhere between inscribed and circumscribed ones. 
 
