@@ -6,20 +6,21 @@
 
 let wires = {
 
-    random: generateRandomWire(),
+    randomArcs: generateRandomArcWire(),
+    randomLines: generateRandomLinearWire(),
 
     // Bowtie deserialization as requested.
     // TODO: Only when editing this string in built-in editor did I realize how user-unfriendly these numbers are. Turtle graphics?
     deserializedBowtie: Wire.deserialize(
         '[' +
-            '["Line",14,8],             \n' +
-            '["Arc",15,7,1,false],      \n' +
-            '["Line", 15, 4],           \n' +
-            '["Arc", 14, 3, 1, false],  \n' +
-            '["Line",1,8],              \n' +
-            '["Arc", 0, 7],             \n' +
-            '["Line", 0, 4],            \n' +
-            '["Arc",1,3,1,true]]'),
+        '["Line",14,8],             \n' +
+        '["Arc",15,7,1,false],      \n' +
+        '["Line", 15, 4],           \n' +
+        '["Arc", 14, 3, 1, false],  \n' +
+        '["Line",1,8],              \n' +
+        '["Arc", 0, 7],             \n' +
+        '["Line", 0, 4],            \n' +
+        '["Arc",1,3,1,true]]'),
 
 
     roundedSquare: Wire.startAt(0, 1)
@@ -107,8 +108,11 @@ let wires = {
         .close()
 }
 
-function generateRandomWire() {
-    const random = () => Math.random() * 10;
+function random() {
+    return Math.random() * 10;
+}
+
+function generateRandomLinearWire() {
     const wire = Wire.startAt(random(), random())
     const nWires = random() * 5;
 
@@ -117,4 +121,39 @@ function generateRandomWire() {
 
     wire.close();
     return wire;
+}
+
+function generateRandomArcWire() {
+    try {
+        const wire = Wire.startAt(random(), random())
+        const nWires = random() * 5;
+        let clockwise = true;
+
+        let x0 = 0;
+        let y0 = 0;
+
+        for (let i = 0; i < nWires; i++) {
+            let x = random();
+            let y = random();
+            let r = Math.sqrt((x - x0) ** 2 + (y - y0) ** 2) * 1.5; //+ Math.random() * .3 + .01;
+            wire.addEdge(new Arc(x, y, r, clockwise));
+            clockwise = !clockwise;
+            x0 = x;
+            y0 = y;
+        }
+
+//   ErrorHandler.quieter = true;
+        wire.close(); // This triggers validation, and some arcs are invalid.. hmm..
+//    ErrorHandler.quieter = false;
+
+        return wire;
+      // Something wrong with my calculation of radius?
+    } catch (error) {
+        return Wire.startAt(0, 0)
+            .addEdge(new Line(1, 10))
+            .addEdge(new Line(5, 10))
+            .close();
+    }
+
+
 }

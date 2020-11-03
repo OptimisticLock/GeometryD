@@ -1,5 +1,12 @@
 "use strict";
 
+
+class ErrorHandler {
+    // Set to true to suppress browser alert dialog.
+    static quieter = false;
+}
+
+
 class AssertionError extends Error {
     constructor(message) {
         super(message);
@@ -25,7 +32,7 @@ function check(condition, message) {
     console.error(message);
 
     // TODO: this is kind of controversial, but will do for now.
-    if (alert)
+    if (alert && ! ErrorHandler.quieter)
         alert(message);
 
     throw new AssertionError(message);
@@ -63,3 +70,4 @@ function handleError(error) {
     check(false, error.message);
 }
 
+//ErrorHandler.js:26 Arc radius 2.4778407003428584 too small to connect points (7.139425700209703, 7.453025507997502) and (1.0833193286517306, 2.112050758435382). Must be at least 4.05
