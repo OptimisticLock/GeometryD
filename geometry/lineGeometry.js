@@ -113,40 +113,47 @@ class LineSegment {
 
 let segment1, segment2, collides;
 
-// TODO.
+// TODO. now Null always, need to handle colinear
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(0, 0), new Point(1, 1));
 collides = segment1.intersectionWith(segment2);
 console.log("collision:", collides);
 
 
-// false
+// Null
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(0.00001, 0.0), new Point(5, 0));
 collides = segment1.intersectionWith(segment2);
 console.log("collision:", collides);
 
-// false
+// Null
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(1, 0.0), new Point(5, 0));
 collides = segment1.intersectionWith(segment2);
 console.log("collides?", collides);
 
 
-// true
+// (1, 1)
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(1, 0), new Point(1, 1));
 collides = segment1.intersectionWith(segment2);
 console.log("collision:", collides);
 
-// false
+// Null
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(5, 0), new Point(5, 1));
 collides = segment1.intersectionWith(segment2);
 console.log("collision:", collides);
 
-// True
+// (0, 0)
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(0.0, 0.0), new Point(5, 1));
+collides = segment1.intersectionWith(segment2);
+console.log("collision:", collides);
+
+
+// (0, 0)
+segment1 = new LineSegment(new Point(0, 0), new Point(0, 2));
+segment2 = new LineSegment(new Point(-1, 0), new Point(1, 1));
 collides = segment1.intersectionWith(segment2);
 console.log("collision:", collides);
