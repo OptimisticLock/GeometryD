@@ -95,7 +95,7 @@ The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other
  
 * Use `module`/`export`/`import`/`require`
 
-* In a strictly typed language with operator overloading and implicit conversions, like Skala, I'd use Points, not numbers.'That didn't fly so well in Javascript and was one of the things I had to undo.
+* In a strictly typed language with operator overloading and implicit conversions, like Skala, I'd use Points, not numbers. That didn't fly so well in Javascript and was one of the things I had to undo. (Operator overloading would have come handy in so many ways!)
 
 * If needed, might optimize performance by not spending so much time in trigonometric functions (caching? Controlling precision? Substituting algorithms?)
 
