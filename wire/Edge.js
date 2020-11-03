@@ -6,6 +6,23 @@ class Edge {
     static edgeTypes = {}; //
 
     /**
+     * A curve of an arbitrary shape in two-dimensional coordinate space. Currently, the only curves
+     * supported are Line and Arc, but that can be extended by subclassing this class.
+     *
+     * @param {number} x
+     * @param {number} y - point where this edge ends
+     */
+    constructor(x, y) {
+
+        this.x = x;
+        this.y = y;
+
+        // A workaround for the absence of abstract classes in JS. Alternatively, if (new.target === Edge)
+        if (this.constructor === Edge)
+            throw new TypeError("Edge is an abstract class and can't be instantiated directly");
+    }
+
+    /**
      * Add a new edge type dynamically, e.g. Line and Arc. I wanted to allow this functionality
      * at the time, mostly just to see whether it can be  done in ES6; now I am not happy with
      * the overengineering and thinking of simplifying it back into the two usual, hard-coded edge types.
@@ -19,12 +36,19 @@ class Edge {
     }
 
     /**
+     * @return {String} - the type of the edge, e.g. "Line", "Arc".
+     */
+    getType() {
+        return this.constructor.name;
+    }
+
+    /**
      * Serializes this edge into an array. I preferred it to the default JSON.stringify() for a number of reasons.
      * Subclasses may override if needed.
      * @return {Array}
      */
     serializeIntoArray() {
-        return [this.constructor.name, this.x, this.y]
+        return [this.getType(), this.x, this.y]
     }
 
     /**
@@ -61,23 +85,6 @@ class Edge {
         this.prev = previous;
     }
 
-    /**
-     * A curve of an arbitrary shape in two-dimensional coordinate space. Currently, the only curves
-     * supported are Line and Arc, but that can be extended by subclassing this class.
-     *
-     * @param {number} x
-     * @param {number} y - point where this edge ends
-     */
-    constructor(x, y) {
-
-        this.x = x;
-        this.y = y;
-
-
-        // A workaround for the absence of abstract classes in JS. Alternatively, if (new.target === Edge)
-        if (this.constructor === Edge)
-            throw new TypeError("Edge is an abstract class and can't be instantiated directly");
-    }
 
     /**
      * Returns the x coordinate of the beginning of the edge, or error if undefined.

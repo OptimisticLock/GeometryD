@@ -60,7 +60,7 @@ function render(wire, color) {
     for (const edge of wire.edges) {
 
         // This is the only place where specific edge types are hard-coded, but this is just a debugging tool
-        if (edge.constructor.name === "Line")
+        if (edge.getType() === "Line")
             drawLineEdge(edge, color);
         else
             drawArcEdge(edge, color);

@@ -24,10 +24,6 @@ class Wire {
         this.y = y;
     }
 
-    #getLastEdge() {
-        return this.lastEdge;
-    }
-
     /**
      * Serializes this wire into a string containing json.
      * @return {string}
@@ -173,16 +169,23 @@ class Wire {
 
         let collisions = [];
 
-        // TODO: check adjacent edges as well. Important for non-line edges
-        for (let e1 = 0; e1 < this.edges.length; e1++)
+
+        for (let e1 = 0; e1 < this.edges.length; e1++) {
+            let edge1 = this.edges[e1];
+
+            // TODO: `+ 2` means we aren't checking adjacent edges. But they'll become important for non-linear edges
             for (let e2 = e1 + 2; e2 < this.edges.length; e2++) {
-                let edge1 = this.edges[e1];
+
                 let edge2 = this.edges[e2];
+            //    if (edge2.
+                console.log("");
                 const collision = edge1.collisionWith(edge2);
 
                 if (collision)
                     collisions.push(collision)
             }
+        }
+
         return collisions;
     }
 
