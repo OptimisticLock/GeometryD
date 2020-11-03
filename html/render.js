@@ -68,19 +68,19 @@ function render(wire, color) {
 }
 
 
-let svg = document.getElementById("svg");
-let point = svg.createSVGPoint();  // Created once for document
+const svgElement = document.getElementById("svg");
+const svgPoint = svgElement.createSVGPoint();  // Created once for document
 
 // On mousemove, show coordinates on the page. A handy debugging tool.
 g.addEventListener('mousemove', evt => {
-    let element = evt.target;
+ //   let element = evt.target;
 
-    point.x = evt.clientX;
-    point.y = evt.clientY;
+    svgPoint.x = evt.clientX;
+    svgPoint.y = evt.clientY;
 
     // The cursor point, translated into svg coordinates
-    let cursorPoint = point.matrixTransform(g.getScreenCTM().inverse());
-    let coords = "(" + cursorPoint.x.toFixed(1) + ", " + cursorPoint.y.toFixed(1) + ")";
+    const cursorPoint = svgPoint.matrixTransform(g.getScreenCTM().inverse());
+    const coords = "(" + cursorPoint.x.toFixed(1) + ", " + cursorPoint.y.toFixed(1) + ")";
 
     document.getElementById("coords").innerText = coords;
 });
@@ -93,10 +93,10 @@ g.addEventListener('mousemove', evt => {
 document.getElementById("serialized").addEventListener("keypress", function(event) {
     if (event.key === "Enter" && !event.ctrlKey && !event.shiftKey) {
         event.preventDefault();
-        let str = document.getElementById("serialized").innerText;
+        const str = document.getElementById("serialized").innerText;
         console.log(str);
         try {
-            let wire = Wire.deserialize(str);
+            const wire = Wire.deserialize(str);
             removeAllSvg();
             renderWire(wire, .1);
         } catch (e) {
@@ -109,7 +109,7 @@ document.getElementById("serialized").addEventListener("keypress", function(even
  * Removes all svg elements from the parent g element, erasing the old drawing
  */
 function removeAllSvg() {
-    let g = document.getElementById("g");
+    const g = document.getElementById("g");
 
     while (g.firstChild)
         g.removeChild(g.firstChild);
@@ -124,33 +124,39 @@ function removeAllSvg() {
 function renderWire(wire, deflection) {
     // TODO Doing this for no particular reason expect to meet requirement 3 (and eat own dogfood).
     // There is another example of serialization and deserialization in the code as well.
-    let deserialized = Wire.deserialize(wire.serialize());
-
-    let discrete = deserialized.discretize(deflection);
+    const deserialized = Wire.deserialize(wire.serialize());
+    const discrete = deserialized.discretize(deflection);
     render(discrete, "red");
     render(deserialized, "gray");
+
+    const collisions = wire.getCollisions();
+
+    for (let collision of collisions) {
+        console.log("~~~~ Collision: ", collision);
+    }
 }
 
 document.querySelector('#deflection').addEventListener('change', selectionChanged);
 document.querySelector('#wire').addEventListener('change', selectionChanged);
 
 function selectionChanged() {
-    let wireName = document.querySelector("#wire").value;
-    let deflection = document.querySelector("#deflection").value;
-    let wire = wires[wireName];
+    const wireName = document.querySelector("#wire").value;
+    const deflection = document.querySelector("#deflection").value;
+    const wire = wires[wireName];
 
     removeAllSvg();
     renderWire(wire, deflection);
     showSerialized(wire);
+
 }
 
-let wire = document.getElementById("wire");
+const wireElement = document.getElementById("wire");
 
 for (let wireName of Object.keys(wires)) {
-    let option = document.createElement("option");
+    const option = document.createElement("option");
     option.text = wireName;
     // option.value = "myvalue";
-    wire.appendChild(option);
+    wireElement.appendChild(option);
 }
 
 

@@ -125,7 +125,7 @@ class Edge {
         let thatSegment = new LineSegment(new Point(that.x, that.y), new Point(that.x, that.y));
 
         let collision = thisSegment.collisionWith(thatSegment);
-        console.log("COLLISION", intersection);
+        console.log("COLLISION", collision);
         return collision;
     }
 }

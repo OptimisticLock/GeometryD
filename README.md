@@ -97,6 +97,8 @@ The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other
 
 * In a strictly typed language with operator overloading and implicit conversions, like Skala, I'd use Points, not numbers. That didn't fly so well in Javascript and was one of the things I had to undo. (Operator overloading would have come handy in so many ways!)
 
+**Edit** Spoke too soon. I had to depart from primitive types and go more OO in lineGeometry.js, it now has `Point`s, `Vector`s, etc. Was unreadable without. Now I have to TODO: work `Point`s and such back into the rest of the code, for uniformity. 
+
 * If needed, might optimize performance by not spending so much time in trigonometric functions (caching? Controlling precision? Substituting algorithms?)
 
 * Any discrete implementation may fail for very small and very large values, while possibly providing unnecessarily high precision (and low performance) mid-range. These issues require more careful consideration: testing, limiting the input ranges, adjusting the algorithms accordingly. (I've read somewhere that there are formats superior for computational geometry to floating point, TODO will see if I can find it).
