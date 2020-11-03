@@ -29,19 +29,24 @@ class Vector extends Point {
     constructor(x, y) {
         super(x, y);
     }
+    //
+    // /** Calculates scalar product of two LineSegments:
+    //  * https://www.mathsisfun.com/algebra/vectors-dot-product.html
+    //  * a · b = |a| × |b| × cos(θ) = ax × bx + ay × by
+    //  * @param that: Vector
+    //  * @return {number} scalar product of the two vectors
+    //  */
+    // scalarProductWith(that) {
+    //     const a = this;
+    //     const b = that;
+    //     return  a.x * b.x + a.y * b.y;
+    // }
 
-    /** Calculates scalar product of two LineSegments:
-     * https://www.mathsisfun.com/algebra/vectors-dot-product.html
-     * a · b = |a| × |b| × cos(θ) = ax × bx + ay × by
-     * @param that: Vector
-     * @return {number} scalar product of the two vectors
+    /**
+     * Calculates cross product of two 2D vectors
+     * @param {Vector} that
+     * @return {number} Cross product (scalar)
      */
-    scalarProductWith(that) {
-        const a = this;
-        const b = that;
-        return  a.x * b.x + a.y * b.y;
-    }
-
     crossProductWith(that) {
         let a = this;
         let b = that;
@@ -69,10 +74,10 @@ class LineSegment {
 
     /**
      * @param other : LineSegment - a segment to test collision with.
-     * @return boolean - true iff the two segments collide.
+     * @return Point - collision point between two segments, or null if none.
      * http://stackoverflow.com/a/565282/786339
      */
-    collidesWith(that) {
+    intersectionWith(that) {
         // Not very fond of variable names, but keeping it consistent with the source
         const p = this.point0;
         const q = that.point0;
@@ -90,43 +95,58 @@ class LineSegment {
         const qMinusP = q.subtract(p);                  // q - p
         const rxs = r.crossProductWith(s);             // r × s
 
+        // parallel or colinear line segments
+        if (rxs === 0)
+            return null; // FIXME these can still collide!
+
         const t = qMinusP.crossProductWith(s) / rxs;
         const u = qMinusP.crossProductWith(r) / rxs;
 
-        return (0 <= t && t <= 1   &&   0 <=u && u <= 1);
+        if (0 <= t && t <= 1   &&   0 <=u && u <= 1)
+            return new Point(p.x + t * r.x, p.y + t * r.y);
+        else
+            return null;
 
         // FIXME consider other cases!
     }
 }
 
+let segment1, segment2, collides;
+
+// TODO.
+segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
+segment2 = new LineSegment(new Point(0, 0), new Point(1, 1));
+collides = segment1.intersectionWith(segment2);
+console.log("collision:", collides);
+
+
 // false
-let segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
-let segment2 = new LineSegment(new Point(0.00001, 0.0), new Point(5, 0));
-let collides = segment1.collidesWith(segment2);
-console.log("collides?", collides);
+segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
+segment2 = new LineSegment(new Point(0.00001, 0.0), new Point(5, 0));
+collides = segment1.intersectionWith(segment2);
+console.log("collision:", collides);
 
 // false
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(1, 0.0), new Point(5, 0));
-collides = segment1.collidesWith(segment2);
+collides = segment1.intersectionWith(segment2);
 console.log("collides?", collides);
 
 
 // true
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(1, 0), new Point(1, 1));
-collides = segment1.collidesWith(segment2);
-console.log("collides?", collides);
+collides = segment1.intersectionWith(segment2);
+console.log("collision:", collides);
 
 // false
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(5, 0), new Point(5, 1));
-collides = segment1.collidesWith(segment2);
-console.log("collides?", collides);
+collides = segment1.intersectionWith(segment2);
+console.log("collision:", collides);
 
 // True
 segment1 = new LineSegment(new Point(0, 0), new Point(1, 1));
 segment2 = new LineSegment(new Point(0.0, 0.0), new Point(5, 1));
-collides = segment1.collidesWith(segment2);
-console.log("collides?", collides);
-
+collides = segment1.intersectionWith(segment2);
+console.log("collision:", collides);
