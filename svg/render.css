@@ -58,6 +58,12 @@ line:hover {
     font-size: 1.2em;
 }
 
+/*Only works in Chrome*/
+#deflection::-webkit-inner-spin-button,
+#Deflection::-webkit-outer-spin-button {
+    opacity: .6;
+}
+
 #wire {
     text-align: center;
     font-size: 1.2em;

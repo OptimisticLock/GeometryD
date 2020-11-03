@@ -5,7 +5,7 @@
 This challenge is to implement a heavily simplified form of some 2D
 boundary-representation geometry data structures and algorithms, as described [here](docs/GeometryTakeHome.md).
 
-The solution has a web UI, found at [svg/render.html](svg/render.html), with a live demo at https://optimisticlock.github.io/geometry/svg/render.html  
+The solution has a web UI, found at [svg/render.html](index.html), with a live demo at https://optimisticlock.github.io/geometry/svg/render.html  
 
 The WebUI has only been tested on Chrome 86.0.4240.111 and might be glitchy in other browsers. As a matter of fact, it has a couple of smallish bugs on Chrome, too.
 
@@ -17,7 +17,7 @@ The WebUI has only been tested on Chrome 86.0.4240.111 and might be glitchy in o
 
 * I made a mistake of massively overengineering the type hierarchy of Edges. I wanted to make it possible to allow for addition of new future edge types, e.g. an EllipticalArc or BezierCurve. I guess I wanted to use this exercise to experiment and find out to what extent ES6 is suitable for moderately complex OO. Seemed like a good idea at the time, but turned into a showcase on YAGNI, and slowed me down greatly. 
 
-* In hindsight, if I wanted to overengineer, I think it would have been much more useful to focus on making Wires, not Edges, as generic as possible, make it an interface using iterators (ES6 generators would work for that), so that very complex wires don't have to be backed by arrays. The lower the maximum deflection, the higher the storage requirements for discretized wires, unless they are calculated on the fly. Would have been a much easier change with a greater effect. But need to think how that would affect computations, e.g. calculating intersections.
+* In hindsight, if I wanted to overengineer, I think it would have been much more useful to focus on making Wires, not Edges, as generic as possible, make it an interface using iterators (ES6 generators would work for that), so that very complex wires don't have to be backed by arrays. The lower the maximum deflection, the higher storage requirements for discretized wires, the more incentive to calculate them on the fly. Although, one would need to balance that against the cost of computations on wires, e.g. calculating intersections. 
 
 * I spent a lot of downtime trying to create the right modular structure  (`import`/`export`/`require` etc.) instead of polluting the global namespace. Turns out, web browsers aren't very fond of accessing the local file system, because CORS. I even tried to migrate to Typescript, in part because of this issue, and also because a strongly typed language is clearly called for. I abandoned both attempts.
 
@@ -61,7 +61,9 @@ The WebUI has only been tested on Chrome 86.0.4240.111 and might be glitchy in o
 
 * Detect intersections!!
 
-* Arcs are discretized using inscribed regular polygons. That achieves the goal, but suboptimally. I think it should be possible to achieve the same maximum linear deflection using fewer edges by using regular polygons that are somewhere between inscribed and circumscribed ones. 
+* Arcs are discretized using inscribed regular polygons. That achieves the goal, but suboptimally. Tthe same maximum linear deflection can be achieved with fewer line segments by using regular polygons that are somewhere between inscribed and circumscribed ones. 
+
+![illustrtion](docs/betterDiscretization.png)
 
 * I assume input needs to be heavily sanity-checked, given the nature of the business.
 

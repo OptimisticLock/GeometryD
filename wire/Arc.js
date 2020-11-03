@@ -38,8 +38,6 @@ class Arc extends Edge {
      * Technically, this meets requirement #4, albeit suboptimally, by creating too many chords.
      */
     getAngleIncrement(deflection) {
-        //   return toRadians(30);
-        // TODO verify partial curves, especially sharp angles. // TODO test for deflection > radius. Consider negatives, etc.
 
         let result = 2 * Math.acos(1 - deflection / this.radius);
 
@@ -50,10 +48,12 @@ class Arc extends Edge {
         return result;
     }
 
-
-
-
 // http://mathforum.org/library/drmath/view/53027.html#:~:text=You%20do%20this%20just%20by,is%20just%20half%20of%20q.
+
+    /**
+     * Calculates the center of the arc
+     * @return {[x, y]} - coordinates of the center.
+     */
     getCenter() {
 
         let x = this.x;
