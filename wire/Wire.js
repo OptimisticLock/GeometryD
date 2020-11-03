@@ -148,6 +148,22 @@ class Wire {
             edge.validate();
     }
 
+    // /**
+    //  * @return {boolean} True iff the wire is valid.
+    //  */
+    // isValid() {
+    //     try {
+    //         validate()
+    //     }
+    //     catch (error) {
+    //         ErrorHandler.quieter = true;
+    //         handleError(error);
+    //         ErrorHandler.quieter = true;
+    //         return false;
+    //     }
+    //     return true;
+    // }
+
     discretize(deflection) {
         check(deflection > 0, "Deflection must be positive")
 

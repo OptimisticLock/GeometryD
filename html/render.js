@@ -129,7 +129,7 @@ function renderWire(wire, deflection) {
     render(discrete, "red");
     render(deserialized, "gray");
 
-    const collisions = wire.getCollisions();
+    const collisions = discrete.getCollisions();
 
     for (let collision of collisions) {
   //      console.log("~~~~ Collision: ", collision);
