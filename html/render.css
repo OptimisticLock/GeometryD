@@ -97,28 +97,27 @@ line:hover {
     color: darkgray;
 }
 
-#renderer {
-    background: green;
-    padding:10px;
-    height:30vh;
+#outer {
+    /*background: green;*/
+    height:50vh;
+    overflow: auto;
+    width:98vw;
 }
 
 #svg {
     /*position: sticky;*/
-    width: 90%;
-    height: 90vh;
+    height: 600px;
     /*height: 100%; */
-    background: lightyellow;
-    /*width: 800px;*/
-    overflow: hidden;
+    background: whitesmoke;
+    width: 98%;
 
 }
 
 #editor {
     /*position: sticky;*/
-    bottom: 10px;
-    background: red;
+    /*bottom: 10px;*/
+    /*background: lime;*/
     padding: 10px;
-    display:none;
+    /*border: 1px solid black;*/
 }
 
