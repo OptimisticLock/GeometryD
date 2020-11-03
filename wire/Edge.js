@@ -62,10 +62,9 @@ class Edge {
     }
 
     /**
-     * An arbitrary curve in two-dimensional coordinate space. Currently, the only edges
-     * supported are Line and Arc.
+     * A curve of an arbitrary shape in two-dimensional coordinate space. Currently, the only curves
+     * supported are Line and Arc, but that can be extended by subclassing this class.
      *
-     * @param {Edge}  previous - optional, previous edge at which this edge starts
      * @param {number} x
      * @param {number} y - point where this edge ends
      */
@@ -107,7 +106,7 @@ class Edge {
     /**
      * Discretizes a wire into a new wire with a given maximum linear deflection.
      * @param {Wire} discreteWire - the new wire being built, mustn't be closed
-     * @param {mumber} deflection - maximum linear deflection
+     * @param {number} deflection - maximum linear deflection
      */
     discretizeInto(discreteWire, deflection) {
         let line = new Line(this.x, this.y);

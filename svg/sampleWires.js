@@ -31,6 +31,13 @@ let wires = {
         .addEdge(new Arc(2, 4, 6, true))     //
         .close(),
 
+    bowtie3: Wire.startAt(2, 4)
+        .addEdge(new Line(12, 8))
+        .addEdge(new Arc(12, 4, 2, true))    //
+        .addEdge(new Line(2, 8))
+        .addEdge(new Arc(2, 4, 2, false))     //
+        .close(),
+
 
     cheese: Wire.startAt(0, 4)
         .addEdge(new Arc(4, 0, 3, false))

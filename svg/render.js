@@ -153,7 +153,6 @@ for (let wireName of Object.keys(wires)) {
     wire.appendChild(option);
 }
 
-selectionChanged();
 
 /**
  * Serializes the wire and shows it in the editor
@@ -169,5 +168,8 @@ function showSerialized(wire) {
     ser.textContent = serialized;
 }
 
+selectionChanged();
+//document.getElementById("serialized").focus();
+document.getElementById("serialized").click()
 
 
