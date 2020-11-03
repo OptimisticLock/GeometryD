@@ -177,8 +177,16 @@ class Wire {
             for (let e2 = e1 + 2; e2 < this.edges.length; e2++) {
 
                 let edge2 = this.edges[e2];
-            //    if (edge2.
-                console.log("");
+                if (edge2.getType() === "Line") {
+                    console.log(`edge1: #${e1} from ${edge1.x0}, ${edge1.y0} to ${edge1.x}, ${edge1.y}`);
+                    console.log(`edge2: #${e2} from ${edge2.x0}, ${edge2.y0} to ${edge2.x}, ${edge2.y}\n`);
+
+                    if (e1 === 0 && e2 === 4)
+                        console.log("Here");
+
+                }
+
+
                 const collision = edge1.collisionWith(edge2);
 
                 if (collision)

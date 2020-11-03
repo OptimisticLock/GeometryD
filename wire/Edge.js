@@ -129,7 +129,7 @@ class Edge {
         // FIXME: assuming that all segments are linear! Which is true for disretized wires..
 
         let thisSegment = new LineSegment(new Point(this.x0, this.y0), new Point(this.x, this.y));
-        let thatSegment = new LineSegment(new Point(that.x, that.y), new Point(that.x, that.y));
+        let thatSegment = new LineSegment(new Point(that.x0, that.y0), new Point(that.x, that.y));
 
         let collision = thisSegment.collisionWith(thatSegment);
         console.log("COLLISION", collision);
