@@ -1,6 +1,6 @@
 
 
-# Computational Geometry Challenge Solution
+# Solution for Computational Geometry Challenge
 
 This challenge is to implement a heavily simplified form of some 2D
 boundary-representation geometry data structures and algorithms, as described [here](docs/GeometryTakeHome.md).
