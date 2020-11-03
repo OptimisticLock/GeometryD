@@ -5,6 +5,9 @@
 // global namespace.
 
 let wires = {
+
+    random: generateRandomWire(),
+
     // Bowtie deserialization as requested.
     // TODO: Only when editing this string in built-in editor did I realize how user-unfriendly these numbers are. Turtle graphics?
     deserializedBowtie: Wire.deserialize(
@@ -17,6 +20,7 @@ let wires = {
             '["Arc", 0, 7],             \n' +
             '["Line", 0, 4],            \n' +
             '["Arc",1,3,1,true]]'),
+
 
     roundedSquare: Wire.startAt(0, 1)
         .addEdge(new Arc(1, 0))
@@ -103,3 +107,14 @@ let wires = {
         .close()
 }
 
+function generateRandomWire() {
+    const random = () => Math.random() * 10;
+    const wire = Wire.startAt(random(), random())
+    const nWires = random() * 5;
+
+    for (let i = 0; i < nWires; i++)
+        wire.addEdge(new Line(random(), random()));
+
+    wire.close();
+    return wire;
+}
