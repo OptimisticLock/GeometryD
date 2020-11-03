@@ -132,7 +132,7 @@ function renderWire(wire, deflection) {
     const collisions = wire.getCollisions();
 
     for (let collision of collisions) {
-        console.log("~~~~ Collision: ", collision);
+  //      console.log("~~~~ Collision: ", collision);
 
         drawElement("circle", {
             class: "collision",
