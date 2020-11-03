@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="us-en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <link rel="stylesheet" href="svg/render.css">
+    <link rel="stylesheet" href="html/render.css">
 </head>
 
 <body>
@@ -26,18 +26,23 @@
 </div>
 
 <!--Serialized wire is shown here. User can edit it, press Enter to deserialize and redraw.
-TODO Editable HTML elements might not behave well across browsers. Tested on Chrome -->
+  -- TODO Editable HTML elements might not behave well across browsers. Tested on Chrome
+  -- TODO: it's glitchy even on Chrome. Copy&paste and focus is broken. Replace with a text input.
+  -->
+
 <pre id="serialized" contenteditable="true"></pre>
 
-<p> Click text to edit the serialized wire. Press <em>Enter</em> to deserialize and draw. <em>Shift-Enter</em> for new line </p>
+
+<p id="hotkeys"> Click text to edit the wire. Press <em>Enter</em> to deserialize and draw. <em>Shift-Enter</em> for new line </p>
 
 <script src="utilities/Assert.js"></script>
+<script src="utilities/Geometry.js"></script>
 <script src="wire/Wire.js"></script>
 <script src="wire/Edge.js"></script>
 <script src="wire/Arc.js"></script>
 <script src="wire/Line.js"></script>
-<script src="svg/sampleWires.js"></script>
-<script src="svg/render.js"></script>
+<script src="html/sampleWires.js"></script>
+<script src="html/render.js"></script>
 
 </body>
 

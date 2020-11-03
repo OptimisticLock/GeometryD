@@ -75,10 +75,6 @@ line:hover {
     padding-left: 5em;
 }
 
-p {
-    font-size: 1.2em;
-}
-
 
 #controls {
     background: lightgrey;
@@ -90,3 +86,9 @@ p {
     background: whitesmoke;
     font-size: 1.5em;
 }
+
+#hotkeys {
+    font-size: 1.2em;
+    color: darkgray;
+}
+

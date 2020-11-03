@@ -122,7 +122,7 @@ function removeAllSvg() {
  * @param deflection
  */
 function renderWire(wire, deflection) {
-    // Doing this for no particular reason expect to meet requirement 3 (and eat own dogfood).
+    // TODO Doing this for no particular reason expect to meet requirement 3 (and eat own dogfood).
     // There is another example of serialization and deserialization in the code as well.
     let deserialized = Wire.deserialize(wire.serialize());
 

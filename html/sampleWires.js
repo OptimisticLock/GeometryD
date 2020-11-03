@@ -5,12 +5,16 @@
 // global namespace.
 
 let wires = {
-    bowtie: Wire.startAt(2, 4)
-        .addEdge(new Line(12, 8))
-        .addEdge(new Arc(12, 4, 6, true))    //
-        .addEdge(new Line(2, 8))
-        .addEdge(new Arc(2, 4, 6, false))     //
-        .close(),
+    // TODO: Absolute coordinates aren't very user-friendly. Turtle graphics?
+    // Bowtie deserialized as requested.
+    deserializedBowtie: Wire.deserialize('[["Line",14,8],\n' +
+        '["Arc",15,7,1,false],\n' +
+        '["Line", 15, 4],\n' +
+        '["Arc", 14, 3, 1, false],\n' +
+        '["Line",1,8],\n' +
+        '["Arc", 0, 7],\n' +
+        '["Line", 0, 4],\n' +
+        '["Arc",1,3,1,true]]'),
 
     roundedSquare: Wire.startAt(0, 1)
         .addEdge(new Arc(1, 0))
@@ -23,13 +27,21 @@ let wires = {
         .addEdge(new Line(0, 1))
         .close(),
 
-
-    bowtie2: Wire.startAt(2, 4)
+    bowtie1: Wire.startAt(2, 4)
         .addEdge(new Line(12, 8))
-        .addEdge(new Arc(12, 4, 6, false))    //
+        .addEdge(new Arc(12, 4, 6, false))
         .addEdge(new Line(2, 8))
         .addEdge(new Arc(2, 4, 6, true))     //
         .close(),
+
+
+    bowtieA2: Wire.startAt(2, 4)
+        .addEdge(new Line(12, 8))
+        .addEdge(new Arc(12, 4, 6, true))
+        .addEdge(new Line(2, 8))
+        .addEdge(new Arc(2, 4, 6, false))
+        .close(),
+
 
     bowtie3: Wire.startAt(2, 4)
         .addEdge(new Line(12, 8))
@@ -65,6 +77,7 @@ let wires = {
 
     circle: Wire.startAt(8, 4)
         .addEdge(new Arc(0, 4, 4, false))
+        .addEdge(new Arc(8, 4, 4, false))
         .close(),
 
     weird: Wire.startAt(0, 1)
