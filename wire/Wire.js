@@ -49,7 +49,7 @@ class Wire {
     static deserialize(str) {
 
         // Massaging JSON.parse() a bit to make it more concise and fit into the rest of the code better.
-        const reviver = (key, value) =>  Array.isArray(value) && key !== "" ? Edge.deserialize(...value) : value;
+        const reviver = (key, value) => Array.isArray(value) && key !== "" ? Edge.deserialize(...value) : value;
 
         // This throws Error if JSON is malformed, with a reasonably good text message, so we are good.
         const edges = JSON.parse(str, reviver);
@@ -153,7 +153,7 @@ class Wire {
     }
 
     discretize(deflection) {
-        check (deflection > 0, "Deflection must be positive")
+        check(deflection > 0, "Deflection must be positive")
 
         this.checkClosed();
         let discreteWire = Wire.startAt(this.x, this.y);
@@ -163,6 +163,32 @@ class Wire {
 
         discreteWire.close();
         return discreteWire;
+    }
+
+    /**
+     * Check the wire for collisions. TODO: this is O(n^2, not good!
+     * @return {Array<Point>} Collision points, if any
+     */
+    getCollisions() {
+
+        let collisions = [];
+
+        // TODO: check adjacent edges as well. Important for non-line edges
+        for (let e1 = 0; e1 < this.edges.length; e1++)
+            for (let e2 = e1 + 2; e2 < this.edges.length; e2++) {
+                let edge1 = this.edges[e1];
+                let edge2 = this.edges[e2];
+                const collision = edge1.collisionWith(edge2);
+
+                if (collision)
+                    collisions.push(collision)
+            }
+        return collisions;
+    }
+
+    isSimplePolygon() {
+        let collisions = this.getCollisions();
+        return collisions.length === 0;
     }
 }
 

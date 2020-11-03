@@ -112,4 +112,20 @@ class Edge {
         let line = new Line(this.x, this.y);
         discreteWire.addEdge(line);
     }
+
+    /**
+     * @param {Edge} that - the other edge
+     * @return {null|Point} - the point of collision or null if none
+     */
+    collisionWith(that) {
+
+        // FIXME: assuming that all segments are linear! Which is true for disretized wires..
+
+        let thisSegment = new LineSegment(new Point(this.x0, this.y0), new Point(this.x, this.y));
+        let thatSegment = new LineSegment(new Point(that.x, that.y), new Point(that.x, that.y));
+
+        let collision = thisSegment.collisionWith(thatSegment);
+        console.log("COLLISION", intersection);
+        return collision;
+    }
 }
