@@ -5,16 +5,16 @@
 This challenge is to implement a heavily simplified form of some 2D
 boundary-representation geometry data structures and algorithms, as described [here](docs/GeometryTakeHome.md).
 
+
 ### How to run it
 
 On Mac,
 ````
-git clone https://github.com/OptimisticLock/geometry
-cd geometry
+git clone https://github.com/OptimisticLock/geometryD
+cd geometryD
 open index.html
 ````
-
-There is also a [live demo](https://optimisticlock.github.io/geometry/), inactive for privacy reasons, I can bring it online if needed. 
+Live demo [here](https://optimisticlock.github.io/geometryD/). 
 
 The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other browsers. As a matter of fact, it is glitchy, period. Here is a screenshot.
 
@@ -98,7 +98,7 @@ Or, we could do another inexpensive calculation, though I am not sure it will bu
 
 * Any discrete implementation may fail for very small and very large values, while possibly providing unnecessarily high precision (and low performance) mid-range. That may require more careful consideration: testing, limiting the input ranges, adjusting the algorithms accordingly. (I've read somewhere that there are formats superior for computational geometry to floating point, TODO will see if I can find it).
 
-* Also, [search for TODO in code](https://github.com/OptimisticLock/geometry/search?q=TODO).
+* Also, [search for TODO in code](https://github.com/OptimisticLock/geometryD/search?q=TODO).
 
 
   
