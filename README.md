@@ -10,11 +10,12 @@ boundary-representation geometry data structures and algorithms, as described [h
 
 On Mac,
 ````
-git clone https://github.com/OptimisticLock/geometryD
-cd geometryD
+git clone https://github.com/OptimisticLock/GeometryD
+cd GeometryD
 open index.html
 ````
-Live demo [here](https://optimisticlock.github.io/geometryD/). 
+[Live demo here](https://optimisticlock.github.io/GeometryD/). 
+               
 
 The web UI has been tested on Chrome 86.0.4240.111 and might be glitchy in other browsers. As a matter of fact, it is glitchy, period. Here is a screenshot.
 
@@ -98,7 +99,7 @@ Or, we could do another inexpensive calculation, though I am not sure it will bu
 
 * Any discrete implementation may fail for very small and very large values, while possibly providing unnecessarily high precision (and low performance) mid-range. That may require more careful consideration: testing, limiting the input ranges, adjusting the algorithms accordingly. (I've read somewhere that there are formats superior for computational geometry to floating point, TODO will see if I can find it).
 
-* Also, [search for TODO in code](https://github.com/OptimisticLock/geometryD/search?q=TODO).
+* Also, [search for TODO in code](https://github.com/OptimisticLock/GeometryD/search?q=TODO).
 
 
   
